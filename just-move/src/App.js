@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from './components/login and register/LoginPage';
 import { RegisterPage } from "./components/login and register/RegisterPage";
