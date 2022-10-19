@@ -1,15 +1,15 @@
-import { useDebugValue, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
 import { nanoid } from 'nanoid';
+import IconButton from 'rsuite/IconButton';
+import PlusIcon from '@rsuite/icons/Plus';
 
 export function UserHomePage () {
 
   const goalRef = useRef(null); 
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
-
-  const [task, setTask] = useState("");
 
   const [goals, setGoals] = useState([]);
 
@@ -48,33 +48,61 @@ export function UserHomePage () {
     extrinsicRef.current.value = "";
   }
 
+  const handleDeleteGoal = (goalId) => {
+    const newGoals = [...goals];
+
+    const index = goals.findIndex((goal)=> goal.id === goalId);
+
+    newGoals.splice(index, 1);
+
+    setGoals(newGoals);
+  }
+
   return (
     <div>
       <h1>Welcome to your home page!</h1>
       <form onSubmit={handleAddNewGoal}>
         <h2>Let's Create a Goal!</h2>
-        <input
-          type="input"
-          name="goal"
-          placeholder="Enter a goal..."
-          ref={goalRef}
-          onChange={handleGoalsChange}
-        />
-        <input
-          type="input"
-          name="intrinsicMotivation"
-          placeholder="Enter your intrinsic motivation for this goal..."
-          ref={intrinsicRef}
-          onChange={handleGoalsChange}
-        />
-        <input
-          type="input"
-          name="extrinsicMotivation"
-          placeholder="Enter your extrinsic motivation for this goal..."
-          ref={extrinsicRef}
-          onChange={handleGoalsChange}
-        />
-        <button type="submit">Add Goal!</button>
+        <div className="form-group">
+          <label>
+            Goal:
+          </label>
+          <input
+            type="input"
+            name="goal"
+            placeholder="Enter a goal..."
+            ref={goalRef}
+            className="form-control"
+            onChange={handleGoalsChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>
+            Intrinsic Goal:
+          </label>
+          <input
+            type="input"
+            name="intrinsicMotivation"
+            placeholder="Enter your intrinsic motivation for this goal..."
+            ref={intrinsicRef}
+            className="form-control"
+            onChange={handleGoalsChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>
+            Extrinsic Goal:
+          </label>
+          <input
+            type="input"
+            name="extrinsicMotivation"
+            placeholder="Enter your extrinsic motivation for this goal..."
+            ref={extrinsicRef}
+            className="form-control"
+            onChange={handleGoalsChange}
+          />
+        </div>
+        <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="green">Create</IconButton>
       </form>
       <table id="goals-table" className="table mt-5">
       <thead>
@@ -87,7 +115,7 @@ export function UserHomePage () {
       </thead>
       <tbody id="goals-table-body">
         {goals.map((newGoal)=> (
-          <Goal props={newGoal} key={newGoal.id}/>
+          <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal}/>
         ))}
       </tbody>
     </table>
