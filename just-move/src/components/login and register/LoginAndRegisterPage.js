@@ -1,5 +1,6 @@
 import { Login } from './Login';
 import { Register } from './Register';
+import React from 'react';
 
 export function LoginAndRegisterPage() {
 
