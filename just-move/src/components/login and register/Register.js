@@ -39,9 +39,9 @@ export function Register() {
       <div className="card p-3">
         <h3 className="heading-5 text-center">Sign Up</h3>
         <div>
-          <label for="signUpName">Name (Optional):</label>
+          <label htmlFor="signUpName">Name (Optional):</label>
           <input type="text" className="form-control mb-3" id="signUpName" value={username} onChange={(e) => setName(e.target.value)} />
-          <label for="signUpEmail">Email:</label>
+          <label htmlFor="signUpEmail">Email:</label>
           <input
             type="email"
             className="form-control mb-3"
@@ -50,7 +50,7 @@ export function Register() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Address"
           />
-          <label for="signUpPassword">Password:</label>
+          <label htmlFor="signUpPassword">Password:</label>
           <input
             type="password"
             className="form-control mb-3"
@@ -59,7 +59,7 @@ export function Register() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
-          <label for="signUpPassword2">Confirm password:</label>
+          <label htmlFor="signUpPassword2">Confirm password:</label>
           <input type="password" className="form-control mb-3" id="signUpPassword2" required
             value={password2} onChange={(e) => setPassword2(e.target.value)} />
           <div className="d-grid">
