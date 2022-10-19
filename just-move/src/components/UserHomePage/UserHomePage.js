@@ -5,20 +5,22 @@ import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 
+const defaultGoalData = {
+    goal: "",
+    intrinsicMotivation: "",
+    extrinsicMotivation: "",
+    progress: "",
+};
+
 export function UserHomePage () {
 
-  const goalRef = useRef(null); 
+  const goalRef = useRef(null);
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
 
   const [goals, setGoals] = useState([]);
 
-  const [addGoalData, setGoalData] = useState({
-    goal: "",
-    intrinsicMotivation: "",
-    extrinsicMotivation: "",
-    progress: "",
-  });
+  const [addGoalData, setGoalData] = useState({...defaultGoalData});
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -27,7 +29,7 @@ export function UserHomePage () {
     const newGoalData = { ...addGoalData };
     newGoalData[goalName] = goalValue;
     setGoalData(newGoalData);
-  }
+  };
 
   const handleAddNewGoal = (e) => {
     e.preventDefault();
@@ -38,7 +40,7 @@ export function UserHomePage () {
       intrinsicMotivation: addGoalData.intrinsicMotivation,
       extrinsicMotivation: addGoalData.extrinsicMotivation,
       progress: " ",
-    }
+    };
 
     const newGoals = [...goals, newGoal];
     setGoals(newGoals);
@@ -46,7 +48,8 @@ export function UserHomePage () {
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
-  }
+    setGoalData({...defaultGoalData});
+  };
 
   const handleDeleteGoal = (goalId) => {
     const newGoals = [...goals];
@@ -56,7 +59,26 @@ export function UserHomePage () {
     newGoals.splice(index, 1);
 
     setGoals(newGoals);
-  }
+  };
+
+  const handleEditGoal = (goalId) => {
+    const newGoals = [...goals];
+
+    const index = goals.findIndex((goal)=> goal.id === goalId);
+
+    if (addGoalData.goal !== "") {
+      newGoals[index].goal = addGoalData.goal;
+    }
+    if (addGoalData.intrinsicMotivation !== "") {
+      newGoals[index].intrinsicMotivation = addGoalData.intrinsicMotivation;
+    }
+    if (addGoalData.extrinsicMotivation !== "") {
+      newGoals[index].extrinsicMotivation = addGoalData.extrinsicMotivation;
+    }
+
+    setGoals(newGoals);
+    setGoalData({...defaultGoalData});
+  };
 
   return (
     <div>
@@ -115,7 +137,7 @@ export function UserHomePage () {
       </thead>
       <tbody id="goals-table-body">
         {goals.map((newGoal)=> (
-          <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal}/>
+            <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal}/>
         ))}
       </tbody>
     </table>
