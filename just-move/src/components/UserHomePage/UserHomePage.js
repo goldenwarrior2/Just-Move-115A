@@ -1,13 +1,15 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
 import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
+import { loadData, saveDelGoal, saveAddGoal } from "./saving"
+import { auth } from '../firebase/firebase';
 
-export function UserHomePage () {
+export function UserHomePage() {
 
-  const goalRef = useRef(null); 
+  const goalRef = useRef(null);
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
 
@@ -46,17 +48,25 @@ export function UserHomePage () {
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
+    saveAddGoal(newGoal);
   }
 
   const handleDeleteGoal = (goalId) => {
     const newGoals = [...goals];
 
-    const index = goals.findIndex((goal)=> goal.id === goalId);
+    const index = goals.findIndex((goal) => goal.id === goalId);
 
     newGoals.splice(index, 1);
 
     setGoals(newGoals);
+    saveDelGoal(goalId);
   }
+
+  useEffect(function () {
+    auth.onAuthStateChanged(function () {
+      loadData().then((data) => setGoals(data));
+    });
+  }, []);
 
   return (
     <div>
@@ -105,20 +115,20 @@ export function UserHomePage () {
         <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="green">Create</IconButton>
       </form>
       <table id="goals-table" className="table mt-5">
-      <thead>
-        <tr>
-          <th scope="col">Goal</th>
-          <th scope="col">Intrinsic Motivations</th>
-          <th scope="col">Extrinsic Motivations</th>
-          <th scope="col">Progress Bar</th>
-        </tr>
-      </thead>
-      <tbody id="goals-table-body">
-        {goals.map((newGoal)=> (
-          <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal}/>
-        ))}
-      </tbody>
-    </table>
+        <thead>
+          <tr>
+            <th scope="col">Goal</th>
+            <th scope="col">Intrinsic Motivations</th>
+            <th scope="col">Extrinsic Motivations</th>
+            <th scope="col">Progress Bar</th>
+          </tr>
+        </thead>
+        <tbody id="goals-table-body">
+          {goals.map((newGoal) => (
+            <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} />
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }
