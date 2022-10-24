@@ -66,10 +66,11 @@ export function UserHomePage() {
   }
 
   useEffect(function () {
-    auth.onAuthStateChanged(function () {
+    const unsub = auth.onAuthStateChanged(function () {
       loadData().then(function (data) {
         setGoals(data);
         setHasLoaded(true);
+        unsub();
       });
     });
   }, []);
