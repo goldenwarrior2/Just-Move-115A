@@ -6,6 +6,7 @@ import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import { loadData, saveDelGoal, saveAddGoal } from "./saving"
 import { auth } from '../firebase/firebase';
+import { LoadingScreen } from "../Loading";
 
 export function UserHomePage() {
 
@@ -21,6 +22,8 @@ export function UserHomePage() {
     extrinsicMotivation: "",
     progress: "",
   });
+
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -64,12 +67,18 @@ export function UserHomePage() {
 
   useEffect(function () {
     auth.onAuthStateChanged(function () {
-      loadData().then((data) => setGoals(data));
+      loadData().then(function (data) {
+        setGoals(data);
+        setHasLoaded(true);
+      });
     });
   }, []);
 
+  const ldSc = hasLoaded ? null : <LoadingScreen />;
+
   return (
     <div>
+      {ldSc}
       <h1>Welcome to your home page!</h1>
       <form onSubmit={handleAddNewGoal}>
         <h2>Let's Create a Goal!</h2>
