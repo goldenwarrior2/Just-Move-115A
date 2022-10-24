@@ -5,8 +5,11 @@ export async function loadData() {
     const arr = [];
     if (auth.currentUser == null) {
         for (var i = 0; i < localStorage.length; i++) {
-            const data = localStorage.getItem(localStorage.key(i));
-            arr.push(JSON.parse(data));
+            const key = localStorage.key(i);
+            if (key.startsWith("goal_")) {
+                const data = localStorage.getItem(key);
+                arr.push(JSON.parse(data));
+            }
         }
     } else {
         const coll = collection(firestore, "users", auth.currentUser.uid, "goals");
@@ -21,7 +24,7 @@ export async function loadData() {
 export async function saveAddGoal(goal) {
     if (auth.currentUser == null) {
         const gData = JSON.stringify(goal);
-        localStorage.setItem("goal_" + goal.id(), gData);
+        localStorage.setItem("goal_" + goal.id, gData);
     } else {
         await setDoc(doc(firestore, "users", auth.currentUser.uid, "goals", goal.id), goal);
     }
