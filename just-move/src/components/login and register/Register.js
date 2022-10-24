@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/firebase';
+import { auth, firestore } from '../firebase/firebase';
 import { useNavigate } from "react-router-dom";
+import { setDoc, doc } from 'firebase/firestore';
 
 export function Register() {
   const [email, setEmail] = useState('');
@@ -13,8 +14,7 @@ export function Register() {
   async function onFormSubmit(e) {
     e.preventDefault();
     if (password !== password2) {
-      // TODO: Display some error to the user
-      // Also probably add is-invalid onBlur
+      // TODO: Visual feedback
       return;
     }
     try {
@@ -24,8 +24,8 @@ export function Register() {
         password
       );
       console.log(userCred);
-      // TODO: Store user name into a document
       // Should probably handle this with onAuthStateChanged
+      await setDoc(doc(firestore, "users", userCred.user.uid), { "name": username });
       navigate('/userhome');
     }
     catch (err) {
@@ -34,6 +34,9 @@ export function Register() {
       console.log(err);
     }
   }
+
+  const pw2Invalid = password2 !== "" && password !== password2;
+
   return (
     <form onSubmit={onFormSubmit}>
       <div className="card p-3">
@@ -60,7 +63,8 @@ export function Register() {
             placeholder="Password"
           />
           <label htmlFor="signUpPassword2">Confirm password:</label>
-          <input type="password" className="form-control mb-3" id="signUpPassword2" required
+          <input type="password" className={"form-control mb-3" + (pw2Invalid ? " is-invalid" : "")}
+            id="signUpPassword2" required
             value={password2} onChange={(e) => setPassword2(e.target.value)} />
           <div className="d-grid">
             <button id="signUpForm" type="submit" className="btn btn-primary" style={{ color: 'white' }}>Sign Up</button>
