@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
+import Modal from "./Modal";
 import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
@@ -19,6 +20,8 @@ export function UserHomePage () {
     extrinsicMotivation: "",
     progress: "",
   });
+
+  const [popupBtn, setPopupBtn] = useState(false);
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -61,6 +64,12 @@ export function UserHomePage () {
   return (
     <div>
       <h1>Welcome to your home page!</h1>
+      <button onClick={() => setPopupBtn(true)}>
+        Open
+      </button>
+      <Modal trigger={popupBtn}
+      setPopupBtnTrigger={setPopupBtn}>
+      </Modal>
       <form onSubmit={handleAddNewGoal}>
         <h2>Let's Create a Goal!</h2>
         <div className="form-group">
@@ -102,7 +111,7 @@ export function UserHomePage () {
             onChange={handleGoalsChange}
           />
         </div>
-        <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="green">Create</IconButton>
+        <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="green"></IconButton>
       </form>
       <table id="goals-table" className="table mt-5">
       <thead>
