@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
 import PopupGoalForm from "./PopupGoalForm";
-import FadeIn from 'react-fade-in';
 
 export function UserHomePage () {
 

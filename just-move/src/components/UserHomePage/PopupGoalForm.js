@@ -3,6 +3,7 @@ import React from 'react';
 import "./PopupGoalForm.css"
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
+import CloseIcon from '@rsuite/icons/Close';
 import { nanoid } from 'nanoid';
 
 
@@ -97,7 +98,14 @@ function PopupGoalForm(props) {
               id="add-goal-btn">
               </IconButton>
             </form>
-            <button id="close-btn" onClick={() => props.setPopupBtnTrigger(false)}>Close</button>
+            <IconButton
+              icon={<CloseIcon />}
+              appearance="primary"
+              color="red"
+              id="close-btn"
+              onClick={() => props.setPopupBtnTrigger(false)}>
+              </IconButton>
+            {/* <button id="close-btn" onClick={() => props.setPopupBtnTrigger(false)}>Close</button> */}
             </div>
         </div>
     ) : "";
