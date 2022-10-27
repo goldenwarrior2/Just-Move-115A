@@ -18,10 +18,20 @@
     background-color: white;
 }
 
+#popup-form {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+
 #close-btn {
     position: absolute;
     top: 16px;
     right: 16px;
+}
+
+#add-goal-btn {
+    width: 580px;
 }
 
 /* .overlay {
