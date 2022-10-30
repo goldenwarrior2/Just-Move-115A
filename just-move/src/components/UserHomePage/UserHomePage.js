@@ -5,6 +5,9 @@ import PopupGoalForm from "./PopupGoalForm";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation'
 
+import { ProgressBar } from "./ProgressBar";
+
+
 export function UserHomePage () {
 
   const goalRef = useRef(null); 
@@ -15,7 +18,7 @@ export function UserHomePage () {
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
-    progress: "",
+    progress: {value:1, target:5},
   });
 
   const [popupBtn, setPopupBtn] = useState(false);

@@ -29,7 +29,7 @@ function PopupGoalForm(props) {
           goal: props.addGoalData.goal,
           intrinsicMotivation: props.addGoalData.intrinsicMotivation,
           extrinsicMotivation: props.addGoalData.extrinsicMotivation,
-          progress: " ",
+          progress: {value:1, target:5},
         }
     
         const newGoals = [...props.goals, newGoal];
