@@ -1,6 +1,8 @@
 import { getDocs, setDoc, collection, doc, deleteDoc } from "firebase/firestore";
 import { auth, firestore } from "../firebase/firebase";
 
+var outstandingWrites = 0;
+
 export async function loadData() {
     const arr = [];
     if (auth.currentUser == null) {
@@ -26,7 +28,9 @@ export async function saveAddGoal(goal) {
         const gData = JSON.stringify(goal);
         localStorage.setItem("goal_" + goal.id, gData);
     } else {
+        outstandingWrites++;
         await setDoc(doc(firestore, "users", auth.currentUser.uid, "goals", goal.id), goal);
+        outstandingWrites--;
     }
 }
 
@@ -34,6 +38,12 @@ export async function saveDelGoal(id) {
     if (auth.currentUser == null) {
         localStorage.removeItem("goal_" + id)
     } else {
+        outstandingWrites++;
         await deleteDoc(doc(firestore, "users", auth.currentUser.uid, "goals", id));
+        outstandingWrites--;
     }
+}
+
+export function hasOutstandingWrites() {
+    return outstandingWrites !== 0;
 }
