@@ -4,9 +4,11 @@ import { Goal } from "./Goal";
 import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
-import { loadData, saveDelGoal, saveAddGoal } from "./saving"
+import { loadData, saveDelGoal, saveAddGoal, hasOutstandingWrites } from "./saving"
 import { auth } from '../firebase/firebase';
 import { LoadingScreen } from "../Loading";
+import { useBeforeunload } from 'react-beforeunload';
+import Modal from 'react-bootstrap/Modal';
 
 export function UserHomePage() {
 
@@ -15,6 +17,7 @@ export function UserHomePage() {
   const extrinsicRef = useRef(null);
 
   const [goals, setGoals] = useState([]);
+  const [errModal, setErrModal] = useState(null);
 
   const [addGoalData, setGoalData] = useState({
     goal: "",
@@ -51,7 +54,10 @@ export function UserHomePage() {
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
-    saveAddGoal(newGoal);
+    saveAddGoal(newGoal).catch(function (error) {
+      startModal(error.toString(), "Error Adding Data");
+      // Should we attempt to undo the change?
+    });
   }
 
   const handleDeleteGoal = (goalId) => {
@@ -62,7 +68,13 @@ export function UserHomePage() {
     newGoals.splice(index, 1);
 
     setGoals(newGoals);
-    saveDelGoal(goalId);
+    saveDelGoal(goalId).catch(function (error) {
+      startModal(error.toString(), "Error Deleting Data");
+    });
+  }
+
+  const startModal = (msg, title) => {
+    setErrModal({ msg: msg, title: title });
   }
 
   useEffect(function () {
@@ -71,14 +83,28 @@ export function UserHomePage() {
         setGoals(data);
         setHasLoaded(true);
         unsub();
+      }).catch(function (error) {
+        startModal(error.toString(), "Error Loading Data");
       });
     });
   }, []);
 
-  const ldSc = hasLoaded ? null : <LoadingScreen />;
+  useBeforeunload(() => {
+    if (hasOutstandingWrites()) {
+      // IDEA: Try to emergency save offline. Attempt sync on next login.
+      // This will fail for multiple users, and requires Last-Modified tracking.
+      return "Your changes have not yet been saved!\nGo online to fix.";
+    }
+  });
 
-  return (
-    <div>
+  const ldSc = hasLoaded ? null : <LoadingScreen />;
+  const modal = errModal ? (<Modal show={true} onHide={() => setErrModal(null)} centered size="md">
+    <Modal.Header closeButton><Modal.Title>{errModal.title}</Modal.Title></Modal.Header>
+    <Modal.Body><p>{errModal.msg}</p></Modal.Body>
+  </Modal >) : null;
+
+  return (<div>
+    <div id="userHomePage-root">
       {ldSc}
       <h1>Welcome to your home page!</h1>
       <form onSubmit={handleAddNewGoal}>
@@ -140,5 +166,7 @@ export function UserHomePage() {
         </tbody>
       </table>
     </div>
+    {modal}
+  </div>
   )
 }
