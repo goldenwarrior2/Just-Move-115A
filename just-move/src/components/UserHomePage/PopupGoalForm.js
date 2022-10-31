@@ -6,7 +6,6 @@ import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
 import { nanoid } from 'nanoid';
 
-
 function PopupGoalForm(props) {
 
     const goalRef = useRef(null); 

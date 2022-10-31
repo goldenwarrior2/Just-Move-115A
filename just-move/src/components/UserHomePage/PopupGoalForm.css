@@ -16,6 +16,7 @@
     width: 100%;
     max-width: 640px;
     background-color: white;
+    box-shadow: 0 6px 10px 0 #303030, 0 10px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #close-btn {
