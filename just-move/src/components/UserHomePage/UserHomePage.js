@@ -9,6 +9,7 @@ import { auth } from '../firebase/firebase';
 import { LoadingScreen } from "../Loading";
 import { useBeforeunload } from 'react-beforeunload';
 import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router-dom';
 
 export function UserHomePage() {
 
@@ -77,6 +78,13 @@ export function UserHomePage() {
     setErrModal({ msg: msg, title: title });
   }
 
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    await auth.signOut()
+    navigate("/login");
+  }
+
   useEffect(function () {
     const unsub = auth.onAuthStateChanged(function () {
       loadData().then(function (data) {
@@ -106,6 +114,7 @@ export function UserHomePage() {
   return (<div>
     <div id="userHomePage-root">
       {ldSc}
+      <button className="btn btn-danger float-end m-2" onClick={handleLogout}>Log Out</button>
       <h1>Welcome to your home page!</h1>
       <form onSubmit={handleAddNewGoal}>
         <h2>Let's Create a Goal!</h2>
