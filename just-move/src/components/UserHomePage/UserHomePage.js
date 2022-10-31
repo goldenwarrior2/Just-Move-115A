@@ -3,9 +3,7 @@ import React from 'react';
 import { Goal } from "./Goal";
 import PopupGoalForm from "./PopupGoalForm";
 import Button from 'rsuite/Button';
-import Animation from 'rsuite/Animation'
-
-import { ProgressBar } from "./ProgressBar";
+import Animation from 'rsuite/Animation';
 
 
 export function UserHomePage () {
