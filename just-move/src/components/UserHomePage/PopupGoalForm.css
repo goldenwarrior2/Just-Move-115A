@@ -1,0 +1,30 @@
+.popup {
+    width: 100vw;
+    height: 100vh;
+    position:fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(49, 49, 49, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-inner {
+    position: relative;
+    padding: 32px;
+    width: 100%;
+    max-width: 640px;
+    background-color: white;
+    box-shadow: 0 6px 10px 0 #303030, 0 10px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+#add-goal-btn {
+    width: 580px;
+}

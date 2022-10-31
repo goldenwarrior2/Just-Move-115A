@@ -13,7 +13,7 @@ export function Goal({ props, handleDeleteGoal }) {
             <td>{props.progress}</td>
             <td>
                 <ButtonGroup justified>
-                    <IconButton icon={<TrashIcon />} appearance="primary" color="blue" onClick={()=> handleDeleteGoal(props.id)}></IconButton>
+                    <IconButton icon={<TrashIcon />} appearance="primary" color="red" onClick={()=> handleDeleteGoal(props.id)}></IconButton>
                 </ButtonGroup>
             </td>
         </tr>
