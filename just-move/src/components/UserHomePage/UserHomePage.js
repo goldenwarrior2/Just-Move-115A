@@ -36,7 +36,7 @@ export function UserHomePage () {
       <div style={{textAlign: "center"}}>
       <Animation.Slide in={true} placement={React.useState('left')}>
         <h1
-          style={{color: "#135DD8"}}>
+          style={{color: "#38ACEC"}}>
           Just Move
         </h1>
       </Animation.Slide>

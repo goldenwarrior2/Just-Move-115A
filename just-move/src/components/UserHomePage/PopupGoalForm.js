@@ -104,7 +104,6 @@ function PopupGoalForm(props) {
               id="close-btn"
               onClick={() => props.setPopupBtnTrigger(false)}>
               </IconButton>
-            {/* <button id="close-btn" onClick={() => props.setPopupBtnTrigger(false)}>Close</button> */}
             </div>
         </div>
     ) : "";
