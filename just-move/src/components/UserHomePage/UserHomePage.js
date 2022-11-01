@@ -209,21 +209,6 @@ export function UserHomePage () {
         ))}
       </tbody>
         </table>
-        
-        {/* <div>
-      <div>
-        <button onClick={handleAddNewGoal}></button>
-      </div>
-
-      {GoalList.map((element, index) => {
-        return (
-          <div key={index}>
-            <h2>{element}</h2>
-          </div>
-        );
-      })}
-    </div> */}
-
     </div>
   )
 }
