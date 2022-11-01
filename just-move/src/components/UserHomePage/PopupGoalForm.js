@@ -41,7 +41,7 @@ function PopupGoalForm(props) {
     extrinsicRef.current.value = "";
 
     saveAddGoal(newGoal).catch(function (error) {
-      startModal(error.toString(), "Error Adding Data");
+      props.startModal(error.toString(), "Error Adding Data");
       // Should we attempt to undo the change?
     });
   }

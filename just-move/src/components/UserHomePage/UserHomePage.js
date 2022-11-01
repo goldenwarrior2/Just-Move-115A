@@ -108,7 +108,9 @@ export function UserHomePage() {
         addGoalData={addGoalData}
         setGoalData={setGoalData}
         goals={goals}
-        setGoals={setGoals}>
+        setGoals={setGoals}
+        startModal={startModal}
+      >
       </PopupGoalForm>
       <table id="goals-table" className="table mt-5">
         <Animation.Bounce in={true}>
