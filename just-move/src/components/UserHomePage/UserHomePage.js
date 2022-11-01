@@ -81,7 +81,7 @@ export function UserHomePage() {
   return (<div>
     {ldSc}
     <div>
-      <button className="btn btn-danger float-end m-2" onClick={handleLogout}>Log Out</button>
+      <button className="btn btn-danger m-2" style={{ position: "absolute", right: 0 }} onClick={handleLogout}>Log Out</button>
       <br></br>
       <div style={{ textAlign: "center" }}>
         <Animation.Slide in={true} placement={React.useState('left')}>
@@ -131,6 +131,6 @@ export function UserHomePage() {
       </table>
     </div>
     {modal}
-  </div>
+  </div >
   )
 }
