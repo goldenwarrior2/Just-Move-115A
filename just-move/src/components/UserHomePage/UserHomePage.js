@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
+import { SubGoal } from "./SubGoal";
 import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
@@ -10,13 +11,23 @@ export function UserHomePage () {
   const goalRef = useRef(null); 
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
+  const subgoalRef= useRef(null);
 
   const [goals, setGoals] = useState([]);
+
+  const [subgoals, setsubGoals] = useState([]);
+
+  const [GoalList,setGoalList] = useState([]);
 
   const [addGoalData, setGoalData] = useState({
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
+    progress: "",
+  });
+  
+  const [addsubGoalData, setsubGoalData] = useState({
+    subgoal: "",
     progress: "",
   });
 
@@ -40,9 +51,12 @@ export function UserHomePage () {
       progress: " ",
     }
 
-    const newGoals = [...goals, newGoal];
-    setGoals(newGoals);
+    setGoalList(current => [...current,addGoalData.goal]);
 
+    const newGoals = [...goals, newGoal];
+    if(goalRef.current.value != ""){
+    setGoals(newGoals);
+    }
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
@@ -56,7 +70,47 @@ export function UserHomePage () {
     newGoals.splice(index, 1);
 
     setGoals(newGoals);
+
+    GoalList.splice(index, 1);
   }
+
+  const handlesubGoalsChange = (e) => {
+    e.preventDefault();
+    const subgoalName = e.target.getAttribute("name");
+    const subgoalValue = e.target.value;
+    const newsubGoalData = { ...addsubGoalData };
+    newsubGoalData[subgoalName] = subgoalValue;
+    setsubGoalData(newsubGoalData);
+  }
+
+  const handleAddNewSubGoal = (e) => {
+    e.preventDefault();
+
+    const newsubGoal = {
+      id: nanoid(),
+      subgoal: addsubGoalData.subgoal,
+      progress: " ",
+    }
+
+    const newsubGoals = [...subgoals, newsubGoal];
+    if(subgoalRef.current.value != ""){
+    setsubGoals(newsubGoals);
+    }
+    subgoalRef.current.value = "";
+
+  }
+
+  const handleDeletesubGoal = (subgoalId) => {
+    const newsubGoals = [...subgoals];
+
+    const index = subgoals.findIndex((subgoal)=> subgoal.id === subgoalId);
+
+    newsubGoals.splice(index, 1);
+
+    setsubGoals(newsubGoals);
+
+  }
+  
 
   return (
     <div>
@@ -112,6 +166,7 @@ export function UserHomePage () {
           <th scope="col">Extrinsic Motivations</th>
           <th scope="col">Progress Bar</th>
         </tr>
+        
       </thead>
       <tbody id="goals-table-body">
         {goals.map((newGoal)=> (
@@ -119,6 +174,56 @@ export function UserHomePage () {
         ))}
       </tbody>
     </table>
+
+          
+
+        <form onSubmit={handleAddNewSubGoal}>
+      <label>
+            SubGoal:
+          </label>
+          <input
+            type="input"
+            name="subgoal"
+            placeholder="Enter your tasks for this goal..."
+            ref={subgoalRef}
+            className="form-control"
+            onChange={handlesubGoalsChange}
+          />
+          
+          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="cyan">Create</IconButton>
+          </form>
+          
+          <table id="subgoals-table" className="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Tasks</th>
+          <th scope="col">Goal</th>
+          <th scope="col">Progress</th>
+        </tr>
+        
+      </thead>
+          
+      <tbody id="subgoals-table-body">
+        {subgoals.map((newsubGoal)=> (
+          <SubGoal props={newsubGoal} key={newsubGoal.id} list={GoalList} handleDeletesubGoal={handleDeletesubGoal}/>
+        ))}
+      </tbody>
+        </table>
+        
+        {/* <div>
+      <div>
+        <button onClick={handleAddNewGoal}></button>
+      </div>
+
+      {GoalList.map((element, index) => {
+        return (
+          <div key={index}>
+            <h2>{element}</h2>
+          </div>
+        );
+      })}
+    </div> */}
+
     </div>
   )
 }

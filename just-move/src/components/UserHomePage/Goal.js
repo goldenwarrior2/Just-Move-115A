@@ -4,7 +4,7 @@ import ButtonGroup from 'rsuite/ButtonGroup';
 import TrashIcon from '@rsuite/icons/Trash';
 import IconButton from 'rsuite/IconButton';
 
-export function Goal({ props, handleDeleteGoal }) {
+export function Goal({ props, handleDeleteGoal}) {
     return (
         <tr>
             <td>{props.goal}</td>
