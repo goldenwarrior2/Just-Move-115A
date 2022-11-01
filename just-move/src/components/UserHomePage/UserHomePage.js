@@ -88,6 +88,8 @@ export function UserHomePage() {
 
     setsubGoals(newsubGoals);
 
+    GoalList.splice(index, 1);
+
   }
   
   const startModal = (msg, title) => {
@@ -158,6 +160,8 @@ export function UserHomePage() {
         setGoalData={setGoalData}
         goals={goals}
         setGoals={setGoals}
+        GoalList = {GoalList}
+        setGoalList = {setGoalList}
         startModal={startModal}
       >
       </PopupGoalForm>
