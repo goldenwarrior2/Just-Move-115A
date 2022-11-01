@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import {useState, useRef } from "react";
 import React from 'react';
 import "./PopupGoalForm.css"
 import IconButton from 'rsuite/IconButton';

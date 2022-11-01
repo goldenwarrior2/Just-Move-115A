@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
+import { SubGoal } from "./SubGoal";
 import PopupGoalForm from "./PopupGoalForm";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation'
@@ -10,18 +11,29 @@ import { LoadingScreen } from "../Loading";
 import { useBeforeunload } from 'react-beforeunload';
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router-dom';
+import { nanoid } from 'nanoid';
+import IconButton from 'rsuite/IconButton';
+import PlusIcon from '@rsuite/icons/Plus';
 
 export function UserHomePage() {
 
   const goalRef = useRef(null);
+  const subgoalRef= useRef(null);
 
   const [goals, setGoals] = useState([]);
   const [errModal, setErrModal] = useState(null);
+  const [subgoals, setsubGoals] = useState([]);
+  const [GoalList,setGoalList] = useState([]);
 
   const [addGoalData, setGoalData] = useState({
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
+    progress: "",
+  });
+
+  const [addsubGoalData, setsubGoalData] = useState({
+    subgoal: "",
     progress: "",
   });
 
@@ -41,6 +53,43 @@ export function UserHomePage() {
     });
   }
 
+  const handlesubGoalsChange = (e) => {
+    e.preventDefault();
+    const subgoalName = e.target.getAttribute("name");
+    const subgoalValue = e.target.value;
+    const newsubGoalData = { ...addsubGoalData };
+    newsubGoalData[subgoalName] = subgoalValue;
+    setsubGoalData(newsubGoalData);
+  }
+
+  const handleAddNewSubGoal = (e) => {
+    e.preventDefault();
+
+    const newsubGoal = {
+      id: nanoid(),
+      subgoal: addsubGoalData.subgoal,
+      progress: " ",
+    }
+
+    const newsubGoals = [...subgoals, newsubGoal];
+    if(subgoalRef.current.value != ""){
+    setsubGoals(newsubGoals);
+    }
+    subgoalRef.current.value = "";
+
+  }
+
+  const handleDeletesubGoal = (subgoalId) => {
+    const newsubGoals = [...subgoals];
+
+    const index = subgoals.findIndex((subgoal)=> subgoal.id === subgoalId);
+
+    newsubGoals.splice(index, 1);
+
+    setsubGoals(newsubGoals);
+
+  }
+  
   const startModal = (msg, title) => {
     setErrModal({ msg: msg, title: title });
   }
@@ -122,6 +171,7 @@ export function UserHomePage() {
               <th scope="col">Progress Bar</th>
             </tr>
           </thead>
+          
         </Animation.Bounce>
         <tbody id="goals-table-body">
           {goals.map((newGoal) => (
@@ -129,6 +179,39 @@ export function UserHomePage() {
           ))}
         </tbody>
       </table>
+      <form onSubmit={handleAddNewSubGoal}>
+      <label>
+            SubGoal:
+          </label>
+          <input
+            type="input"
+            name="subgoal"
+            placeholder="Enter your tasks for this goal..."
+            ref={subgoalRef}
+            className="form-control"
+            onChange={handlesubGoalsChange}
+          />
+          
+          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="cyan">Create</IconButton>
+          </form>
+          
+          <table id="subgoals-table" className="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Tasks</th>
+          <th scope="col">Goal</th>
+          <th scope="col">Progress</th>
+        </tr>
+        
+      </thead>
+          
+      <tbody id="subgoals-table-body">
+        {subgoals.map((newsubGoal)=> (
+          <SubGoal props={newsubGoal} key={newsubGoal.id} list={GoalList} handleDeletesubGoal={handleDeletesubGoal}/>
+        ))}
+      </tbody>
+        </table>
+
     </div>
     {modal}
   </div>
