@@ -24,12 +24,17 @@ export function Login() {
       console.log(err);
     }
   }
+
+  function handleLoginAnon() {
+    navigate("/userhome");
+  }
+
   return (
     <form onSubmit={onFormSubmit}>
       <div className="card p-3">
         <h3 className="heading-5 text-center">Log In</h3>
         <div>
-          <label htmlFor="loginEmail">Email:</label>
+          <label for="loginEmail">Email:</label>
           <input
             type="email"
             className="form-control mb-3"
@@ -38,7 +43,7 @@ export function Login() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Address"
           />
-          <label htmlFor="loginPassword">Password:</label>
+          <label for="loginPassword">Password:</label>
           <input
             type="password"
             className="form-control mb-3"
@@ -48,9 +53,12 @@ export function Login() {
             placeholder="Password"
           />
           <div className="d-grid">
-            <button id="loginForm" type="submit" className="btn btn-primary" style={{ color: 'white' }}>Log In</button>
+            <button id="loginForm" className="btn btn-primary" style={{ color: 'white' }}>Log In</button>
           </div>
         </div>
+      </div>
+      <div className="d-flex align-items-center flex-column mt-3">
+        <button id="loginAnon" className="btn btn-warning" onClick={handleLoginAnon}>Use as Guest</button>
       </div>
     </form>
   )
