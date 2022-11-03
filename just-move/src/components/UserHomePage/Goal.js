@@ -16,17 +16,19 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
     const [goal, setGoal] = useState(props.goal);
     const [intrinsicMotivation, setIntrinsicMotivation] = useState(props.intrinsicMotivation);
     const [extrinsicMotivation, setExtrinsicMotivation] = useState(props.extrinsicMotivation);
+    const [category, setCategory] = useState(props.category);
 
     const cancelChanges = () => {
         setGoal(props.goal);
         setIntrinsicMotivation(props.intrinsicMotivation);
         setExtrinsicMotivation(props.extrinsicMotivation);
+        setCategory(props.category);
     };
 
     const editToggle = (e) => {
         setEditing(!editing);
         if(editing === true) {
-            handleEditGoal(props.id, goal, intrinsicMotivation, extrinsicMotivation);
+            handleEditGoal(props.id, goal, intrinsicMotivation, extrinsicMotivation, category);
         }
     };
 
@@ -36,6 +38,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
           <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text"/> : intrinsicMotivation}</td>
           <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text"/> : extrinsicMotivation}</td>
           <td><Progress.Line percent={percentCompletion} status={status}/></td>
+          <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>
           <td>
             <ButtonGroup justified>
               <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="blue" onClick={()=> editToggle(props.id)}></IconButton>

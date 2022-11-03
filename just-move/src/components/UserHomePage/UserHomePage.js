@@ -31,6 +31,7 @@ export function UserHomePage() {
     intrinsicMotivation: "",
     extrinsicMotivation: "",
     progress: {value:1, target:5},
+    category: "",
   });
 
   const [addsubGoalData, setsubGoalData] = useState({
@@ -54,12 +55,13 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, goal, intrinsic, extrinsic) => {
+  const handleEditGoal = (goalId, goal, intrinsic, extrinsic, category) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
     newGoals[index].goal = goal;
     newGoals[index].intrinsicMotivation = intrinsic;
     newGoals[index].extrinsicMotivation = extrinsic;
+    newGoals[index].category = category;
 
     setGoals(newGoals);
     saveAddGoal(goals[index]).catch(function (error) {
@@ -189,6 +191,7 @@ export function UserHomePage() {
                 <th scope="col">Intrinsic Motivations</th>
                 <th scope="col">Extrinsic Motivations</th>
                 <th scope="col">Progress Bar</th>
+                <th scope="col">Categories</th>
               </tr>
             </thead>
 

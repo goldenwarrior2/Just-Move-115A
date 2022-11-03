@@ -12,6 +12,7 @@ function PopupGoalForm(props) {
   const goalRef = useRef(null);
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
+  const categoryRef = useRef(null);
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -31,6 +32,7 @@ function PopupGoalForm(props) {
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
       progress: " ",
+      category: props.addGoalData.category,
     }
     props.setGoalList(current => [...current,props.addGoalData.goal]);
 
@@ -40,6 +42,7 @@ function PopupGoalForm(props) {
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
+    categoryRef.current.value = "";
 
     saveAddGoal(newGoal).catch(function (error) {
       props.startModal(error.toString(), "Error Adding Data");
@@ -93,6 +96,20 @@ function PopupGoalForm(props) {
               className="form-control"
               onChange={handleGoalsChange}
               ref={extrinsicRef}
+            />
+          </div>
+          <br></br>
+          <div className="form-group">
+            <h3>
+              Category:
+            </h3>
+            <input
+              type="input"
+              name="category"
+              placeholder="Enter a category"
+              className="form-control"
+              onChange={handleGoalsChange}
+              ref={categoryRef}
             />
           </div>
           <br></br>
