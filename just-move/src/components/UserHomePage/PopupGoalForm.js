@@ -33,11 +33,13 @@ function PopupGoalForm(props) {
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
       priority: parseInt(priority),
+      added: Math.floor(Date.now() / 1000),
       progress: " ",
     }
     props.setGoalList(current => [...current, props.addGoalData.goal]);
 
     const newGoals = [...props.goals, newGoal];
+    newGoals.sort(props.sortFunc);
     props.setGoals(newGoals);
 
     goalRef.current.value = "";
@@ -52,9 +54,7 @@ function PopupGoalForm(props) {
   }
 
   return (props.trigger) ? (
-    <div className="popup" style={{
-      zIndex: "1"
-    }}>
+    <div className="popup">
       <div className="popup-inner">
         <form onSubmit={handleAddNewGoal} id="popup-form">
           <h2>Let's Create a Goal!</h2>
