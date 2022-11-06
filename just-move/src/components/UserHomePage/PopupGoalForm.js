@@ -1,4 +1,4 @@
-import {useState, useRef } from "react";
+import { useState, useRef } from "react";
 import React from 'react';
 import "./PopupGoalForm.css"
 import IconButton from 'rsuite/IconButton';
@@ -12,6 +12,7 @@ function PopupGoalForm(props) {
   const goalRef = useRef(null);
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
+  const priorityRef = useRef(null);
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ function PopupGoalForm(props) {
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
       progress: " ",
     }
-    props.setGoalList(current => [...current,props.addGoalData.goal]);
+    props.setGoalList(current => [...current, props.addGoalData.goal]);
 
     const newGoals = [...props.goals, newGoal];
     props.setGoals(newGoals);
@@ -40,6 +41,7 @@ function PopupGoalForm(props) {
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
+    priorityRef.current.value = "0";
 
     saveAddGoal(newGoal).catch(function (error) {
       props.startModal(error.toString(), "Error Adding Data");
@@ -48,7 +50,9 @@ function PopupGoalForm(props) {
   }
 
   return (props.trigger) ? (
-    <div className="popup">
+    <div className="popup" style={{
+      "z-index": "1"
+    }}>
       <div className="popup-inner">
         <form onSubmit={handleAddNewGoal} id="popup-form">
           <h2>Let's Create a Goal!</h2>
@@ -65,6 +69,7 @@ function PopupGoalForm(props) {
               onChange={handleGoalsChange}
               ref={goalRef}
               style={{ visibility: `visible`, animation: `fadeInLeft` }}
+              required="true"
             />
           </div>
           <br></br>
@@ -96,6 +101,21 @@ function PopupGoalForm(props) {
             />
           </div>
           <br></br>
+          <div className="form-group">
+            <h3>Priority: </h3>
+            <select name="priority" className="form-control" defaultValue="0" ref={priorityRef}>
+              <option value="4">++++</option>
+              <option value="3">+++</option>
+              <option value="2">++</option>
+              <option value="1">+</option>
+              <option value="0"> </option>
+              <option value="-1">-</option>
+              <option value="-2">--</option>
+              <option value="-3">---</option>
+              <option value="-4">----</option>
+            </select>
+          </div>
+          <br></br>
           <br></br>
           <IconButton type="submit"
             icon={<PlusIcon />}
@@ -112,7 +132,7 @@ function PopupGoalForm(props) {
           onClick={() => props.setPopupBtnTrigger(false)}>
         </IconButton>
       </div>
-    </div>
+    </div >
   ) : "";
 }
 
