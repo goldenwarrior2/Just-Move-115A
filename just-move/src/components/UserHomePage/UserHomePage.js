@@ -30,7 +30,7 @@ export function UserHomePage() {
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
-    priortiy: 0,
+    priority: 0,
     progress: { value: 1, target: 5 },
   });
 
@@ -55,12 +55,13 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, goal, intrinsic, extrinsic) => {
+  const handleEditGoal = (goalId, goal, intrinsic, extrinsic, priority) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
     newGoals[index].goal = goal;
     newGoals[index].intrinsicMotivation = intrinsic;
     newGoals[index].extrinsicMotivation = extrinsic;
+    newGoals[index].priority = parseInt(priority);
 
     setGoals(newGoals);
     saveAddGoal(goals[index]).catch(function (error) {
@@ -87,7 +88,7 @@ export function UserHomePage() {
     }
 
     const newsubGoals = [...subgoals, newsubGoal];
-    if (subgoalRef.current.value != "") {
+    if (subgoalRef.current.value !== "") {
       setsubGoals(newsubGoals);
     }
     subgoalRef.current.value = "";

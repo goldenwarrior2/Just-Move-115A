@@ -24,12 +24,14 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
     setGoal(props.goal);
     setIntrinsicMotivation(props.intrinsicMotivation);
     setExtrinsicMotivation(props.extrinsicMotivation);
+    setPriority(props.priority);
   };
 
   const editToggle = (e) => {
     setEditing(!editing);
     if (editing === true) {
-      handleEditGoal(props.id, goal, intrinsicMotivation, extrinsicMotivation);
+      handleEditGoal(props.id, goal, intrinsicMotivation, extrinsicMotivation, priority);
+      setPriority(parseInt(priority));
     }
   };
 
