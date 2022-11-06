@@ -31,6 +31,7 @@ function PopupGoalForm(props) {
       goal: props.addGoalData.goal,
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
+      priority: parseInt(props.addGoalData.priority),
       progress: " ",
     }
     props.setGoalList(current => [...current, props.addGoalData.goal]);
@@ -51,7 +52,7 @@ function PopupGoalForm(props) {
 
   return (props.trigger) ? (
     <div className="popup" style={{
-      "z-index": "1"
+      zIndex: "1"
     }}>
       <div className="popup-inner">
         <form onSubmit={handleAddNewGoal} id="popup-form">
@@ -69,7 +70,7 @@ function PopupGoalForm(props) {
               onChange={handleGoalsChange}
               ref={goalRef}
               style={{ visibility: `visible`, animation: `fadeInLeft` }}
-              required="true"
+              required={true}
             />
           </div>
           <br></br>
@@ -103,12 +104,12 @@ function PopupGoalForm(props) {
           <br></br>
           <div className="form-group">
             <h3>Priority: </h3>
-            <select name="priority" className="form-control" defaultValue="0" ref={priorityRef}>
+            <select name="priority" className="form-control" defaultValue="0" ref={priorityRef} onChange={handleGoalsChange}>
               <option value="4">++++</option>
               <option value="3">+++</option>
               <option value="2">++</option>
               <option value="1">+</option>
-              <option value="0"> </option>
+              <option value="0">=</option>
               <option value="-1">-</option>
               <option value="-2">--</option>
               <option value="-3">---</option>

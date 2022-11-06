@@ -19,18 +19,19 @@ import PlusIcon from '@rsuite/icons/Plus';
 export function UserHomePage() {
 
   const goalRef = useRef(null);
-  const subgoalRef= useRef(null);
+  const subgoalRef = useRef(null);
 
   const [goals, setGoals] = useState([]);
   const [errModal, setErrModal] = useState(null);
   const [subgoals, setsubGoals] = useState([]);
-  const [GoalList,setGoalList] = useState([]);
+  const [GoalList, setGoalList] = useState([]);
 
   const [addGoalData, setGoalData] = useState({
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
-    progress: {value:1, target:5},
+    priortiy: 0,
+    progress: { value: 1, target: 5 },
   });
 
   const [addsubGoalData, setsubGoalData] = useState({
@@ -86,7 +87,7 @@ export function UserHomePage() {
     }
 
     const newsubGoals = [...subgoals, newsubGoal];
-    if(subgoalRef.current.value != ""){
+    if (subgoalRef.current.value != "") {
       setsubGoals(newsubGoals);
     }
     subgoalRef.current.value = "";
@@ -96,7 +97,7 @@ export function UserHomePage() {
   const handleDeletesubGoal = (subgoalId) => {
     const newsubGoals = [...subgoals];
 
-    const index = subgoals.findIndex((subgoal)=> subgoal.id === subgoalId);
+    const index = subgoals.findIndex((subgoal) => subgoal.id === subgoalId);
 
     newsubGoals.splice(index, 1);
 
@@ -139,9 +140,9 @@ export function UserHomePage() {
 
   const ldSc = hasLoaded ? null : <LoadingScreen />;
   const modal = errModal ? (<Modal show={true} onHide={() => setErrModal(null)} centered size="md">
-                              <Modal.Header closeButton><Modal.Title>{errModal.title}</Modal.Title></Modal.Header>
-                              <Modal.Body><p>{errModal.msg}</p></Modal.Body>
-                            </Modal >) : null;
+    <Modal.Header closeButton><Modal.Title>{errModal.title}</Modal.Title></Modal.Header>
+    <Modal.Body><p>{errModal.msg}</p></Modal.Body>
+  </Modal >) : null;
 
   return (
     <div>
@@ -176,8 +177,8 @@ export function UserHomePage() {
           setGoalData={setGoalData}
           goals={goals}
           setGoals={setGoals}
-          GoalList = {GoalList}
-          setGoalList = {setGoalList}
+          GoalList={GoalList}
+          setGoalList={setGoalList}
           startModal={startModal}
         >
         </PopupGoalForm>
@@ -188,6 +189,7 @@ export function UserHomePage() {
                 <th scope="col">Goal</th>
                 <th scope="col">Intrinsic Motivations</th>
                 <th scope="col">Extrinsic Motivations</th>
+                <th scope="col">Priority</th>
                 <th scope="col">Progress Bar</th>
               </tr>
             </thead>
@@ -226,8 +228,8 @@ export function UserHomePage() {
           </thead>
 
           <tbody id="subgoals-table-body">
-            {subgoals.map((newsubGoal)=> (
-              <SubGoal props={newsubGoal} key={newsubGoal.id} list={GoalList} handleDeletesubGoal={handleDeletesubGoal}/>
+            {subgoals.map((newsubGoal) => (
+              <SubGoal props={newsubGoal} key={newsubGoal.id} list={GoalList} handleDeletesubGoal={handleDeletesubGoal} />
             ))}
           </tbody>
         </table>
