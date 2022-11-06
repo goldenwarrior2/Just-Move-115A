@@ -14,7 +14,23 @@ import { useNavigate } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
+import "./UserHomePage.css";
 
+function sortHelper(property) {
+  return () => (a, b) => a[property] - b[property];
+}
+
+function progressSorter(a, b) {
+  if (a.progress.value === undefined && b.progress.value === undefined) {
+    return 0;
+  } else if (a.progress.value === undefined) {
+    return -1;
+  } else if (b.progress.value === undefined) {
+    return 1;
+  } else {
+    return (a.progress.value / a.progress.target) - (b.progress.value / b.progress.target);
+  }
+}
 
 export function UserHomePage() {
 
@@ -25,12 +41,14 @@ export function UserHomePage() {
   const [errModal, setErrModal] = useState(null);
   const [subgoals, setsubGoals] = useState([]);
   const [GoalList, setGoalList] = useState([]);
+  const [sortFunc, setSortFunc] = useState(sortHelper("added"));
 
   const [addGoalData, setGoalData] = useState({
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
     priority: 0,
+    added: 0,
     progress: { value: 1, target: 5 },
   });
 
@@ -63,6 +81,7 @@ export function UserHomePage() {
     newGoals[index].extrinsicMotivation = extrinsic;
     newGoals[index].priority = parseInt(priority);
 
+    newGoals.sort(sortFunc);
     setGoals(newGoals);
     saveAddGoal(goals[index]).catch(function (error) {
       startModal(error.toString(), "Error Editing Data");
@@ -108,13 +127,18 @@ export function UserHomePage() {
 
   }
 
+  const changeSorting = (newSortFunc) => {
+    goals.sort(newSortFunc());
+    setSortFunc(newSortFunc);
+  }
+
   const startModal = (msg, title) => {
     setErrModal({ msg: msg, title: title });
   }
 
   const navigate = useNavigate();
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     await auth.signOut()
     navigate("/login");
   }
@@ -122,6 +146,7 @@ export function UserHomePage() {
   useEffect(function () {
     const unsub = auth.onAuthStateChanged(function () {
       loadData().then(function (data) {
+        data.sort(sortFunc);
         setGoals(data);
         setHasLoaded(true);
         unsub();
@@ -181,17 +206,18 @@ export function UserHomePage() {
           GoalList={GoalList}
           setGoalList={setGoalList}
           startModal={startModal}
+          sortFunc={sortFunc}
         >
         </PopupGoalForm>
         <table id="goals-table" className="table mt-5">
           <Animation.Bounce in={true}>
             <thead>
               <tr>
-                <th scope="col">Goal</th>
-                <th scope="col">Intrinsic Motivations</th>
-                <th scope="col">Extrinsic Motivations</th>
-                <th scope="col">Priority</th>
-                <th scope="col">Progress Bar</th>
+                <th scope="col" onClick={() => changeSorting(sortHelper("added"))}>Goal</th>
+                <th scope="col" onClick={() => changeSorting(sortHelper("intrinsicMotivation"))}>Intrinsic Motivations</th>
+                <th scope="col" onClick={() => changeSorting(sortHelper("extrinsicMotivation"))}>Extrinsic Motivations</th>
+                <th scope="col" onClick={() => changeSorting(sortHelper("priority"))}>Priority</th>
+                <th scope="col" onClick={() => changeSorting(() => progressSorter)}>Progress Bar</th>
               </tr>
             </thead>
 
