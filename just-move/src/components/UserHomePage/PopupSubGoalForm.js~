@@ -30,8 +30,7 @@ function PopupGoalForm(props) {
       goal: props.addGoalData.goal,
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
-      progress: {value:1, target:5},
-      subgoal: "",
+      progress: " ",
     }
     props.setGoalList(current => [...current,props.addGoalData.goal]);
 
