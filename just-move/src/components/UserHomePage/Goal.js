@@ -7,8 +7,7 @@ import IconButton from 'rsuite/IconButton';
 import Progress from 'rsuite/Progress';
 
 import { useState, useRef, useEffect } from 'react';
-
-const priorityStrings = ["----", "---", "--", "-", "=", "+", "++", "+++", "++++"];
+import { PrioritySelect, priorityStrings } from './PrioritySelect';
 
 export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
   const percentCompletion = props.progress.value / props.progress.target * 100;
@@ -40,17 +39,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
       <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" /> : goal}</td>
       <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" /> : intrinsicMotivation}</td>
       <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" /> : extrinsicMotivation}</td>
-      <td>{editing ? <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-        <option value="4">++++</option>
-        <option value="3">+++</option>
-        <option value="2">++</option>
-        <option value="1">+</option>
-        <option value="0">=</option>
-        <option value="-1">-</option>
-        <option value="-2">--</option>
-        <option value="-3">---</option>
-        <option value="-4">----</option>
-      </select> : priorityStrings[priority + 4]}</td>
+      <td>{editing ? <PrioritySelect value={priority} onChange={(e) => setPriority(e.target.value)} /> : priorityStrings[priority + 4]}</td>
       <td><Progress.Line percent={percentCompletion} status={status} /></td>
       <td>
         <ButtonGroup justified>

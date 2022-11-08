@@ -6,13 +6,14 @@ import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
 import { nanoid } from 'nanoid';
 import { saveAddGoal } from "./saving";
+import { PrioritySelect } from "./PrioritySelect";
 
 function PopupGoalForm(props) {
 
   const goalRef = useRef(null);
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
-  const priorityRef = useRef(null);
+  const [priority, setPriority] = useState("0");
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ function PopupGoalForm(props) {
       goal: props.addGoalData.goal,
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
-      priority: parseInt(props.addGoalData.priority),
+      priority: parseInt(priority),
       progress: " ",
     }
     props.setGoalList(current => [...current, props.addGoalData.goal]);
@@ -42,7 +43,7 @@ function PopupGoalForm(props) {
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
-    priorityRef.current.value = "0";
+    setPriority("0");
 
     saveAddGoal(newGoal).catch(function (error) {
       props.startModal(error.toString(), "Error Adding Data");
@@ -104,17 +105,7 @@ function PopupGoalForm(props) {
           <br></br>
           <div className="form-group">
             <h3>Priority: </h3>
-            <select name="priority" className="form-control" defaultValue="0" ref={priorityRef} onChange={handleGoalsChange}>
-              <option value="4">++++</option>
-              <option value="3">+++</option>
-              <option value="2">++</option>
-              <option value="1">+</option>
-              <option value="0">=</option>
-              <option value="-1">-</option>
-              <option value="-2">--</option>
-              <option value="-3">---</option>
-              <option value="-4">----</option>
-            </select>
+            <PrioritySelect className="form-control" value={priority} onChange={(e) => setPriority(e.target.value)} />
           </div>
           <br></br>
           <br></br>
