@@ -17,7 +17,7 @@ import PlusIcon from '@rsuite/icons/Plus';
 import "./UserHomePage.css";
 
 function sortHelper(property) {
-  return () => (a, b) => a[property] - b[property];
+  return (a, b) => a[property] - b[property];
 }
 
 function progressSorter(a, b) {
@@ -32,6 +32,19 @@ function progressSorter(a, b) {
   }
 }
 
+function sortReverser(f) {
+  return (a, b) => { return f(b, a) };
+}
+
+const sortFuncs = [sortHelper("added"), sortReverser(sortHelper("priority")), progressSorter];
+function getSortFunc(i) {
+  if (i >= 32) {
+    return sortReverser(sortFuncs[i - 32]);
+  }
+  return sortFuncs[i];
+}
+
+
 export function UserHomePage() {
 
   const goalRef = useRef(null);
@@ -41,7 +54,7 @@ export function UserHomePage() {
   const [errModal, setErrModal] = useState(null);
   const [subgoals, setsubGoals] = useState([]);
   const [GoalList, setGoalList] = useState([]);
-  const [sortFunc, setSortFunc] = useState(sortHelper("added"));
+  const [sortFunc, setSortFunc] = useState(0);
 
   const [addGoalData, setGoalData] = useState({
     goal: "",
@@ -81,7 +94,7 @@ export function UserHomePage() {
     newGoals[index].extrinsicMotivation = extrinsic;
     newGoals[index].priority = parseInt(priority);
 
-    newGoals.sort(sortFunc);
+    newGoals.sort(getSortFunc(sortFunc));
     setGoals(newGoals);
     saveAddGoal(goals[index]).catch(function (error) {
       startModal(error.toString(), "Error Editing Data");
@@ -128,8 +141,13 @@ export function UserHomePage() {
   }
 
   const changeSorting = (newSortFunc) => {
-    goals.sort(newSortFunc());
+    if (newSortFunc === sortFunc) {
+      newSortFunc += 32;
+    }
+    const newGoals = goals;
+    newGoals.sort(getSortFunc(newSortFunc));
     setSortFunc(newSortFunc);
+    setGoals(newGoals);
   }
 
   const startModal = (msg, title) => {
@@ -146,7 +164,7 @@ export function UserHomePage() {
   useEffect(function () {
     const unsub = auth.onAuthStateChanged(function () {
       loadData().then(function (data) {
-        data.sort(sortFunc);
+        data.sort(getSortFunc(sortFunc));
         setGoals(data);
         setHasLoaded(true);
         unsub();
@@ -206,18 +224,24 @@ export function UserHomePage() {
           GoalList={GoalList}
           setGoalList={setGoalList}
           startModal={startModal}
-          sortFunc={sortFunc}
+          sortFunc={getSortFunc(sortFunc)}
         >
         </PopupGoalForm>
         <table id="goals-table" className="table mt-5">
           <Animation.Bounce in={true}>
             <thead>
               <tr>
-                <th scope="col" onClick={() => changeSorting(sortHelper("added"))}>Goal</th>
-                <th scope="col" onClick={() => changeSorting(sortHelper("intrinsicMotivation"))}>Intrinsic Motivations</th>
-                <th scope="col" onClick={() => changeSorting(sortHelper("extrinsicMotivation"))}>Extrinsic Motivations</th>
-                <th scope="col" onClick={() => changeSorting(sortHelper("priority"))}>Priority</th>
-                <th scope="col" onClick={() => changeSorting(() => progressSorter)}>Progress Bar</th>
+                <th scope="col" className="th-hoverable" onClick={() => changeSorting(0)}>Goal{
+                  sortFunc == 0 ? " \u2193" : sortFunc == 32 ? " \u2191" : ""
+                }</th>
+                <th scope="col">Intrinsic Motivations</th>
+                <th scope="col">Extrinsic Motivations</th>
+                <th scope="col" className="th-hoverable" onClick={() => changeSorting(1)}>Priority{
+                  sortFunc == 1 ? " \u2191" : sortFunc == 33 ? " \u2193" : ""
+                }</th>
+                <th scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
+                  sortFunc == 2 ? " \u2193" : sortFunc == 34 ? " \u2191" : ""
+                }</th>
               </tr>
             </thead>
 
