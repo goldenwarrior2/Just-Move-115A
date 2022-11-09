@@ -6,9 +6,11 @@ import EditIcon from '@rsuite/icons/Edit';
 import IconButton from 'rsuite/IconButton';
 import Progress from 'rsuite/Progress';
 
+import { TagPicker } from 'rsuite';
+
 import { useState, useRef, useEffect } from 'react';
 
-export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
+export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList }) {
     const percentCompletion = props.progress.value / props.progress.target * 100;
     const status = percentCompletion === 100 ? 'success' : null;
     const [editing, setEditing] = useState(false);
@@ -17,6 +19,13 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
     const [intrinsicMotivation, setIntrinsicMotivation] = useState(props.intrinsicMotivation);
     const [extrinsicMotivation, setExtrinsicMotivation] = useState(props.extrinsicMotivation);
     const [category, setCategory] = useState(props.category);
+
+    const data = ['Fitness', 'Work', 'Hobby'].map(
+        item => ({
+            label: item,
+            value: item,
+        })
+    );
 
     const cancelChanges = () => {
         setGoal(props.goal);
@@ -28,7 +37,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
     const editToggle = (e) => {
         setEditing(!editing);
         if(editing === true) {
-            handleEditGoal(props.id, goal, intrinsicMotivation, extrinsicMotivation, category);
+          handleEditGoal(props.id, goal, intrinsicMotivation, extrinsicMotivation, category);
         }
     };
 
@@ -38,7 +47,24 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
           <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text"/> : intrinsicMotivation}</td>
           <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text"/> : extrinsicMotivation}</td>
           <td><Progress.Line percent={percentCompletion} status={status}/></td>
-          <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>
+          {/* <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>*/}
+          <td><TagPicker
+                creatable={false}
+                readOnly={!editing}
+                data={categoryList}
+                defaultValue={category}
+                style={{ width: 300 }}
+                menuStyle={{ width: 300 }}
+                onCreate={(value, item) => {
+                  updateGoalList(value[0]);
+                  console.log(value, item);
+                  console.log(data);
+                }}
+                onChange={(value) => {
+                  setCategory(value);
+                }}
+              />
+          </td>
           <td>
             <ButtonGroup justified>
               <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="blue" onClick={()=> editToggle(props.id)}></IconButton>

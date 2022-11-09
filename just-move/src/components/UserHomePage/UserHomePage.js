@@ -25,13 +25,19 @@ export function UserHomePage() {
   const [errModal, setErrModal] = useState(null);
   const [subgoals, setsubGoals] = useState([]);
   const [GoalList,setGoalList] = useState([]);
+  const [categoryList, setCategoryList] = useState(['Fitness', 'Work', 'Hobby'].map(
+    item => ({
+      label: item,
+      value: item,
+    })
+  ));
 
   const [addGoalData, setGoalData] = useState({
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
     progress: {value:1, target:5},
-    category: "",
+    category: [],
   });
 
   const [addsubGoalData, setsubGoalData] = useState({
@@ -67,6 +73,10 @@ export function UserHomePage() {
     saveAddGoal(goals[index]).catch(function (error) {
       startModal(error.toString(), "Error Editing Data");
     });
+  }
+
+  const updateGoalList = (category) => {
+    categoryList.push({label: category, value: category});
   }
 
   const handlesubGoalsChange = (e) => {
@@ -198,7 +208,7 @@ export function UserHomePage() {
           </Animation.Bounce>
           <tbody id="goals-table-body">
             {goals.map((newGoal) => (
-              <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} />
+              <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList}/>
             ))}
           </tbody>
         </table>
