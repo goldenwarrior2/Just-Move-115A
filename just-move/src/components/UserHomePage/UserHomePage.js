@@ -5,7 +5,7 @@ import { SubGoal } from "./SubGoal";
 import PopupGoalForm from "./PopupGoalForm";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation';
-import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites } from "./saving";
+import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites, saveSorting } from "./saving";
 import { auth } from '../firebase/firebase';
 import { LoadingScreen } from "../Loading";
 import { useBeforeunload } from 'react-beforeunload';
@@ -144,6 +144,7 @@ export function UserHomePage() {
     if (newSortFunc === sortFunc) {
       newSortFunc += 32;
     }
+    saveSorting(newSortFunc);
     const newGoals = goals;
     newGoals.sort(getSortFunc(newSortFunc));
     setSortFunc(newSortFunc);
@@ -164,11 +165,15 @@ export function UserHomePage() {
   useEffect(function () {
     const unsub = auth.onAuthStateChanged(function () {
       loadData().then(function (data) {
-        data.sort(getSortFunc(sortFunc));
-        setGoals(data);
+        if (data.sorting !== undefined) {
+          changeSorting(data.sorting);
+        }
+        data.goals.sort(getSortFunc(sortFunc));
+        setGoals(data.goals);
         setHasLoaded(true);
         unsub();
       }).catch(function (error) {
+        console.log(error);
         startModal(error.toString(), "Error Loading Data");
       });
     });
@@ -232,15 +237,15 @@ export function UserHomePage() {
             <thead>
               <tr>
                 <th scope="col" className="th-hoverable" onClick={() => changeSorting(0)}>Goal{
-                  sortFunc == 0 ? " \u2193" : sortFunc == 32 ? " \u2191" : ""
+                  sortFunc === 0 ? " \u2193" : sortFunc === 32 ? " \u2191" : ""
                 }</th>
                 <th scope="col">Intrinsic Motivations</th>
                 <th scope="col">Extrinsic Motivations</th>
                 <th scope="col" className="th-hoverable" onClick={() => changeSorting(1)}>Priority{
-                  sortFunc == 1 ? " \u2191" : sortFunc == 33 ? " \u2193" : ""
+                  sortFunc === 1 ? " \u2191" : sortFunc === 33 ? " \u2193" : ""
                 }</th>
                 <th scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
-                  sortFunc == 2 ? " \u2193" : sortFunc == 34 ? " \u2191" : ""
+                  sortFunc === 2 ? " \u2193" : sortFunc === 34 ? " \u2191" : ""
                 }</th>
               </tr>
             </thead>
