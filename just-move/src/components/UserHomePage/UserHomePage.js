@@ -36,14 +36,14 @@ function sortReverser(f) {
   return (a, b) => { return f(b, a) };
 }
 
-const sortFuncs = [sortHelper("added"), sortReverser(sortHelper("priority")), progressSorter];
+const sortFuncs = [sortHelper("added"), sortHelper("priority"), progressSorter];
+
 function getSortFunc(i) {
   if (i >= 32) {
     return sortReverser(sortFuncs[i - 32]);
   }
   return sortFuncs[i];
 }
-
 
 export function UserHomePage() {
 
@@ -142,7 +142,7 @@ export function UserHomePage() {
 
   const changeSorting = (newSortFunc) => {
     if (newSortFunc === sortFunc) {
-      newSortFunc += 32;
+      newSortFunc ^= 32;
     }
     saveSorting(newSortFunc);
     const newGoals = goals;
@@ -160,6 +160,15 @@ export function UserHomePage() {
   const handleLogout = async () => {
     await auth.signOut()
     navigate("/login");
+  }
+
+  const getArrowIndic = (i) => {
+    if (i === sortFunc) {
+      return " \u2193";
+    } else if (i === (sortFunc ^ 32)) {
+      return " \u2191";
+    }
+    return "";
   }
 
   useEffect(function () {
@@ -237,15 +246,15 @@ export function UserHomePage() {
             <thead>
               <tr>
                 <th scope="col" className="th-hoverable" onClick={() => changeSorting(0)}>Goal{
-                  sortFunc === 0 ? " \u2193" : sortFunc === 32 ? " \u2191" : ""
+                  getArrowIndic(0)
                 }</th>
                 <th scope="col">Intrinsic Motivations</th>
                 <th scope="col">Extrinsic Motivations</th>
-                <th scope="col" className="th-hoverable" onClick={() => changeSorting(1)}>Priority{
-                  sortFunc === 1 ? " \u2191" : sortFunc === 33 ? " \u2193" : ""
+                <th scope="col" className="th-hoverable" onClick={() => changeSorting(33)}>Priority{
+                  getArrowIndic(1)
                 }</th>
                 <th scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
-                  sortFunc === 2 ? " \u2193" : sortFunc === 34 ? " \u2191" : ""
+                  getArrowIndic(2)
                 }</th>
               </tr>
             </thead>
