@@ -45,7 +45,11 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
           <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text"/> : intrinsicMotivation}</td>
           <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text"/> : extrinsicMotivation}</td>
           <td><Progress.Line percent={percentCompletion} status={status}/></td>
-          <td>{subgoal}</td>
+          <td>
+            <ul>
+              {subgoal.map((sg) => <li key={sg}>{sg}</li>)}
+            </ul>
+          </td>
           <td>
             <PopupSubGoalForm
               trigger={popupBtn}

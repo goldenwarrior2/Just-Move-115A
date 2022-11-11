@@ -27,7 +27,7 @@ export function UserHomePage() {
     intrinsicMotivation: "",
     extrinsicMotivation: "",
     progress: {value:1, target:5},
-    subgoal: "",
+    subgoal: [],
   });
 
 

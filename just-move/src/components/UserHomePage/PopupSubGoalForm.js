@@ -10,6 +10,7 @@ import { saveAddGoal } from "./saving";
 function PopupSubGoalForm(props) {
 
   const [sg, setsg] = useState();
+  const sgList = props.subgoal;
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -18,7 +19,8 @@ function PopupSubGoalForm(props) {
 
   const handleAddNewGoal = (e) => {
     e.preventDefault();
-    props.setSubgoal(sg);
+    sgList.push(sg);
+    props.setSubgoal(sgList);
 
     const newGoal = {
       id: props.id,
@@ -26,7 +28,7 @@ function PopupSubGoalForm(props) {
       intrinsicMotivation: props.intrinsicMotivation,
       extrinsicMotivation: props.extrinsicMotivation,
       progress: {value:1, target:5},
-      subgoal: sg,
+      subgoal: props.subgoal,
     }
 
     saveAddGoal(newGoal).catch(function (error) {
