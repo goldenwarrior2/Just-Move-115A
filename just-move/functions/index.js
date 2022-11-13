@@ -20,7 +20,7 @@ exports.scheduledFunction = functions.pubsub.schedule('every day 14:00').onRun (
 
   //const db = admin.firestore();
   const emails = [];
-  var query = await admin.firestore().collectionGroup('goals').where("mostRecentDate", "==", currentDate).get();
+  var query = await admin.firestore().collectionGroup('goals').where("reminderDate", "==", currentDate).get();
   for (const doc of query.docs) {
     console.log(doc.id, doc.data());
     const path = doc.ref.path;
@@ -41,6 +41,7 @@ exports.scheduledFunction = functions.pubsub.schedule('every day 14:00').onRun (
       intrinsic: 'intrinsic motivation',
     },
   };
+  
   console.log(msg);
   console.log('This will run every day at 22:22');
   console.log(context);
