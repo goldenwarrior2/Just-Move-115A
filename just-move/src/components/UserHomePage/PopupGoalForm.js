@@ -1,3 +1,4 @@
+import { functions } from '../firebase/firebase';
 import {useState, useRef } from "react";
 import React from 'react';
 import "./PopupGoalForm.css"
