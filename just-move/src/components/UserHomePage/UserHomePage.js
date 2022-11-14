@@ -1,3 +1,4 @@
+import {auth } from '../firebase/firebase';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
@@ -6,7 +7,6 @@ import PopupGoalForm from "./PopupGoalForm";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation';
 import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites } from "./saving";
-import { auth } from '../firebase/firebase';
 import { LoadingScreen } from "../Loading";
 import { useBeforeunload } from 'react-beforeunload';
 import Modal from 'react-bootstrap/Modal';
@@ -16,8 +16,13 @@ import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 
 
-export function UserHomePage() {
+const date = new Date();
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+let currentDate = `${month}-${day}-${year}`;
 
+export function UserHomePage() {
   const goalRef = useRef(null);
   const subgoalRef= useRef(null);
 
@@ -27,10 +32,13 @@ export function UserHomePage() {
   const [GoalList,setGoalList] = useState([]);
 
   const [addGoalData, setGoalData] = useState({
+    startDate: currentDate,
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
     progress: {value:1, target:5},
+    reminderDate: "",
+    mostRecentDate: currentDate,
   });
 
   const [addsubGoalData, setsubGoalData] = useState({
@@ -54,12 +62,14 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, goal, intrinsic, extrinsic) => {
+  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, reminder) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
+    newGoals[index].startDate = start;
     newGoals[index].goal = goal;
     newGoals[index].intrinsicMotivation = intrinsic;
     newGoals[index].extrinsicMotivation = extrinsic;
+    newGoals[index].reminderDate = reminder;
 
     setGoals(newGoals);
     saveAddGoal(goals[index]).catch(function (error) {
@@ -185,9 +195,12 @@ export function UserHomePage() {
           <Animation.Bounce in={true}>
             <thead>
               <tr>
+                <th sope="col">Start Date</th>
                 <th scope="col">Goal</th>
                 <th scope="col">Intrinsic Motivations</th>
                 <th scope="col">Extrinsic Motivations</th>
+                <th scope="col">Reminder Date</th>
+                <th scope="col">Most Recent Date</th>
                 <th scope="col">Progress Bar</th>
               </tr>
             </thead>

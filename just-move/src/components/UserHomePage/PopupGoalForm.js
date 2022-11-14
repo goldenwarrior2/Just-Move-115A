@@ -1,4 +1,4 @@
-import { functions } from '../firebase/firebase';
+//import { functions } from '../firebase/firebase';
 import {useState, useRef } from "react";
 import React from 'react';
 import "./PopupGoalForm.css"
@@ -10,9 +10,12 @@ import { saveAddGoal } from "./saving";
 
 function PopupGoalForm(props) {
 
+  const startDate = useRef(null);
   const goalRef = useRef(null);
   const intrinsicRef = useRef(null);
   const extrinsicRef = useRef(null);
+  const reminderDate = useRef(null);
+  const mostRecentDate = useRef(null);
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -28,11 +31,15 @@ function PopupGoalForm(props) {
 
     const newGoal = {
       id: nanoid(),
+      startDate: props.addGoalData.startDate,
       goal: props.addGoalData.goal,
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
-      progress: " ",
+      progress: "progress",
+      reminderDate: props.addGoalData.reminderDate,
+      mostRecentDate: props.addGoalData.mostRecentDate,
     }
+    console.log(newGoal);
     props.setGoalList(current => [...current,props.addGoalData.goal]);
 
     const newGoals = [...props.goals, newGoal];
@@ -41,6 +48,8 @@ function PopupGoalForm(props) {
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
+    reminderDate.current.value = "";
+
 
     saveAddGoal(newGoal).catch(function (error) {
       props.startModal(error.toString(), "Error Adding Data");
@@ -97,6 +106,19 @@ function PopupGoalForm(props) {
             />
           </div>
           <br></br>
+          <div className="form-group">
+            <h3>
+              Reminder Date:
+            </h3>
+            <input
+              type="input"
+              name="reminderDate"
+              placeholder="Enter the date on which you would like to be reminded about this goal..."
+              className="form-control"
+              onChange={handleGoalsChange}
+              ref={reminderDate}
+            />
+          </div>
           <br></br>
           <IconButton type="submit"
             icon={<PlusIcon />}
