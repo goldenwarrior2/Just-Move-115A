@@ -38,6 +38,7 @@ function PopupGoalForm(props) {
       progress: "progress",
       reminderDate: props.addGoalData.reminderDate,
       mostRecentDate: props.addGoalData.mostRecentDate,
+      category: [],
     }
     console.log(newGoal);
     props.setGoalList(current => [...current,props.addGoalData.goal]);
@@ -49,7 +50,6 @@ function PopupGoalForm(props) {
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
     reminderDate.current.value = "";
-
 
     saveAddGoal(newGoal).catch(function (error) {
       props.startModal(error.toString(), "Error Adding Data");
@@ -119,6 +119,7 @@ function PopupGoalForm(props) {
               ref={reminderDate}
             />
           </div>
+          <br></br>
           <br></br>
           <IconButton type="submit"
             icon={<PlusIcon />}

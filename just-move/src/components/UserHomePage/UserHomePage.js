@@ -15,6 +15,8 @@ import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 
+import { TagPicker } from 'rsuite';
+
 
 const date = new Date();
 let day = date.getDate();
@@ -29,7 +31,14 @@ export function UserHomePage() {
   const [goals, setGoals] = useState([]);
   const [errModal, setErrModal] = useState(null);
   const [subgoals, setsubGoals] = useState([]);
-  const [GoalList,setGoalList] = useState([]);
+  const [GoalList, setGoalList] = useState([]);
+  const [categoryList, setCategoryList] = useState(['Fitness', 'Work', 'Hobby'].map(
+    item => ({
+      label: item,
+      value: item,
+    })
+  ));
+  const [filters, setFilters] = useState([]);
 
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
@@ -39,6 +48,7 @@ export function UserHomePage() {
     progress: {value:1, target:5},
     reminderDate: "",
     mostRecentDate: currentDate,
+    category: [],
   });
 
   const [addsubGoalData, setsubGoalData] = useState({
@@ -62,7 +72,7 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, reminder) => {
+  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, reminder, category) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
     newGoals[index].startDate = start;
@@ -70,12 +80,28 @@ export function UserHomePage() {
     newGoals[index].intrinsicMotivation = intrinsic;
     newGoals[index].extrinsicMotivation = extrinsic;
     newGoals[index].reminderDate = reminder;
+    newGoals[index].category = category;
 
     setGoals(newGoals);
     saveAddGoal(goals[index]).catch(function (error) {
       startModal(error.toString(), "Error Editing Data");
     });
   }
+
+  const updateGoalList = (category) => {
+    categoryList.push({label: category, value: category});
+  }
+
+  const filteredGoalList = (filters == null || filters.length == 0)
+        ? goals
+        : goals.filter( goal => {
+          for (const category of goal.category){
+            if (filters.includes(category)) {
+              return true;
+            }
+          }
+          return false;
+        });
 
   const handlesubGoalsChange = (e) => {
     e.preventDefault();
@@ -96,7 +122,7 @@ export function UserHomePage() {
     }
 
     const newsubGoals = [...subgoals, newsubGoal];
-    if(subgoalRef.current.value != ""){
+    if(subgoalRef.current.value !== ""){
       setsubGoals(newsubGoals);
     }
     subgoalRef.current.value = "";
@@ -202,13 +228,24 @@ export function UserHomePage() {
                 <th scope="col">Reminder Date</th>
                 <th scope="col">Most Recent Date</th>
                 <th scope="col">Progress Bar</th>
+                <th scope="col">
+                  Categories
+                  <TagPicker
+                    data={categoryList}
+                    style={{ width: 300 }}
+                    menuStyle={{ width: 300 }}
+                    onChange={(value) => {
+                      setFilters(value);
+                    }}
+                  />
+                </th>
               </tr>
             </thead>
 
           </Animation.Bounce>
           <tbody id="goals-table-body">
-            {goals.map((newGoal) => (
-              <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} />
+            {filteredGoalList.map((newGoal) => (
+              <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList}/>
             ))}
           </tbody>
         </table>
