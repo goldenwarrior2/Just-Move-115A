@@ -37,7 +37,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
     };
 
     return (
-        <tr>
+        <tr style={{backgroundColor: 'rgba(33, 150, 243, 0.2)'}}>
           <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text"/> : startDate}</td>
           <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text"/> : goal}</td>
           <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text"/> : intrinsicMotivation}</td>

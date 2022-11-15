@@ -32,7 +32,8 @@ export function Login() {
   return (
     <form onSubmit={onFormSubmit}>
       <div className="card p-3">
-        <h3 className="heading-5 text-center">Log In</h3>
+        <h3 className="heading-5 text-center"
+            style={{color: '#2196f3'}}>Log In</h3>
         <div>
           <label for="loginEmail">Email:</label>
           <input

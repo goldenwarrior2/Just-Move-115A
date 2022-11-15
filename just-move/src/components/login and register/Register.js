@@ -40,7 +40,8 @@ export function Register() {
   return (
     <form onSubmit={onFormSubmit}>
       <div className="card p-3">
-        <h3 className="heading-5 text-center">Sign Up</h3>
+        <h3 className="heading-5 text-center"
+            style={{color: '#2196f3'}}>Sign Up</h3>
         <div>
           <label htmlFor="signUpName">Name (Optional):</label>
           <input type="text" className="form-control mb-3" id="signUpName" value={username} onChange={(e) => setName(e.target.value)} />

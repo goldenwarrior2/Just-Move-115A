@@ -31,6 +31,8 @@ export function UserHomePage() {
   const [subgoals, setsubGoals] = useState([]);
   const [GoalList,setGoalList] = useState([]);
 
+  const padding = "100px";
+
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
     goal: "",
@@ -154,15 +156,19 @@ export function UserHomePage() {
                             </Modal >) : null;
 
   return (
-    <div>
+    <div style={{ display: "flex", flexBasis: "auto"}}>
+    <div style={{ height: "100vh", width: "100vw",
+                  paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
+                  paddingBottom: padding}}>
       {ldSc}
       <div>
-        <button className="btn btn-danger m-2" style={{ position: "absolute", right: 0 }} onClick={handleLogout}>Log Out</button>
+        <div><button className="btn btn-danger m-2" style={{ position: "absolute",
+         right: padding}} onClick={handleLogout}>Log Out</button></div>
         <br></br>
         <div style={{ textAlign: "center" }}>
           <Animation.Slide in={true} placement={React.useState('left')}>
             <h1
-              style={{ color: "#38ACEC" }}>
+              style={{ color: "#2196f3" }}>
               Just Move
             </h1>
           </Animation.Slide>
@@ -192,20 +198,17 @@ export function UserHomePage() {
         >
         </PopupGoalForm>
         <table id="goals-table" className="table mt-5">
-          <Animation.Bounce in={true}>
-            <thead>
-              <tr>
-                <th sope="col">Start Date</th>
-                <th scope="col">Goal</th>
-                <th scope="col">Intrinsic Motivations</th>
-                <th scope="col">Extrinsic Motivations</th>
-                <th scope="col">Reminder Date</th>
-                <th scope="col">Most Recent Date</th>
-                <th scope="col">Progress Bar</th>
+          <thead>
+            <tr>
+              <th sope="col">Start Date</th>
+              <th scope="col">Goal</th>
+              <th scope="col">Intrinsic Motivations</th>
+              <th scope="col">Extrinsic Motivations</th>
+              <th scope="col">Reminder Date</th>
+              <th scope="col">Most Recent Date</th>
+              <th scope="col">Progress Bar</th>
               </tr>
-            </thead>
-
-          </Animation.Bounce>
+          </thead>
           <tbody id="goals-table-body">
             {goals.map((newGoal) => (
               <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} />
@@ -225,7 +228,7 @@ export function UserHomePage() {
             onChange={handlesubGoalsChange}
           />
 
-          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="cyan">Create</IconButton>
+          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="#2196f3">Create</IconButton>
         </form>
 
         <table id="subgoals-table" className="table mt-5">
@@ -248,5 +251,6 @@ export function UserHomePage() {
       </div>
       {modal}
     </div >
+    </div>
   );
 }

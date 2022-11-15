@@ -12,7 +12,7 @@ export function SubGoal({props, handleDeletesubGoal,list}){
 
     const [selects,setSelects]=useState();
     return (
-        <tr>
+        <tr style={{backgroundColor: 'rgba(33, 150, 243, 0.2)'}}>
         
         <td>{props.subgoal}</td>
         <td> 
