@@ -1,23 +1,27 @@
-import { getDocs, setDoc, collection, doc, deleteDoc } from "firebase/firestore";
-import { auth, firestore, db} from "../firebase/firebase";
+import { getDocs, setDoc, collection, doc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
+import { auth, firestore } from "../firebase/firebase";
 
 var outstandingWrites = 0;
 
 export async function loadData() {
-    const arr = [];
+    const arr = { goals: [] };
     if (auth.currentUser == null) {
         for (var i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             if (key.startsWith("goal_")) {
                 const data = localStorage.getItem(key);
-                arr.push(JSON.parse(data));
+                arr.goals.push(JSON.parse(data));
+            } else if (key === "sorting") {
+                arr.sorting = localStorage.getItem(key);
             }
         }
     } else {
+        const doc2 = await getDoc(doc(firestore, "users", auth.currentUser.uid));
+        Object.assign(arr, doc2.data());
         const coll = collection(firestore, "users", auth.currentUser.uid, "goals");
         const docs = await getDocs(coll);
-        docs.forEach((doc) => {
-            arr.push(doc.data());
+        docs.forEach((doc2) => {
+            arr.goals.push(doc2.data());
         });
     }
     return arr;
@@ -31,14 +35,6 @@ export async function saveAddGoal(goal) {
         outstandingWrites++;
         await setDoc(doc(firestore, "users", auth.currentUser.uid, "goals", goal.id), goal);
         outstandingWrites--;
-
-        // outstandingWrites++;
-        // await setDoc(doc(firestore, "goals", goal), {
-        //   name: "Los Angeles",
-        //   state: "CA",
-        //   country: "USA"
-        // }); 
-        // outstandingWrites--;
     }
 }
 
@@ -48,6 +44,16 @@ export async function saveDelGoal(id) {
     } else {
         outstandingWrites++;
         await deleteDoc(doc(firestore, "users", auth.currentUser.uid, "goals", id));
+        outstandingWrites--;
+    }
+}
+
+export async function saveSorting(i) {
+    if (auth.currentUser == null) {
+        localStorage.setItem("sorting", i);
+    } else {
+        outstandingWrites++;
+        await updateDoc(doc(firestore, "users", auth.currentUser.uid), { "sorting": i });
         outstandingWrites--;
     }
 }

@@ -1,5 +1,4 @@
-//import { functions } from '../firebase/firebase';
-import {useState, useRef } from "react";
+import { useState, useRef } from "react";
 import React from 'react';
 import "./PopupGoalForm.css"
 import IconButton from 'rsuite/IconButton';
@@ -7,6 +6,7 @@ import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
 import { nanoid } from 'nanoid';
 import { saveAddGoal } from "./saving";
+import { PrioritySelect } from "./PrioritySelect";
 
 function PopupGoalForm(props) {
 
@@ -16,6 +16,7 @@ function PopupGoalForm(props) {
   const extrinsicRef = useRef(null);
   const reminderDate = useRef(null);
   const mostRecentDate = useRef(null);
+  const [priority, setPriority] = useState("0");
 
   const handleGoalsChange = (e) => {
     e.preventDefault();
@@ -36,20 +37,24 @@ function PopupGoalForm(props) {
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
       progress: "progress",
+      priority: parseInt(priority),
+      added: Math.floor(Date.now() / 1000),
       reminderDate: props.addGoalData.reminderDate,
       mostRecentDate: props.addGoalData.mostRecentDate,
       category: [],
     }
     console.log(newGoal);
-    props.setGoalList(current => [...current,props.addGoalData.goal]);
+    props.setGoalList(current => [...current, props.addGoalData.goal]);
 
     const newGoals = [...props.goals, newGoal];
+    newGoals.sort(props.sortFunc);
     props.setGoals(newGoals);
 
     goalRef.current.value = "";
     intrinsicRef.current.value = "";
     extrinsicRef.current.value = "";
     reminderDate.current.value = "";
+    setPriority("0");
 
     saveAddGoal(newGoal).catch(function (error) {
       props.startModal(error.toString(), "Error Adding Data");
@@ -75,6 +80,7 @@ function PopupGoalForm(props) {
               onChange={handleGoalsChange}
               ref={goalRef}
               style={{ visibility: `visible`, animation: `fadeInLeft` }}
+              required={true}
             />
           </div>
           <br></br>
@@ -120,6 +126,11 @@ function PopupGoalForm(props) {
             />
           </div>
           <br></br>
+          <div className="form-group">
+            <h3>Priority: </h3>
+            <PrioritySelect className="form-control" value={priority} onChange={(e) => setPriority(e.target.value)} />
+          </div>
+          <br></br>
           <br></br>
           <IconButton type="submit"
             icon={<PlusIcon />}
@@ -136,7 +147,7 @@ function PopupGoalForm(props) {
           onClick={() => props.setPopupBtnTrigger(false)}>
         </IconButton>
       </div>
-    </div>
+    </div >
   ) : "";
 }
 
