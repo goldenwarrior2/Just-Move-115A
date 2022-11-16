@@ -26,7 +26,7 @@ export function Register() {
       );
       console.log(userCred);
       // Should probably handle this with onAuthStateChanged
-      await setDoc(doc(firestore, "users", userCred.user.uid), { "name": username });
+      await setDoc(doc(firestore, "users", userCred.user.uid), { "name": username, "sorting": 0 });
       navigate('/userhome');
     }
     catch (err) {

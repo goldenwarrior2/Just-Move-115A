@@ -10,45 +10,49 @@ import Animation from 'rsuite/Animation';
 import { TagPicker } from 'rsuite';
 
 import { useState, useRef, useEffect } from 'react';
+import { PrioritySelect, priorityStrings } from './PrioritySelect';
 
 export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList }) {
-    const percentCompletion = props.progress.value / props.progress.target * 100;
-    const status = percentCompletion === 100 ? 'success' : null;
-    const [editing, setEditing] = useState(false);
+  const percentCompletion = props.progress.value / props.progress.target * 100;
+  const status = percentCompletion === 100 ? 'success' : null;
+  const [editing, setEditing] = useState(false);
 
-    const [startDate, setStartDate] = useState(props.startDate);
-    const [goal, setGoal] = useState(props.goal);
-    const [intrinsicMotivation, setIntrinsicMotivation] = useState(props.intrinsicMotivation);
-    const [extrinsicMotivation, setExtrinsicMotivation] = useState(props.extrinsicMotivation);
-    const [reminderDate, setReminderDate] = useState(props.reminderDate);
-    const [mostRecentDate, setMostRecentDate] = useState(props.mostRecentDate);
-    const [category, setCategory] = useState(props.category);
+  const [startDate, setStartDate] = useState(props.startDate);
+  const [goal, setGoal] = useState(props.goal);
+  const [intrinsicMotivation, setIntrinsicMotivation] = useState(props.intrinsicMotivation);
+  const [extrinsicMotivation, setExtrinsicMotivation] = useState(props.extrinsicMotivation);
+  const [reminderDate, setReminderDate] = useState(props.reminderDate);
+  const [mostRecentDate, setMostRecentDate] = useState(props.mostRecentDate);
+  const [category, setCategory] = useState(props.category);
+  const [priority, setPriority] = useState(props.priority);
 
-    const data = ['Fitness', 'Work', 'Hobby'].map(
-        item => ({
-            label: item,
-            value: item,
-        })
-    );
+  const data = ['Fitness', 'Work', 'Hobby'].map(
+    item => ({
+      label: item,
+      value: item,
+    })
+  );
 
-    const goalTextColor = "#6231a3";
+  const goalTextColor = "#6231a3";
 
-    const cancelChanges = () => {
-        setStartDate(props.startDate);
-        setGoal(props.goal);
-        setIntrinsicMotivation(props.intrinsicMotivation);
-        setExtrinsicMotivation(props.extrinsicMotivation);
-        setReminderDate(props.reminderDate);
-        setMostRecentDate(props.mostRecentDate);
-        setCategory(props.category);
-    };
+  const cancelChanges = () => {
+    setStartDate(props.startDate);
+    setGoal(props.goal);
+    setIntrinsicMotivation(props.intrinsicMotivation);
+    setExtrinsicMotivation(props.extrinsicMotivation);
+    setReminderDate(props.reminderDate);
+    setMostRecentDate(props.mostRecentDate);
+    setCategory(props.category);
+    setPriority(props.priority);
+  };
 
-    const editToggle = (e) => {
-        setEditing(!editing);
-        if(editing === true) {
-            handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, reminderDate, category);
-        }
-    };
+  const editToggle = (e) => {
+    setEditing(!editing);
+    if (editing === true) {
+      setPriority(parseInt(priority));
+      handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category);
+    }
+  };
 
     return (
       <Animation.Bounce in={true}>
