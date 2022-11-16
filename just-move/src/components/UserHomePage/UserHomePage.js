@@ -1,4 +1,5 @@
 import {auth } from '../firebase/firebase';
+// import { useState, useRef, useEffect } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
@@ -31,7 +32,9 @@ export function UserHomePage() {
   const [subgoals, setsubGoals] = useState([]);
   const [GoalList,setGoalList] = useState([]);
 
-  const padding = "100px";
+  const padding = "150px"
+  const tableColumnFontSize = "20px";
+  const homepageTextColor = "#6231a3";
 
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
@@ -98,7 +101,7 @@ export function UserHomePage() {
     }
 
     const newsubGoals = [...subgoals, newsubGoal];
-    if(subgoalRef.current.value != ""){
+    if(subgoalRef.current.value !== ""){
       setsubGoals(newsubGoals);
     }
     subgoalRef.current.value = "";
@@ -162,13 +165,19 @@ export function UserHomePage() {
                   paddingBottom: padding}}>
       {ldSc}
       <div>
-        <div><button className="btn btn-danger m-2" style={{ position: "absolute",
-         right: padding}} onClick={handleLogout}>Log Out</button></div>
+        <div>
+          <Animation.Slide in={true} placement={React.useState('right')}>
+          <button className="btn btn-danger m-2" style={{ position: "absolute",
+          right: padding, backgroundColor: "#cc00cc",
+          border: "none"}} onClick={handleLogout}>Log Out</button>
+          </Animation.Slide>
+        </div>
         <br></br>
         <div style={{ textAlign: "center" }}>
           <Animation.Slide in={true} placement={React.useState('left')}>
-            <h1
-              style={{ color: "#2196f3" }}>
+            <h1 
+              className="display-1 text-center"
+              style={{ color: homepageTextColor }}>
               Just Move
             </h1>
           </Animation.Slide>
@@ -176,7 +185,7 @@ export function UserHomePage() {
           <Animation.Slide in={true} placement={React.useState('right')}>
             <Button
               onClick={() => setPopupBtn(true)}
-              color='green'
+              color="violet"
               appearance='primary'
               size='lg'
               style={{ fontSize: "20px" }}>
@@ -199,8 +208,8 @@ export function UserHomePage() {
         </PopupGoalForm>
         <table id="goals-table" className="table mt-5">
           <thead>
-            <tr>
-              <th sope="col">Start Date</th>
+            <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
+              <th scope="col">Start Date</th>
               <th scope="col">Goal</th>
               <th scope="col">Intrinsic Motivations</th>
               <th scope="col">Extrinsic Motivations</th>
@@ -228,7 +237,7 @@ export function UserHomePage() {
             onChange={handlesubGoalsChange}
           />
 
-          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="#2196f3">Create</IconButton>
+          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="violet">Create</IconButton>
         </form>
 
         <table id="subgoals-table" className="table mt-5">

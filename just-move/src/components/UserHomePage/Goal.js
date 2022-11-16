@@ -20,6 +20,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
     const [reminderDate, setReminderDate] = useState(props.reminderDate);
     const [mostRecentDate, setMostRecentDate] = useState(props.mostRecentDate);
 
+    const goalTextColor = "#6231a3";
+
     const cancelChanges = () => {
         setStartDate(props.startDate);
         setGoal(props.goal);
@@ -37,17 +39,17 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal }) {
     };
 
     return (
-        <tr style={{backgroundColor: 'rgba(33, 150, 243, 0.2)'}}>
-          <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text"/> : startDate}</td>
-          <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text"/> : goal}</td>
-          <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text"/> : intrinsicMotivation}</td>
-          <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text"/> : extrinsicMotivation}</td>
-          <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="text"/> : reminderDate}</td>
-          <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text"/> : mostRecentDate}</td>
+        <tr style={{backgroundColor: 'rgba(204, 0, 204, 0.3)', color: goalTextColor}}>
+          <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text" className="form-control"/> : startDate}</td>
+          <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" className="form-control"/> : goal}</td>
+          <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" className="form-control"/> : intrinsicMotivation}</td>
+          <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" className="form-control"/> : extrinsicMotivation}</td>
+          <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="text" className="form-control"/> : reminderDate}</td>
+          <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text" className="form-control"/> : mostRecentDate}</td>
           <td><Progress.Line percent={percentCompletion} status={status}/></td>
           <td>
             <ButtonGroup justified>
-              <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="blue" onClick={()=> editToggle(props.id)}></IconButton>
+              <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="violet" onClick={()=> editToggle(props.id)}></IconButton>
               <IconButton icon={<TrashIcon />} appearance="primary" color="red" onClick={()=> handleDeleteGoal(props.id)}></IconButton>
             </ButtonGroup>
           </td>

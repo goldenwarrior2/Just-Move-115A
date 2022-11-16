@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, firestore } from '../firebase/firebase';
 import { useNavigate } from "react-router-dom";
 import { setDoc, doc } from 'firebase/firestore';
+import Animation from 'rsuite/Animation';
 
 export function Register() {
   const [email, setEmail] = useState('');
@@ -38,10 +39,11 @@ export function Register() {
   const pw2Invalid = password2 !== "" && password !== password2;
 
   return (
+    <Animation.Slide in={true} placement={React.useState('bottom')}>
     <form onSubmit={onFormSubmit}>
-      <div className="card p-3">
+      <div className="card p-3" style={{color: "#000099"}}>
         <h3 className="heading-5 text-center"
-            style={{color: '#2196f3'}}>Sign Up</h3>
+            style={{color: "#000099"}}>Sign Up</h3>
         <div>
           <label htmlFor="signUpName">Name (Optional):</label>
           <input type="text" className="form-control mb-3" id="signUpName" value={username} onChange={(e) => setName(e.target.value)} />
@@ -68,10 +70,12 @@ export function Register() {
             id="signUpPassword2" required
             value={password2} onChange={(e) => setPassword2(e.target.value)} />
           <div className="d-grid">
-            <button id="signUpForm" type="submit" className="btn btn-primary" style={{ color: 'white' }}>Sign Up</button>
+            <button id="signUpForm" type="submit" className="btn btn-primary" style={{ color: 'white',
+                backgroundColor: "#6231a3", border: "none" }}>Sign Up</button>
           </div>
         </div>
       </div>
     </form>
+    </Animation.Slide>
   )
 }
