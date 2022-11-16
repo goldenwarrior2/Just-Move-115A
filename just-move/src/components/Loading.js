@@ -25,8 +25,8 @@ export function LoadingScreen() {
     const str2 = str.join("");
 
     return (
-        <div className="d-flex flex-column align-items-center justify-content-center bd-highlight mb-3 vh-100 bg-dark bg-gradient fixed-top">
-            <div className="p-2"><img src="/logo192.png" alt="LOGO" /></div>
+        <div className="d-flex flex-column align-items-center justify-content-center bd-highlight mb-3 vh-100 fixed-top" style={{ background: "rgba(0, 0, 0, 0.75)", zIndex: 1 }}>
+            <div className="p-2" ><img src="/logo192.png" alt="LOGO" /></div>
             <div className="p-2 text-center h3 text-white">{str2}</div>
         </div >);
 }
