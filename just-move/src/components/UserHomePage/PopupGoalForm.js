@@ -6,6 +6,7 @@ import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
 import { nanoid } from 'nanoid';
 import { saveAddGoal } from "./saving";
+import Animation from 'rsuite/Animation';
 import { PrioritySelect } from "./PrioritySelect";
 
 function PopupGoalForm(props) {
@@ -62,9 +63,15 @@ function PopupGoalForm(props) {
     });
   }
 
+  const handleCloseForm = (e) => {
+    e.preventDefault();
+    props.setPopupBtnTrigger(false);
+  }
+
   return (props.trigger) ? (
     <div className="popup">
-      <div className="popup-inner">
+      <Animation.Bounce in={true}>
+      <div className="popup-inner" style={{color: "#6231a3"}}>
         <form onSubmit={handleAddNewGoal} id="popup-form">
           <h2>Let's Create a Goal!</h2>
           <br></br>
@@ -117,7 +124,7 @@ function PopupGoalForm(props) {
               Reminder Date:
             </h3>
             <input
-              type="input"
+              type="date"
               name="reminderDate"
               placeholder="Enter the date on which you would like to be reminded about this goal..."
               className="form-control"
@@ -135,7 +142,7 @@ function PopupGoalForm(props) {
           <IconButton type="submit"
             icon={<PlusIcon />}
             appearance="primary"
-            color="green"
+            color="violet"
             id="add-goal-btn">
           </IconButton>
         </form>
@@ -144,10 +151,11 @@ function PopupGoalForm(props) {
           appearance="primary"
           color="red"
           id="close-btn"
-          onClick={() => props.setPopupBtnTrigger(false)}>
+          onClick={handleCloseForm}>
         </IconButton>
       </div>
-    </div >
+      </Animation.Bounce>
+    </div>
   ) : "";
 }
 

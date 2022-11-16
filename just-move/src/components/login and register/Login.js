@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
+import Animation from 'rsuite/Animation';
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ export function Login() {
         email,
         password
       );
-      console.log(userCred);
+      // console.log(userCred);
       navigate('/userhome');
     }
     catch (err) {
@@ -30,8 +31,9 @@ export function Login() {
   }
 
   return (
+    <Animation.Slide in={true} placement={React.useState('top')}>
     <form onSubmit={onFormSubmit}>
-      <div className="card p-3">
+      <div className="card p-3" style={{color: "#000099"}}>
         <h3 className="heading-5 text-center">Log In</h3>
         <div>
           <label for="loginEmail">Email:</label>
@@ -53,13 +55,21 @@ export function Login() {
             placeholder="Password"
           />
           <div className="d-grid">
-            <button id="loginForm" className="btn btn-primary" style={{ color: 'white' }}>Log In</button>
+            <button id="loginForm" className="btn btn-primary" style={{ color: 'white',
+              backgroundColor: "#6231a3", border: "none" }}>Log In</button>
           </div>
         </div>
       </div>
       <div className="d-flex align-items-center flex-column mt-3">
-        <button id="loginAnon" className="btn btn-warning" onClick={handleLoginAnon}>Use as Guest</button>
+        <button
+        id="loginAnon"
+        className="btn btn-warning"
+        onClick={handleLoginAnon}
+        style={{backgroundColor: "#cc00cc",
+        color: "white",
+        border: "none"}}>Use as Guest</button>
       </div>
     </form>
+    </Animation.Slide>
   )
 }

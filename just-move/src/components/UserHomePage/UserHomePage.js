@@ -71,6 +71,10 @@ export function UserHomePage() {
   const [filters, setFilters] = useState([]);
   const [sortFunc, setSortFunc] = useState(0);
 
+  const padding = "150px"
+  const tableColumnFontSize = "20px";
+  const homepageTextColor = "#6231a3";
+
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
     goal: "",
@@ -240,15 +244,25 @@ export function UserHomePage() {
   </Modal >) : null;
 
   return (
-    <div>
+    <div style={{ display: "flex", flexBasis: "auto"}}>
+    <div style={{ height: "100vh", width: "100vw",
+                  paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
+                  paddingBottom: padding}}>
       {ldSc}
       <div>
-        <button className="btn btn-danger m-2" style={{ position: "absolute", right: 0 }} onClick={handleLogout}>Log Out</button>
+        <div>
+          <Animation.Slide in={true} placement={React.useState('right')}>
+          <button className="btn btn-danger m-2" style={{ position: "absolute",
+          right: padding, backgroundColor: "#cc00cc",
+          border: "none"}} onClick={handleLogout}>Log Out</button>
+          </Animation.Slide>
+        </div>
         <br></br>
         <div style={{ textAlign: "center" }}>
           <Animation.Slide in={true} placement={React.useState('left')}>
-            <h1
-              style={{ color: "#38ACEC" }}>
+            <h1 
+              className="display-1 text-center"
+              style={{ color: homepageTextColor }}>
               Just Move
             </h1>
           </Animation.Slide>
@@ -256,7 +270,7 @@ export function UserHomePage() {
           <Animation.Slide in={true} placement={React.useState('right')}>
             <Button
               onClick={() => setPopupBtn(true)}
-              color='green'
+              color="violet"
               appearance='primary'
               size='lg'
               style={{ fontSize: "20px" }}>
@@ -279,9 +293,10 @@ export function UserHomePage() {
         >
         </PopupGoalForm>
         <table id="goals-table" className="table mt-5">
-          <Animation.Bounce in={true}>
-            <thead>
-              <tr>
+          <thead>
+              <Animation.Bounce in={true}>
+              <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
+                <th sope="col">Start Date</th>
                 <th sope="col" className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
                   getArrowIndic(0)
                 }</th>
@@ -307,10 +322,9 @@ export function UserHomePage() {
                     }}
                   />
                 </th>
-              </tr >
-            </thead >
-
-          </Animation.Bounce >
+              </tr>
+              </Animation.Bounce>
+          </thead>
           <tbody id="goals-table-body">
             {filteredGoalList.map((newGoal) => (
               <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
@@ -330,12 +344,12 @@ export function UserHomePage() {
             onChange={handlesubGoalsChange}
           />
 
-          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="cyan">Create</IconButton>
+          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="violet">Create</IconButton>
         </form>
 
         <table id="subgoals-table" className="table mt-5">
           <thead>
-            <tr>
+            <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
               <th scope="col">Tasks</th>
               <th scope="col">Goal</th>
               <th scope="col">Progress</th>
@@ -353,5 +367,6 @@ export function UserHomePage() {
       </div >
       {modal}
     </div >
+    </div>
   );
 }

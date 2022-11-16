@@ -5,6 +5,7 @@ import TrashIcon from '@rsuite/icons/Trash';
 import EditIcon from '@rsuite/icons/Edit';
 import IconButton from 'rsuite/IconButton';
 import Progress from 'rsuite/Progress';
+import Animation from 'rsuite/Animation';
 
 import { TagPicker } from 'rsuite';
 
@@ -32,6 +33,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     })
   );
 
+  const goalTextColor = "#6231a3";
+
   const cancelChanges = () => {
     setStartDate(props.startDate);
     setGoal(props.goal);
@@ -51,40 +54,41 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     }
   };
 
-  return (
-    <tr>
-      <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text" /> : startDate}</td>
-      <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" /> : goal}</td>
-      <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" /> : intrinsicMotivation}</td>
-      <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" /> : extrinsicMotivation}</td>
-      <td>{editing ? <PrioritySelect value={priority} onChange={(e) => setPriority(e.target.value)} /> : priorityStrings[priority + 4]}</td>
-      <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="text" /> : reminderDate}</td>
-      <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text" /> : mostRecentDate}</td>
-      <td><Progress.Line percent={percentCompletion} status={status} /></td>
-      {/* <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>*/}
-      <td><TagPicker
-        creatable={false}
-        readOnly={!editing}
-        data={categoryList}
-        defaultValue={category}
-        style={{ width: 300 }}
-        menuStyle={{ width: 300 }}
-        onCreate={(value, item) => {
-          updateGoalList(value[0]);
-          console.log(value, item);
-          console.log(data);
-        }}
-        onChange={(value) => {
-          setCategory(value);
-        }}
-      />
-      </td>
-      <td>
-        <ButtonGroup justified>
-          <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="blue" onClick={() => editToggle(props.id)}></IconButton>
-          <IconButton icon={<TrashIcon />} appearance="primary" color="red" onClick={() => handleDeleteGoal(props.id)}></IconButton>
-        </ButtonGroup>
-      </td>
-    </tr>
-  );
+    return (
+      <Animation.Bounce in={true}>
+        <tr style={{backgroundColor: 'rgba(204, 0, 204, 0.3)', color: goalTextColor}}>
+          <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text" className="form-control"/> : startDate}</td>
+          <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" className="form-control"/> : goal}</td>
+          <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" className="form-control"/> : intrinsicMotivation}</td>
+          <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" className="form-control"/> : extrinsicMotivation}</td>
+          <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="date" className="form-control"/> : reminderDate}</td>
+          <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text" className="form-control"/> : mostRecentDate}</td>
+          <td><Progress.Line percent={percentCompletion} status={status}/></td>
+          {/* <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>*/}
+          <td><TagPicker
+                creatable={false}
+                readOnly={!editing}
+                data={categoryList}
+                defaultValue={category}
+                style={{ width: 300 }}
+                menuStyle={{ width: 300 }}
+                onCreate={(value, item) => {
+                  updateGoalList(value[0]);
+                  console.log(value, item);
+                  console.log(data);
+                }}
+                onChange={(value) => {
+                  setCategory(value);
+                }}
+              />
+          </td>
+          <td>
+            <ButtonGroup justified>
+              <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="violet" onClick={()=> editToggle(props.id)}></IconButton>
+              <IconButton icon={<TrashIcon />} appearance="primary" color="red" onClick={()=> handleDeleteGoal(props.id)}></IconButton>
+            </ButtonGroup>
+          </td>
+        </tr>
+        </Animation.Bounce>
+    );
 }
