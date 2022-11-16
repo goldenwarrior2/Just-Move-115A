@@ -5,6 +5,8 @@ import TrashIcon from '@rsuite/icons/Trash';
 import EditIcon from '@rsuite/icons/Edit';
 import IconButton from 'rsuite/IconButton';
 import Progress from 'rsuite/Progress';
+import PopupSubGoalForm from "./PopupSubGoalForm";
+import PlusIcon from '@rsuite/icons/Plus';
 
 import { TagPicker } from 'rsuite';
 
@@ -22,6 +24,14 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     const [reminderDate, setReminderDate] = useState(props.reminderDate);
     const [mostRecentDate, setMostRecentDate] = useState(props.mostRecentDate);
     const [category, setCategory] = useState(props.category);
+    const [subgoal, setSubgoal] = useState(props.subgoal);
+    const [popupBtn, setPopupBtn] = useState(false);
+    const [errModal, setErrModal] = useState(null);
+
+    const startModal = (msg, title) => {
+        setErrModal({ msg: msg, title: title });
+    }
+
 
     const data = ['Fitness', 'Work', 'Hobby'].map(
         item => ({
@@ -57,6 +67,13 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
           <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text"/> : mostRecentDate}</td>
           <td><Progress.Line percent={percentCompletion} status={status}/></td>
           {/* <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>*/}
+          
+          <td>
+            <ul>
+              {subgoal.map((sg,index) => <li key={index}> <input value= {sg} id={index}  type="checkbox" /> {sg}</li>)}
+            </ul>
+          </td>
+
           <td><TagPicker
                 creatable={false}
                 readOnly={!editing}
@@ -75,7 +92,20 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
               />
           </td>
           <td>
+          <PopupSubGoalForm
+              trigger={popupBtn}
+              setPopupBtnTrigger={setPopupBtn}
+              id={props.id}
+              goal={goal}
+              intrinsicMotivation={intrinsicMotivation}
+              extrinsicMotivation={extrinsicMotivation}
+              progress={{value:1, target:5}}
+              subgoal={subgoal}
+              setSubgoal={setSubgoal}
+              startModal={startModal} >
+            </PopupSubGoalForm>
             <ButtonGroup justified>
+              <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={() => setPopupBtn(true)}/>
               <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="blue" onClick={()=> editToggle(props.id)}></IconButton>
               <IconButton icon={<TrashIcon />} appearance="primary" color="red" onClick={()=> handleDeleteGoal(props.id)}></IconButton>
             </ButtonGroup>

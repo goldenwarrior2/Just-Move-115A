@@ -49,12 +49,9 @@ export function UserHomePage() {
     reminderDate: "",
     mostRecentDate: currentDate,
     category: [],
+    subgoal: [],
   });
 
-  const [addsubGoalData, setsubGoalData] = useState({
-    subgoal: "",
-    progress: "",
-  });
 
   const [popupBtn, setPopupBtn] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -102,45 +99,6 @@ export function UserHomePage() {
           }
           return false;
         });
-
-  const handlesubGoalsChange = (e) => {
-    e.preventDefault();
-    const subgoalName = e.target.getAttribute("name");
-    const subgoalValue = e.target.value;
-    const newsubGoalData = { ...addsubGoalData };
-    newsubGoalData[subgoalName] = subgoalValue;
-    setsubGoalData(newsubGoalData);
-  }
-
-  const handleAddNewSubGoal = (e) => {
-    e.preventDefault();
-
-    const newsubGoal = {
-      id: nanoid(),
-      subgoal: addsubGoalData.subgoal,
-      progress: " ",
-    }
-
-    const newsubGoals = [...subgoals, newsubGoal];
-    if(subgoalRef.current.value !== ""){
-      setsubGoals(newsubGoals);
-    }
-    subgoalRef.current.value = "";
-
-  }
-
-  const handleDeletesubGoal = (subgoalId) => {
-    const newsubGoals = [...subgoals];
-
-    const index = subgoals.findIndex((subgoal)=> subgoal.id === subgoalId);
-
-    newsubGoals.splice(index, 1);
-
-    setsubGoals(newsubGoals);
-
-    GoalList.splice(index, 1);
-
-  }
 
   const startModal = (msg, title) => {
     setErrModal({ msg: msg, title: title });
@@ -228,6 +186,7 @@ export function UserHomePage() {
                 <th scope="col">Reminder Date</th>
                 <th scope="col">Most Recent Date</th>
                 <th scope="col">Progress Bar</th>
+                <th scope="col">Subtasks</th>
                 <th scope="col">
                   Categories
                   <TagPicker
@@ -249,7 +208,7 @@ export function UserHomePage() {
             ))}
           </tbody>
         </table>
-        <form onSubmit={handleAddNewSubGoal}>
+        {/* <form onSubmit={handleAddNewSubGoal}>
           <label>
             SubGoal:
           </label>
@@ -280,7 +239,7 @@ export function UserHomePage() {
               <SubGoal props={newsubGoal} key={newsubGoal.id} list={GoalList} handleDeletesubGoal={handleDeletesubGoal}/>
             ))}
           </tbody>
-        </table>
+        </table> */}
 
       </div>
       {modal}
