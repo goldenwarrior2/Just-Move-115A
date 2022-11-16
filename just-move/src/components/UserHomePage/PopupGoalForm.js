@@ -118,7 +118,7 @@ function PopupGoalForm(props) {
               Reminder Date:
             </h3>
             <input
-              type="input"
+              type="date"
               name="reminderDate"
               placeholder="Enter the date on which you would like to be reminded about this goal..."
               className="form-control"

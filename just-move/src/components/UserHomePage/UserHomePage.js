@@ -1,5 +1,4 @@
 import {auth } from '../firebase/firebase';
-// import { useState, useRef, useEffect } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
@@ -234,16 +233,8 @@ export function UserHomePage() {
         </PopupGoalForm>
         <table id="goals-table" className="table mt-5">
           <thead>
-            <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-              <th scope="col">Start Date</th>
-              <th scope="col">Goal</th>
-              <th scope="col">Intrinsic Motivations</th>
-              <th scope="col">Extrinsic Motivations</th>
-              <th scope="col">Reminder Date</th>
-              <th scope="col">Most Recent Date</th>
-              <th scope="col">Progress Bar</th>
-            <thead>
-              <tr>
+              <Animation.Bounce in={true}>
+              <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
                 <th sope="col">Start Date</th>
                 <th scope="col">Goal</th>
                 <th scope="col">Intrinsic Motivations</th>
@@ -263,6 +254,7 @@ export function UserHomePage() {
                   />
                 </th>
               </tr>
+              </Animation.Bounce>
           </thead>
           <tbody id="goals-table-body">
             {filteredGoalList.map((newGoal) => (
@@ -288,7 +280,7 @@ export function UserHomePage() {
 
         <table id="subgoals-table" className="table mt-5">
           <thead>
-            <tr>
+            <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
               <th scope="col">Tasks</th>
               <th scope="col">Goal</th>
               <th scope="col">Progress</th>

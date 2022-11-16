@@ -5,6 +5,7 @@ import TrashIcon from '@rsuite/icons/Trash';
 import EditIcon from '@rsuite/icons/Edit';
 import IconButton from 'rsuite/IconButton';
 import Progress from 'rsuite/Progress';
+import Animation from 'rsuite/Animation';
 
 import { TagPicker } from 'rsuite';
 
@@ -50,12 +51,13 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     };
 
     return (
+      <Animation.Bounce in={true}>
         <tr style={{backgroundColor: 'rgba(204, 0, 204, 0.3)', color: goalTextColor}}>
           <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text" className="form-control"/> : startDate}</td>
           <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" className="form-control"/> : goal}</td>
           <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" className="form-control"/> : intrinsicMotivation}</td>
           <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" className="form-control"/> : extrinsicMotivation}</td>
-          <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="text" className="form-control"/> : reminderDate}</td>
+          <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="date" className="form-control"/> : reminderDate}</td>
           <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text" className="form-control"/> : mostRecentDate}</td>
           <td><Progress.Line percent={percentCompletion} status={status}/></td>
           {/* <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>*/}
@@ -83,5 +85,6 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
             </ButtonGroup>
           </td>
         </tr>
+        </Animation.Bounce>
     );
 }
