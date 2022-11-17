@@ -69,7 +69,7 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, reminder, category) => {
+  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, reminder, category, subgoal) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
     newGoals[index].startDate = start;
@@ -78,6 +78,7 @@ export function UserHomePage() {
     newGoals[index].extrinsicMotivation = extrinsic;
     newGoals[index].reminderDate = reminder;
     newGoals[index].category = category;
+    newGoals[index].subgoal = subgoal;
 
     setGoals(newGoals);
     saveAddGoal(goals[index]).catch(function (error) {
@@ -208,38 +209,6 @@ export function UserHomePage() {
             ))}
           </tbody>
         </table>
-        {/* <form onSubmit={handleAddNewSubGoal}>
-          <label>
-            SubGoal:
-          </label>
-          <input
-            type="input"
-            name="subgoal"
-            placeholder="Enter your tasks for this goal..."
-            ref={subgoalRef}
-            className="form-control"
-            onChange={handlesubGoalsChange}
-          />
-
-          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="cyan">Create</IconButton>
-        </form>
-
-        <table id="subgoals-table" className="table mt-5">
-          <thead>
-            <tr>
-              <th scope="col">Tasks</th>
-              <th scope="col">Goal</th>
-              <th scope="col">Progress</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="subgoals-table-body">
-            {subgoals.map((newsubGoal)=> (
-              <SubGoal props={newsubGoal} key={newsubGoal.id} list={GoalList} handleDeletesubGoal={handleDeletesubGoal}/>
-            ))}
-          </tbody>
-        </table> */}
 
       </div>
       {modal}

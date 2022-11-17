@@ -53,7 +53,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     const editToggle = (e) => {
         setEditing(!editing);
         if(editing === true) {
-            handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, reminderDate, category);
+            handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, reminderDate, category, subgoal);
         }
     };
 
@@ -101,8 +101,12 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
               extrinsicMotivation={extrinsicMotivation}
               progress={{value:1, target:5}}
               subgoal={subgoal}
+              category={category}
+              startDate={startDate}
+              reminderDate={reminderDate}
               setSubgoal={setSubgoal}
-              startModal={startModal} >
+              startModal={startModal}
+              handleEditGoal={handleEditGoal}>
             </PopupSubGoalForm>
             <ButtonGroup justified>
               <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={() => setPopupBtn(true)}/>

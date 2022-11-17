@@ -21,24 +21,7 @@ function PopupSubGoalForm(props) {
     e.preventDefault();
     sgList.push(sg);
     props.setSubgoal(sgList);
-
-    const newGoal = {
-      id: props.id,
-      startDate: props.startDate,
-      goal: props.goal,
-      intrinsicMotivation: props.intrinsicMotivation,
-      extrinsicMotivation: props.extrinsicMotivation,
-      progress: {value:1, target:5},
-      reminderDate: props.reminderDate,
-      mostRecentDate: props.mostRecentDate,
-      category: props.category,
-      subgoal: props.subgoal,
-    }
-    console.log(props.subgoal)
-    saveAddGoal(newGoal).catch(function (error) {
-      props.startModal(error.toString(), "Error Adding Data");
-      // Should we attempt to undo the change?
-    });
+    props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.reminderDate, props.category, props.subgoal);
   }
 
   return (props.trigger) ? (
