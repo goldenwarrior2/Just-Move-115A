@@ -32,13 +32,17 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
         setErrModal({ msg: msg, title: title });
     }
 
-
     const data = ['Fitness', 'Work', 'Hobby'].map(
         item => ({
             label: item,
             value: item,
         })
     );
+
+    const completedToggle = (index) => {
+        subgoal[index].completed = !subgoal[index].completed;
+        handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, reminderDate, category, subgoal);
+    }
 
     const cancelChanges = () => {
         setStartDate(props.startDate);
@@ -67,10 +71,14 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
           <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text"/> : mostRecentDate}</td>
           <td><Progress.Line percent={percentCompletion} status={status}/></td>
           {/* <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>*/}
-          
+
           <td>
             <ul>
-              {subgoal.map((sg,index) => <li key={index}> <input value= {sg} id={index}  type="checkbox" /> {sg}</li>)}
+              {Object.entries(subgoal).map(([key, value],index) =>
+                  <li key={index}>
+                    <input value={value.name} id={index} type="checkbox" checked={value.completed} onChange={() => completedToggle(index)}/> {value.name}
+                  </li>
+              )}
             </ul>
           </td>
 

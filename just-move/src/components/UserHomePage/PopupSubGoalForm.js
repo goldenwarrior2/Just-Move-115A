@@ -19,7 +19,8 @@ function PopupSubGoalForm(props) {
 
   const handleAddNewGoal = (e) => {
     e.preventDefault();
-    sgList.push(sg);
+    var newSubgoal = {name:sg, completed:false};
+    sgList.push(newSubgoal);
     props.setSubgoal(sgList);
     props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.reminderDate, props.category, props.subgoal);
   }
