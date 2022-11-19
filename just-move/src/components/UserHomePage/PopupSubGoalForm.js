@@ -1,6 +1,6 @@
 import {useState, useRef } from "react";
 import React from 'react';
-import "./PopupGoalForm.css"
+import "./PopupGoalForm.css";
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
@@ -19,7 +19,7 @@ function PopupSubGoalForm(props) {
 
   const handleAddNewGoal = (e) => {
     e.preventDefault();
-    var newSubgoal = {name:sg, completed:false};
+    const newSubgoal = {name:sg, completed:false};
     sgList.push(newSubgoal);
     props.setSubgoal(sgList);
     props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.reminderDate, props.category, props.subgoal);
@@ -41,7 +41,6 @@ function PopupSubGoalForm(props) {
               placeholder="Enter a subgoal..."
               className="form-control"
               onChange={handleGoalsChange}
-              //ref={goalRef}
               style={{ visibility: `visible`, animation: `fadeInLeft` }}
             />
           </div>

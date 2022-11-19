@@ -13,10 +13,7 @@ import { TagPicker } from 'rsuite';
 import { useState, useRef, useEffect } from 'react';
 
 export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList }) {
-    const percentCompletion = props.progress.value / props.progress.target * 100;
-    const status = percentCompletion === 100 ? 'success' : null;
     const [editing, setEditing] = useState(false);
-
     const [startDate, setStartDate] = useState(props.startDate);
     const [goal, setGoal] = useState(props.goal);
     const [intrinsicMotivation, setIntrinsicMotivation] = useState(props.intrinsicMotivation);
@@ -27,6 +24,11 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     const [subgoal, setSubgoal] = useState(props.subgoal);
     const [popupBtn, setPopupBtn] = useState(false);
     const [errModal, setErrModal] = useState(null);
+
+    let subgoalsComplete = 0;
+    props.subgoal.forEach(item => subgoalsComplete += (item.completed ? 1 : 0));
+    const percentCompletion = props.subgoal.length === 0 ? 0 : Math.round(subgoalsComplete / props.subgoal.length * 100);
+    const status = percentCompletion === 100 ? 'success' : null;
 
     const startModal = (msg, title) => {
         setErrModal({ msg: msg, title: title });
@@ -73,7 +75,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
           {/* <td>{editing ? <input value={category} onChange={(e) => setCategory(e.target.value)} type="text"/> : category}</td>*/}
 
           <td>
-            <ul>
+            <ul style={{listStyle:'none', paddingLeft:'0px'}}>
               {Object.entries(subgoal).map(([key, value],index) =>
                   <li key={index}>
                     <input value={value.name} id={index} type="checkbox" checked={value.completed} onChange={() => completedToggle(index)}/> {value.name}
@@ -107,7 +109,6 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
               goal={goal}
               intrinsicMotivation={intrinsicMotivation}
               extrinsicMotivation={extrinsicMotivation}
-              progress={{value:1, target:5}}
               subgoal={subgoal}
               category={category}
               startDate={startDate}

@@ -45,7 +45,6 @@ export function UserHomePage() {
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
-    progress: {value:1, target:5},
     reminderDate: "",
     mostRecentDate: currentDate,
     category: [],
