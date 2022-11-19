@@ -87,6 +87,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
           <td><TagPicker
                 creatable={false}
                 readOnly={!editing}
+                plaintext={!editing}
                 data={categoryList}
                 defaultValue={category}
                 style={{ width: 300 }}
