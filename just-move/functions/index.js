@@ -11,7 +11,7 @@ const API_KEY = functions.config().sendgrid.key;
 const TEMPLATE_ID = functions.config().sendgrid.template;
 sgMail.setApiKey(API_KEY);
 
-exports.scheduledFunction = functions.pubsub.schedule('every 2 minutes').onRun (async (context) => {
+exports.scheduledFunction = functions.pubsub.schedule('every day 14:00').onRun (async (context) => {
   const date = new Date();
   let day = date.getDate();
   let month = date.getMonth() + 1;
