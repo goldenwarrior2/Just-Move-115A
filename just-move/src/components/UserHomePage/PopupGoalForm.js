@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import React from 'react';
-import "./PopupGoalForm.css"
+import "./PopupGoalForm.css";
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
@@ -37,12 +37,12 @@ function PopupGoalForm(props) {
       goal: props.addGoalData.goal,
       intrinsicMotivation: props.addGoalData.intrinsicMotivation,
       extrinsicMotivation: props.addGoalData.extrinsicMotivation,
-      progress: "progress",
       priority: parseInt(priority),
       added: Math.floor(Date.now() / 1000),
       reminderDate: props.addGoalData.reminderDate,
       mostRecentDate: props.addGoalData.mostRecentDate,
       category: [],
+      subgoal: [],
     }
     console.log(newGoal);
     props.setGoalList(current => [...current, props.addGoalData.goal]);

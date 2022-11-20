@@ -60,7 +60,6 @@ export function UserHomePage() {
 
   const [goals, setGoals] = useState([]);
   const [errModal, setErrModal] = useState(null);
-  const [subgoals, setsubGoals] = useState([]);
   const [GoalList, setGoalList] = useState([]);
   const [categoryList, setCategoryList] = useState(['Fitness', 'Work', 'Hobby'].map(
     item => ({
@@ -71,7 +70,7 @@ export function UserHomePage() {
   const [filters, setFilters] = useState([]);
   const [sortFunc, setSortFunc] = useState(0);
 
-  const padding = "150px"
+  const padding = "150px";
   const tableColumnFontSize = "20px";
   const homepageTextColor = "#6231a3";
 
@@ -80,18 +79,14 @@ export function UserHomePage() {
     goal: "",
     intrinsicMotivation: "",
     extrinsicMotivation: "",
-    progress: { value: 1, target: 5 },
     priority: 0,
     added: 0,
     reminderDate: "",
     mostRecentDate: currentDate,
     category: [],
+    subgoal: [],
   });
 
-  const [addsubGoalData, setsubGoalData] = useState({
-    subgoal: "",
-    progress: "",
-  });
 
   const [popupBtn, setPopupBtn] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -109,7 +104,7 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, priority, reminder, category) => {
+  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, priority, reminder, category, subgoal) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
     newGoals[index].startDate = start;
@@ -119,6 +114,7 @@ export function UserHomePage() {
     newGoals[index].reminderDate = reminder;
     newGoals[index].category = category;
     newGoals[index].priority = parseInt(priority);
+    newGoals[index].subgoal = subgoal;
 
     newGoals.sort(getSortFunc(sortFunc));
     setGoals(newGoals);
@@ -142,45 +138,6 @@ export function UserHomePage() {
       return false;
     });
 
-  const handlesubGoalsChange = (e) => {
-    e.preventDefault();
-    const subgoalName = e.target.getAttribute("name");
-    const subgoalValue = e.target.value;
-    const newsubGoalData = { ...addsubGoalData };
-    newsubGoalData[subgoalName] = subgoalValue;
-    setsubGoalData(newsubGoalData);
-  }
-
-  const handleAddNewSubGoal = (e) => {
-    e.preventDefault();
-
-    const newsubGoal = {
-      id: nanoid(),
-      subgoal: addsubGoalData.subgoal,
-      progress: " ",
-    }
-
-    const newsubGoals = [...subgoals, newsubGoal];
-    if (subgoalRef.current.value !== "") {
-      setsubGoals(newsubGoals);
-    }
-    subgoalRef.current.value = "";
-
-  }
-
-  const handleDeletesubGoal = (subgoalId) => {
-    const newsubGoals = [...subgoals];
-
-    const index = subgoals.findIndex((subgoal) => subgoal.id === subgoalId);
-
-    newsubGoals.splice(index, 1);
-
-    setsubGoals(newsubGoals);
-
-    GoalList.splice(index, 1);
-
-  }
-
   const changeSorting = (newSortFunc) => {
     if (newSortFunc === sortFunc) {
       newSortFunc ^= 32;
@@ -199,7 +156,7 @@ export function UserHomePage() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await auth.signOut()
+    await auth.signOut();
     navigate("/login");
   }
 
@@ -296,7 +253,6 @@ export function UserHomePage() {
           <thead>
               <Animation.Bounce in={true}>
               <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-                <th sope="col">Start Date</th>
                 <th sope="col" className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
                   getArrowIndic(0)
                 }</th>
@@ -311,6 +267,7 @@ export function UserHomePage() {
                 <th scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
                   getArrowIndic(2)
                 }</th>
+                <th scope="col">Subtasks</th>
                 <th scope="col">
                   Categories
                   <TagPicker
@@ -328,38 +285,6 @@ export function UserHomePage() {
           <tbody id="goals-table-body">
             {filteredGoalList.map((newGoal) => (
               <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
-            ))}
-          </tbody>
-        </table >
-        <form onSubmit={handleAddNewSubGoal}>
-          <label>
-            SubGoal:
-          </label>
-          <input
-            type="input"
-            name="subgoal"
-            placeholder="Enter your tasks for this goal..."
-            ref={subgoalRef}
-            className="form-control"
-            onChange={handlesubGoalsChange}
-          />
-
-          <IconButton type="submit" icon={<PlusIcon />} appearance="primary" color="violet">Create</IconButton>
-        </form>
-
-        <table id="subgoals-table" className="table mt-5">
-          <thead>
-            <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-              <th scope="col">Tasks</th>
-              <th scope="col">Goal</th>
-              <th scope="col">Progress</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="subgoals-table-body">
-            {subgoals.map((newsubGoal) => (
-              <SubGoal props={newsubGoal} key={newsubGoal.id} list={GoalList} handleDeletesubGoal={handleDeletesubGoal} />
             ))}
           </tbody>
         </table>
