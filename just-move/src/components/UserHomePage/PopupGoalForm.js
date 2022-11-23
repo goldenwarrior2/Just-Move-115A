@@ -43,6 +43,7 @@ function PopupGoalForm(props) {
       mostRecentDate: props.addGoalData.mostRecentDate,
       category: [],
       subgoal: [],
+      completed: false,
     }
     console.log(newGoal);
     props.setGoalList(current => [...current, props.addGoalData.goal]);
