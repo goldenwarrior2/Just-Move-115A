@@ -4,6 +4,7 @@ import React from 'react';
 import { Goal } from "./Goal";
 import { SubGoal } from "./SubGoal";
 import PopupGoalForm from "./PopupGoalForm";
+import SideNavBar from "./SideNavBar";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation';
 import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites, saveSorting } from "./saving";
@@ -17,6 +18,9 @@ import PlusIcon from '@rsuite/icons/Plus';
 import "./UserHomePage.css";
 
 import { TagPicker } from 'rsuite';
+import { Sidenav, Nav } from 'rsuite';
+import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
+
 
 
 const date = new Date();
@@ -70,7 +74,7 @@ export function UserHomePage() {
   const [filters, setFilters] = useState([]);
   const [sortFunc, setSortFunc] = useState(0);
 
-  const padding = "150px";
+  const padding = "100px";
   const tableColumnFontSize = "20px";
   const homepageTextColor = "#6231a3";
 
@@ -202,6 +206,28 @@ export function UserHomePage() {
 
   return (
     <div style={{ display: "flex", flexBasis: "auto"}}>
+      {/* <Sidenav>
+      <Sidenav.Body style={{ width: 300 }}>
+        <Nav activeKey="1">
+          <Nav.Menu eventKey="1" title="Filters">
+            <Nav.Menu eventKey="1-1" title="Categories">
+            <TagPicker
+                data={categoryList}
+                style={{ width: 250 }}
+                menuStyle={{ width: 250 }}
+                onChange={(value) => {
+                  setFilters(value);
+                }}
+            />
+            </Nav.Menu>
+          </Nav.Menu>
+        </Nav>
+      </Sidenav.Body>
+    </Sidenav> */}
+    <SideNavBar
+    categoryList={categoryList}
+    setFilters={setFilters}>
+    </SideNavBar>
     <div style={{ height: "100vh", width: "100vw",
                   paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
                   paddingBottom: padding}}>
@@ -270,14 +296,14 @@ export function UserHomePage() {
                 <th scope="col">Subtasks</th>
                 <th scope="col">
                   Categories
-                  <TagPicker
+                  {/* <TagPicker
                     data={categoryList}
                     style={{ width: 300 }}
                     menuStyle={{ width: 300 }}
                     onChange={(value) => {
                       setFilters(value);
                     }}
-                  />
+                  /> */}
                 </th>
               </tr>
               </Animation.Bounce>
