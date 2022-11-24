@@ -17,6 +17,7 @@ import PlusIcon from '@rsuite/icons/Plus';
 import "./UserHomePage.css";
 
 import { TagPicker } from 'rsuite';
+import { FlexboxGrid } from 'rsuite';
 
 
 const date = new Date();
@@ -217,7 +218,7 @@ export function UserHomePage() {
         <br></br>
         <div style={{ textAlign: "center" }}>
           <Animation.Slide in={true} placement={React.useState('left')}>
-            <h1 
+            <h1
               className="display-1 text-center"
               style={{ color: homepageTextColor }}>
               Just Move
@@ -249,46 +250,41 @@ export function UserHomePage() {
           sortFunc={getSortFunc(sortFunc)}
         >
         </PopupGoalForm>
-        <table id="goals-table" className="table mt-5">
-          <thead>
-              <Animation.Bounce in={true}>
-              <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-                <th sope="col" className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
-                  getArrowIndic(0)
-                }</th>
-                <th scope="col">Goal</th>
-                <th scope="col">Intrinsic Motivations</th>
-                <th scope="col">Extrinsic Motivations</th>
-                <th scope="col" className="th-hoverable" onClick={() => changeSorting(33)}>Priority{
-                  getArrowIndic(1)
-                }</th>
-                <th scope="col">Reminder Date</th>
-                <th scope="col">Most Recent Date</th>
-                <th scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
-                  getArrowIndic(2)
-                }</th>
-                <th scope="col">Subtasks</th>
-                <th scope="col">
-                  Categories
-                  <TagPicker
-                    data={categoryList}
-                    style={{ width: 300 }}
-                    menuStyle={{ width: 300 }}
-                    onChange={(value) => {
-                      setFilters(value);
-                    }}
-                  />
-                </th>
-              </tr>
-              </Animation.Bounce>
-          </thead>
-          <tbody id="goals-table-body">
-            {filteredGoalList.map((newGoal) => (
-              <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
-            ))}
-          </tbody>
-        </table>
-
+        <Animation.Bounce in={true}>
+          <FlexboxGrid style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
+            <FlexboxGrid.Item colspan={2} className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
+              getArrowIndic(0)
+            }</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} scope="col">Goal</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} scope="col">Intrinsic</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} scope="col">Extrinsic</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={1} scope="col" className="th-hoverable" onClick={() => changeSorting(33)}>Priority{
+              getArrowIndic(1)
+            }</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} scope="col">Reminder</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} scope="col">Most Recent</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
+              getArrowIndic(2)
+            }</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2} scope="col">Subtasks</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={5} scope="col">
+              Categories
+              <TagPicker
+                data={categoryList}
+                style={{ width: 200 }}
+                menuStyle={{ width: 200 }}
+                onChange={(value) => {
+                  setFilters(value);
+                }}
+              />
+            </FlexboxGrid.Item>
+          </FlexboxGrid>
+        </Animation.Bounce>
+        <div id="goals-body">
+          {filteredGoalList.map((newGoal) => (
+            <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
+          ))}
+        </div>
       </div >
       {modal}
     </div >

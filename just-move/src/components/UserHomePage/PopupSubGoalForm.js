@@ -22,12 +22,13 @@ function PopupSubGoalForm(props) {
     const newSubgoal = {name:sg, completed:false};
     sgList.push(newSubgoal);
     props.setSubgoal(sgList);
-      props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.priority, props.reminderDate, props.category, props.subgoal);
+    props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.priority, props.reminderDate, props.category, props.subgoal);
+    props.handleClose();
   }
 
-  return (props.trigger) ? (
-    <div className="popup">
-      <div className="popup-inner">
+  return (
+    <div>
+      <div>
         <form onSubmit={handleAddNewGoal} id="popup-form">
           <h2>Let's Create a Subtask</h2>
           <br></br>
@@ -57,11 +58,11 @@ function PopupSubGoalForm(props) {
           appearance="primary"
           color="red"
           id="close-btn"
-          onClick={() => props.setPopupBtnTrigger(false)}>
+          onClick={props.handleClose}>
         </IconButton>
       </div>
     </div>
-  ) : "";
+  );
 }
 
 export default PopupSubGoalForm;
