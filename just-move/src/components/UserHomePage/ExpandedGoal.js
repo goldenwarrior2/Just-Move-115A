@@ -1,28 +1,22 @@
 import React from 'react';
 import "rsuite/dist/rsuite.min.css";
-import IconButton from 'rsuite/IconButton';
 import Animation from 'rsuite/Animation';
-import PopupSubGoalForm from "./PopupSubGoalForm";
-
 import { FlexboxGrid } from 'rsuite';
-import { Modal, Button, ButtonToolbar, Placeholder } from 'rsuite';
-
-import { useState, useRef, useEffect } from 'react';
 
 export function ExpandedGoal(props) {
 
   const goalTextColor = "#6231a3";
 
   return (
-    <Animation.Bounce in={true}>
+    <Animation.Collapse in={true}>
       <div style={{backgroundColor: 'rgba(204, 0, 204, 0.2)', color: goalTextColor}}>
         <FlexboxGrid>
-          <FlexboxGrid.Item colspan={2}>{props.editing ? <input value={props.startDate} onChange={(e) => props.setStartDate(e.target.value)} type="text" className="form-control"/> : props.startDate}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{props.editing ? <input value={props.intrinsicMotivation} onChange={(e) => props.setIntrinsicMotivation(e.target.value)} type="text" className="form-control"/> : props.intrinsicMotivation}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{props.editing ? <input value={props.extrinsicMotivation} onChange={(e) => props.setExtrinsicMotivation(e.target.value)} type="text" className="form-control"/> : props.extrinsicMotivation}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{props.editing ? <input value={props.reminderDate} onChange={(e) => props.setReminderDate(e.target.value)} type="date" className="form-control"/> : props.reminderDate}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{props.editing ? <input value={props.mostRecentDate} onChange={(e) => props.setMostRecentDate(e.target.value)} type="text" className="form-control"/> : props.mostRecentDate}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>
+          <FlexboxGrid.Item colspan={5}><h5>Intrinsic Motivation:</h5>{props.editing ? <input value={props.intrinsicMotivation} onChange={(e) => props.setIntrinsicMotivation(e.target.value)} type="text" className="form-control"/> : props.intrinsicMotivation}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={5}><h5>Extrinsic Motivation:</h5>{props.editing ? <input value={props.extrinsicMotivation} onChange={(e) => props.setExtrinsicMotivation(e.target.value)} type="text" className="form-control"/> : props.extrinsicMotivation}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={4}><h5>Reminder Date:</h5>{props.editing ? <input value={props.reminderDate} onChange={(e) => props.setReminderDate(e.target.value)} type="date" className="form-control"/> : props.reminderDate}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={4}><h5>Most Recent Date:</h5>{props.editing ? <input value={props.mostRecentDate} onChange={(e) => props.setMostRecentDate(e.target.value)} type="text" className="form-control"/> : props.mostRecentDate}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={6}>
+            <h5>Subtasks:</h5>
             <ul style={{listStyle:'none', paddingLeft:'0px'}}>
               {Object.entries(props.subgoal).map(([key, value],index) =>
                 <li key={index}>
@@ -33,6 +27,6 @@ export function ExpandedGoal(props) {
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </div>
-    </Animation.Bounce>
+    </Animation.Collapse>
   );
 }

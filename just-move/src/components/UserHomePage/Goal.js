@@ -8,15 +8,14 @@ import Progress from 'rsuite/Progress';
 import Animation from 'rsuite/Animation';
 import PopupSubGoalForm from "./PopupSubGoalForm";
 import PlusIcon from '@rsuite/icons/Plus';
-import CloseIcon from '@rsuite/icons/Close';
 import { ExpandedGoal } from "./ExpandedGoal";
 
 
 import { TagPicker } from 'rsuite';
 import { FlexboxGrid } from 'rsuite';
-import { Modal, Button, ButtonToolbar, Placeholder } from 'rsuite';
+import { Modal } from 'rsuite';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { PrioritySelect, priorityStrings } from './PrioritySelect';
 
 export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList }) {
@@ -48,7 +47,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     setErrModal({ msg: msg, title: title });
   }
 
-  const data = ['Fitness', 'Work', 'Hobby'].map(
+  const data = categoryList.map(
     item => ({
       label: item,
       value: item,
@@ -58,7 +57,6 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   const handleChildElementClick = (e, callback) => {
     e.stopPropagation();
-    // Do other stuff here
     if (callback) {
       callback(e);
     };
@@ -116,24 +114,10 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
           </Modal.Body>
         </Modal>
         <FlexboxGrid onClick={() => setExpanded(!expanded)}>
-          <FlexboxGrid.Item colspan={2}>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : startDate}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : goal}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : intrinsicMotivation}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : extrinsicMotivation}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={1}>{priority}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} onClick={handleChildElementClick} type="date" className="form-control"/> : reminderDate}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : mostRecentDate}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}><Progress.Line percent={percentCompletion} status={status}/></FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>
-            <ul style={{listStyle:'none', paddingLeft:'0px'}}>
-              {Object.entries(subgoal).map(([key, value],index) =>
-                <li key={index}>
-                  <input value={value.name} id={index} onClick={handleChildElementClick} type="checkbox" checked={value.completed} onChange={() => completedToggle(index)}/> {value.name}
-                </li>
-              )}
-            </ul>
-          </FlexboxGrid.Item>
-
+          <FlexboxGrid.Item colspan={3}>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : startDate}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={4}>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : goal}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={3}>{priority}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={6}><Progress.Line percent={percentCompletion} status={status}/></FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={5} onClick={handleChildElementClick}><TagPicker
                                           creatable={false}
                                           readOnly={!editing}
@@ -152,7 +136,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
                                           }}
                                         />
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={2}>
+          <FlexboxGrid.Item colspan={3}>
             <ButtonGroup justified>
               <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={(e) => handleChildElementClick(e, handleOpen)}/>
               <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="violet" onClick={(e)=> handleChildElementClick(e, editToggle)}></IconButton>

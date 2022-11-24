@@ -1,11 +1,9 @@
-import {useState, useRef } from "react";
+import { useState } from "react";
 import React from 'react';
 import "./PopupGoalForm.css";
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
-import { nanoid } from 'nanoid';
-import { saveAddGoal } from "./saving";
 
 function PopupSubGoalForm(props) {
 

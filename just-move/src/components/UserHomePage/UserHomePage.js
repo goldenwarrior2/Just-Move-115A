@@ -2,7 +2,6 @@ import { auth } from '../firebase/firebase';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
-import { SubGoal } from "./SubGoal";
 import PopupGoalForm from "./PopupGoalForm";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation';
@@ -62,12 +61,12 @@ export function UserHomePage() {
   const [goals, setGoals] = useState([]);
   const [errModal, setErrModal] = useState(null);
   const [GoalList, setGoalList] = useState([]);
-  const [categoryList, setCategoryList] = useState(['Fitness', 'Work', 'Hobby'].map(
+  const categoryList = ['Fitness', 'Work', 'Hobby', 'Social', 'Long-term', 'Short-term'].map(
     item => ({
       label: item,
       value: item,
     })
-  ));
+  );
   const [filters, setFilters] = useState([]);
   const [sortFunc, setSortFunc] = useState(0);
 
@@ -252,21 +251,16 @@ export function UserHomePage() {
         </PopupGoalForm>
         <Animation.Bounce in={true}>
           <FlexboxGrid style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-            <FlexboxGrid.Item colspan={2} className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
+            <FlexboxGrid.Item colspan={3} className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
               getArrowIndic(0)
             }</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={2} scope="col">Goal</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={2} scope="col">Intrinsic</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={2} scope="col">Extrinsic</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={1} scope="col" className="th-hoverable" onClick={() => changeSorting(33)}>Priority{
+            <FlexboxGrid.Item colspan={4} scope="col">Goal</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={3} scope="col" className="th-hoverable" onClick={() => changeSorting(33)}>Priority{
               getArrowIndic(1)
             }</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={2} scope="col">Reminder</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={2} scope="col">Most Recent</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={2} scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
+            <FlexboxGrid.Item colspan={6} scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
               getArrowIndic(2)
             }</FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={2} scope="col">Subtasks</FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={5} scope="col">
               Categories
               <TagPicker
