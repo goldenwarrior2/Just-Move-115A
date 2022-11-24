@@ -32,6 +32,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
   props.subgoal.forEach(item => subgoalsComplete += (item.completed ? 1 : 0));
   const percentCompletion = props.subgoal.length === 0 ? 0 : Math.round(subgoalsComplete / props.subgoal.length * 100);
   const status = percentCompletion === 100 ? 'success' : null;
+  let completed = status === null ? false : true;
 
   const startModal = (msg, title) => {
     setErrModal({ msg: msg, title: title });
@@ -47,10 +48,9 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   const goalTextColor = "#6231a3";
 
-
   const completedToggle = (index) => {
     subgoal[index].completed = !subgoal[index].completed;
-    handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal);
+    handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed);
   }
 
   const cancelChanges = () => {
@@ -66,9 +66,9 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   const editToggle = (e) => {
     setEditing(!editing);
-    if (editing === true) {
+    if(editing === true) {
       setPriority(parseInt(priority));
-      handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal);
+      handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed);
     }
   };
 

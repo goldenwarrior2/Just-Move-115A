@@ -85,6 +85,7 @@ export function UserHomePage() {
     mostRecentDate: currentDate,
     category: [],
     subgoal: [],
+    completed: false,
   });
 
 
@@ -104,7 +105,7 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, priority, reminder, category, subgoal) => {
+  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, priority, reminder, category, subgoal, completed) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
     newGoals[index].startDate = start;
@@ -115,6 +116,7 @@ export function UserHomePage() {
     newGoals[index].category = category;
     newGoals[index].priority = parseInt(priority);
     newGoals[index].subgoal = subgoal;
+    newGoals[index].completed = completed;
 
     newGoals.sort(getSortFunc(sortFunc));
     setGoals(newGoals);
