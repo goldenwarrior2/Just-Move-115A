@@ -4,6 +4,7 @@ import React from 'react';
 import { Goal } from "./Goal";
 import { SubGoal } from "./SubGoal";
 import PopupGoalForm from "./PopupGoalForm";
+import SideNavBar from "./SideNavBar";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation';
 import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites, saveSorting } from "./saving";
@@ -15,9 +16,6 @@ import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import "./UserHomePage.css";
-
-import { TagPicker } from 'rsuite';
-
 
 const date = new Date();
 let day = date.getDate();
@@ -70,7 +68,7 @@ export function UserHomePage() {
   const [filters, setFilters] = useState([]);
   const [sortFunc, setSortFunc] = useState(0);
 
-  const padding = "150px";
+  const padding = "100px";
   const tableColumnFontSize = "20px";
   const homepageTextColor = "#6231a3";
 
@@ -204,6 +202,17 @@ export function UserHomePage() {
 
   return (
     <div style={{ display: "flex", flexBasis: "auto"}}>
+    <SideNavBar
+    categoryList={categoryList}
+    setFilters={setFilters}
+    changeSorting={changeSorting}
+    getArrowIndic={getArrowIndic}
+    startDateSortIndic={0}
+    startDateArrowIndic={0}
+    prioritySortIndic={33}
+    prioritySortArrowIndic={1}
+    >
+    </SideNavBar>
     <div style={{ height: "100vh", width: "100vw",
                   paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
                   paddingBottom: padding}}>
@@ -255,14 +264,12 @@ export function UserHomePage() {
           <thead>
               <Animation.Bounce in={true}>
               <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-                <th sope="col" className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
-                  getArrowIndic(0)
+                <th sope="col">Start Date{
                 }</th>
                 <th scope="col">Goal</th>
                 <th scope="col">Intrinsic Motivations</th>
                 <th scope="col">Extrinsic Motivations</th>
-                <th scope="col" className="th-hoverable" onClick={() => changeSorting(33)}>Priority{
-                  getArrowIndic(1)
+                <th scope="col" className="th-hoverable">Priority{
                 }</th>
                 <th scope="col">Reminder Date</th>
                 <th scope="col">Most Recent Date</th>
@@ -272,14 +279,6 @@ export function UserHomePage() {
                 <th scope="col">Subtasks</th>
                 <th scope="col">
                   Categories
-                  <TagPicker
-                    data={categoryList}
-                    style={{ width: 300 }}
-                    menuStyle={{ width: 300 }}
-                    onChange={(value) => {
-                      setFilters(value);
-                    }}
-                  />
                 </th>
               </tr>
               </Animation.Bounce>
