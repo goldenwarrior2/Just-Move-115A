@@ -32,7 +32,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
   props.subgoal.forEach(item => subgoalsComplete += (item.completed ? 1 : 0));
   const percentCompletion = props.subgoal.length === 0 ? 0 : Math.round(subgoalsComplete / props.subgoal.length * 100);
   const status = percentCompletion === 100 ? 'success' : null;
-  let completed = status === null ? false : true;
+  const completed = status === null ? false : true;
 
   const startModal = (msg, title) => {
     setErrModal({ msg: msg, title: title });
@@ -125,7 +125,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
             reminderDate={reminderDate}
             setSubgoal={setSubgoal}
             startModal={startModal}
-            handleEditGoal={handleEditGoal}>
+            handleEditGoal={handleEditGoal}
+            completed={completed}>
           </PopupSubGoalForm>
           <ButtonGroup justified>
             <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={() => setPopupBtn(true)} />
