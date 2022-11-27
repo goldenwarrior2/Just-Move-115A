@@ -8,7 +8,7 @@ export function ExpandedGoal(props) {
   const goalTextColor = "#6231a3";
 
   return (
-    <Animation.Collapse in={true}>
+    <Animation.Collapse in={props.expanded}>
       <div style={{backgroundColor: 'rgba(204, 0, 204, 0.2)', color: goalTextColor}}>
         <FlexboxGrid>
           <FlexboxGrid.Item colspan={5}><h5>Intrinsic Motivation:</h5>{props.editing ? <input value={props.intrinsicMotivation} onChange={(e) => props.setIntrinsicMotivation(e.target.value)} type="text" className="form-control"/> : props.intrinsicMotivation}</FlexboxGrid.Item>

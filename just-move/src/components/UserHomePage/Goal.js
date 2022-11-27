@@ -144,20 +144,22 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
             </ButtonGroup>
           </FlexboxGrid.Item>
         </FlexboxGrid>
-        {expanded && <ExpandedGoal
-                       editing={editing}
-                       startDate={startDate}
-                       setStartDate={setStartDate}
-                       intrinsicMotivation={intrinsicMotivation}
-                       setIntrinsicMotivation={setIntrinsicMotivation}
-                       extrinsicMotivation={extrinsicMotivation}
-                       setExtrinsicMotivation={setExtrinsicMotivation}
-                       reminderDate={reminderDate}
-                       setReminderDate={setReminderDate}
-                       mostRecentDate={mostRecentDate}
-                       setMostRecentDate={setMostRecentDate}
-                       subgoal={subgoal}
-                       completedToggle={completedToggle} />}
+        <ExpandedGoal
+          editing={editing}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          intrinsicMotivation={intrinsicMotivation}
+          setIntrinsicMotivation={setIntrinsicMotivation}
+          extrinsicMotivation={extrinsicMotivation}
+          setExtrinsicMotivation={setExtrinsicMotivation}
+          reminderDate={reminderDate}
+          setReminderDate={setReminderDate}
+          mostRecentDate={mostRecentDate}
+          setMostRecentDate={setMostRecentDate}
+          subgoal={subgoal}
+          completedToggle={completedToggle}
+          expanded={expanded}
+        />
       </div>
     </Animation.Bounce>
   );
