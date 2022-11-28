@@ -103,7 +103,7 @@ export function UserHomePage() {
     });
   }
 
-  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, priority, reminder, category, subgoal, completed) => {
+  const handleEditGoal = (goalId, start, goal, intrinsic, extrinsic, priority, reminder, category, subgoal, completed, recent) => {
     const newGoals = [...goals];
     const index = goals.findIndex((goal) => goal.id === goalId);
     newGoals[index].startDate = start;
@@ -115,6 +115,7 @@ export function UserHomePage() {
     newGoals[index].priority = parseInt(priority);
     newGoals[index].subgoal = subgoal;
     newGoals[index].completed = completed;
+    newGoals[index].mostRecentDate = recent;
 
     newGoals.sort(getSortFunc(sortFunc));
     setGoals(newGoals);

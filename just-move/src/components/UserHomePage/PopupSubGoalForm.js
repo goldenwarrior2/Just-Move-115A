@@ -22,7 +22,7 @@ function PopupSubGoalForm(props) {
     const newSubgoal = {name:sg, completed:false};
     sgList.push(newSubgoal);
     props.setSubgoal(sgList);
-    props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.priority, props.reminderDate, props.category, props.subgoal, props.completed);
+    props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.priority, props.reminderDate, props.category, props.subgoal, props.completed, props.mostRecentDate);
   }
 
   return (props.trigger) ? (

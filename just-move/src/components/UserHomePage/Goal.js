@@ -49,8 +49,14 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
   const goalTextColor = "#6231a3";
 
   const completedToggle = (index) => {
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let currentDate = `${month}-${day}-${year}`;
+    setMostRecentDate(currentDate);
     subgoal[index].completed = !subgoal[index].completed;
-    handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed);
+    handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed, currentDate);
   }
 
   const cancelChanges = () => {
@@ -68,7 +74,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     setEditing(!editing);
     if(editing === true) {
       setPriority(parseInt(priority));
-      handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed);
+      handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed, mostRecentDate);
     }
   };
 
@@ -81,7 +87,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
         <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" className="form-control" /> : extrinsicMotivation}</td>
         <td>{editing ? <PrioritySelect value={priority} onChange={(e) => setPriority(e.target.value)} /> : priorityStrings[priority + priorityRange]}</td>
         <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="date" className="form-control" /> : reminderDate}</td>
-        <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text" className="form-control" /> : mostRecentDate}</td>
+        <td>{mostRecentDate}</td>
         <td><Progress.Line percent={percentCompletion} status={status} /></td>
         <td>
           <ul style={{ listStyle: 'none', paddingLeft: '0px' }}>
@@ -126,7 +132,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
             setSubgoal={setSubgoal}
             startModal={startModal}
             handleEditGoal={handleEditGoal}
-            completed={completed}>
+            completed={completed}
+            mostRecentDate={props.mostRecentDate}>
           </PopupSubGoalForm>
           <ButtonGroup justified>
             <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={() => setPopupBtn(true)} />
