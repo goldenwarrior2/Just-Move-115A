@@ -76,13 +76,13 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
   return (
     <Animation.Bounce in={true}>
       <tr style={{ backgroundColor: 'rgba(204, 0, 204, 0.3)', color: darkMode ? goalTextDarkColor : goalTextColor }}>
-        <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text" className="form-control" /> : startDate}</td>
-        <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" className="form-control" /> : goal}</td>
-        <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" className="form-control" /> : intrinsicMotivation}</td>
-        <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" className="form-control" /> : extrinsicMotivation}</td>
-        <td>{editing ? <PrioritySelect value={priority} onChange={(e) => setPriority(e.target.value)} /> : priorityStrings[priority + priorityRange]}</td>
-        <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="date" className="form-control" /> : reminderDate}</td>
-        <td>{editing ? <input value={mostRecentDate} onChange={(e) => setMostRecentDate(e.target.value)} type="text" className="form-control" /> : mostRecentDate}</td>
+        <td>{startDate}</td>
+        <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" className={darkMode ? "form-control form-dark" : "form-control"} /> : goal}</td>
+        <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" className={darkMode ? "form-control form-dark" : "form-control"} /> : intrinsicMotivation}</td>
+        <td>{editing ? <input value={extrinsicMotivation} onChange={(e) => setExtrinsicMotivation(e.target.value)} type="text" className={darkMode ? "form-control form-dark" : "form-control"} /> : extrinsicMotivation}</td>
+        <td>{editing ? <PrioritySelect value={priority} onChange={(e) => setPriority(e.target.value)} className={darkMode ? "form-control form-dark" : "form-control"} /> : priorityStrings[priority + priorityRange]}</td>
+        <td>{editing ? <input value={reminderDate} onChange={(e) => setReminderDate(e.target.value)} type="date" className={darkMode ? "form-control form-dark" : "form-control"} /> : reminderDate}</td>
+        <td>{mostRecentDate}</td>
         <td><Progress.Line percent={percentCompletion} status={status} /></td>
         <td>
           <ul style={{ listStyle: 'none', paddingLeft: '0px' }}>
@@ -101,7 +101,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
           data={categoryList}
           defaultValue={category}
           style={{ width: 300 }}
-          menuStyle={{ width: 300 }}
+          menuStyle={darkMode ? { width: 300, background: "#202124", color: "whitesmoke" } : { width: 300 }}
           onCreate={(value, item) => {
             updateGoalList(value[0]);
             console.log(value, item);

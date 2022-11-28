@@ -4,6 +4,9 @@ th.th-hoverable:hover {
 
 .dark-mode {
     background: #202124;
+    --rs-input-bg: #202124;
+    --rs-input-fs: whitesmoke;
+    --rs-bg-overlay: #202124;
 }
 
 .dark-sidebar {
