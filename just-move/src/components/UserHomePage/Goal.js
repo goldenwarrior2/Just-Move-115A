@@ -124,7 +124,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
             category={category}
             startDate={startDate}
             reminderDate={reminderDate}
-            setSubgoal={setSubgoal}
+            setSubgoal={(e) => { setSubgoal(e); setPopupBtn(false); }}
             startModal={startModal}
             handleEditGoal={handleEditGoal}
             completed={completed}

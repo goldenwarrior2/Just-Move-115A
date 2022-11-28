@@ -228,7 +228,7 @@ export function UserHomePage() {
         <div>
           <div>
             <Animation.Slide in={true} placement={React.useState('right')}>
-              <div style={{position: "absolute", right: padding, zIndex: 1 }}>
+              <div style={{ position: "absolute", right: padding, zIndex: 1 }}>
                 <button className="btn btn-danger m-1" style={{
                   backgroundColor: "#cc00cc",
                   border: "none"
@@ -238,7 +238,7 @@ export function UserHomePage() {
                   border: "none",
                   color: "white"
                 }} onClick={() => setDarkMode(!darkMode)}><i className={darkMode ? "icon bi-moon-fill" : "icon bi-brightness-high"}></i>
-              </button>
+                </button>
               </div>
             </Animation.Slide>
           </div>
@@ -272,7 +272,10 @@ export function UserHomePage() {
             goals={goals}
             setGoals={setGoals}
             GoalList={GoalList}
-            setGoalList={setGoalList}
+            setGoalList={(e) => {
+              setGoalList(e);
+              setPopupBtn(false);
+            }}
             startModal={startModal}
             sortFunc={getSortFunc(sortFunc)}
             darkMode={darkMode}
