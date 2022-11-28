@@ -16,6 +16,7 @@ import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import "./UserHomePage.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const date = new Date();
 let day = date.getDate();
@@ -90,6 +91,7 @@ export function UserHomePage() {
 
   const [popupBtn, setPopupBtn] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   const handleDeleteGoal = (goalId) => {
     const newGoals = [...goals];
@@ -201,7 +203,6 @@ export function UserHomePage() {
     <Modal.Body><p>{errModal.msg}</p></Modal.Body>
   </Modal >) : null;
 
-  const darkMode = true;
   const textColor = darkMode ? homepageDarkTextColor : homepageTextColor;
 
   return (
@@ -227,11 +228,18 @@ export function UserHomePage() {
         <div>
           <div>
             <Animation.Slide in={true} placement={React.useState('right')}>
-              <button className="btn btn-danger m-2" style={{
-                position: "absolute",
-                right: padding, backgroundColor: "#cc00cc",
-                border: "none"
-              }} onClick={handleLogout}>Log Out</button>
+              <div style={{position: "absolute", right: padding, zIndex: 1 }}>
+                <button className="btn btn-danger m-1" style={{
+                  backgroundColor: "#cc00cc",
+                  border: "none"
+                }} onClick={handleLogout}>Log Out</button>
+                <button className="btn m-1" style={{
+                  backgroundColor: "#cc00cc",
+                  border: "none",
+                  color: "white"
+                }} onClick={() => setDarkMode(!darkMode)}><i className={darkMode ? "icon bi-moon-fill" : "icon bi-brightness-high"}></i>
+              </button>
+              </div>
             </Animation.Slide>
           </div>
           <br></br>
