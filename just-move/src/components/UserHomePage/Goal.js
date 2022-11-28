@@ -54,7 +54,6 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
     let currentDate = `${month}-${day}-${year}`;
-    const {Timestamp} = require("firebase/firestore");
     const oneWeekMillis = 604800000;
     const currentDateTimestamp = Timestamp.fromDate(new Date(currentDate));
     const currentDateMillis = currentDateTimestamp.toMillis();
