@@ -2,7 +2,6 @@ import { auth } from '../firebase/firebase';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
-import { SubGoal } from "./SubGoal";
 import PopupGoalForm from "./PopupGoalForm";
 import SideNavBar from "./SideNavBar";
 import Button from 'rsuite/Button';
@@ -16,6 +15,8 @@ import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import "./UserHomePage.css";
+
+import { FlexboxGrid } from 'rsuite';
 
 const date = new Date();
 let day = date.getDate();
@@ -59,12 +60,12 @@ export function UserHomePage() {
   const [goals, setGoals] = useState([]);
   const [errModal, setErrModal] = useState(null);
   const [GoalList, setGoalList] = useState([]);
-  const [categoryList, setCategoryList] = useState(['Fitness', 'Work', 'Hobby'].map(
+  const categoryList = ['Fitness', 'Work', 'Hobby', 'Social', 'Long-term', 'Short-term'].map(
     item => ({
       label: item,
       value: item,
     })
-  ));
+  );
   const [filters, setFilters] = useState([]);
   const [sortFunc, setSortFunc] = useState(0);
 
@@ -229,7 +230,7 @@ export function UserHomePage() {
         <br></br>
         <div style={{ textAlign: "center" }}>
           <Animation.Slide in={true} placement={React.useState('left')}>
-            <h1 
+            <h1
               className="display-1 text-center"
               style={{ color: homepageTextColor }}>
               Just Move
@@ -261,36 +262,28 @@ export function UserHomePage() {
           sortFunc={getSortFunc(sortFunc)}
         >
         </PopupGoalForm>
-        <table id="goals-table" className="table mt-5">
-          <thead>
-              <Animation.Bounce in={true}>
-              <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-                <th sope="col">Start Date{
-                }</th>
-                <th scope="col">Goal</th>
-                <th scope="col">Intrinsic Motivations</th>
-                <th scope="col">Extrinsic Motivations</th>
-                <th scope="col" className="th-hoverable">Priority{
-                }</th>
-                <th scope="col">Reminder Date</th>
-                <th scope="col">Most Recent Date</th>
-                <th scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
-                  getArrowIndic(2)
-                }</th>
-                <th scope="col">Subtasks</th>
-                <th scope="col">
-                  Categories
-                </th>
-              </tr>
-              </Animation.Bounce>
-          </thead>
-          <tbody id="goals-table-body">
-            {filteredGoalList.map((newGoal) => (
-              <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
-            ))}
-          </tbody>
-        </table>
-
+        <Animation.Bounce in={true}>
+          <FlexboxGrid style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
+            <FlexboxGrid.Item colspan={3} className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
+              getArrowIndic(0)
+            }</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={4} scope="col">Goal</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={3} scope="col" className="th-hoverable" onClick={() => changeSorting(33)}>Priority{
+              getArrowIndic(1)
+            }</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={6} scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
+              getArrowIndic(2)
+            }</FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={5} scope="col">
+              Categories
+            </FlexboxGrid.Item>
+          </FlexboxGrid>
+        </Animation.Bounce>
+        <div id="goals-body">
+          {filteredGoalList.map((newGoal) => (
+            <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
+          ))}
+        </div>
       </div >
       {modal}
     </div >
