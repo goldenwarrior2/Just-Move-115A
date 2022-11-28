@@ -92,6 +92,9 @@ export function UserHomePage() {
   const [popupBtn, setPopupBtn] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [navBar, setNavBar] = useState(false);
+
+  const closeNavBar = () => { setNavBar(false) };
 
   const handleDeleteGoal = (goalId) => {
     const newGoals = [...goals];
@@ -206,7 +209,7 @@ export function UserHomePage() {
   const textColor = darkMode ? homepageDarkTextColor : homepageTextColor;
 
   return (
-    <div style={{ display: "flex", flexBasis: "auto", overflowX: "hidden" }} className={darkMode ? "dark-mode" : ""}>
+    <div style={{ display: "flex", flexBasis: "auto" }} className={darkMode ? "dark-mode" : ""}>
       <SideNavBar
         categoryList={categoryList}
         setFilters={setFilters}
@@ -217,6 +220,8 @@ export function UserHomePage() {
         prioritySortIndic={33}
         prioritySortArrowIndic={1}
         darkMode={darkMode}
+        trigger={navBar}
+        closeNavBar={closeNavBar}
       >
       </SideNavBar>
       <div style={{
@@ -226,6 +231,16 @@ export function UserHomePage() {
       }}>
         {ldSc}
         <div>
+          <div style={{ display: navBar ? "none" : "inline" }}>
+            <Animation.Slide in={true} placement={React.useState('left')}>
+              <div style={{ position: "absolute", left: padding, zIndex: 1 }}>
+                <button className="btn btn-danger m-1" style={{
+                  backgroundColor: "#cc00cc",
+                  border: "none"
+                }} onClick={() => setNavBar(true)}><i class="bi bi-filter"></i></button>
+              </div>
+            </Animation.Slide>
+          </div>
           <div>
             <Animation.Slide in={true} placement={React.useState('right')}>
               <div style={{ position: "absolute", right: padding, zIndex: 1 }}>
