@@ -71,6 +71,7 @@ export function UserHomePage() {
   const padding = "100px";
   const tableColumnFontSize = "20px";
   const homepageTextColor = "#6231a3";
+  const homepageDarkTextColor = "#b12ebf";
 
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
@@ -200,99 +201,107 @@ export function UserHomePage() {
     <Modal.Body><p>{errModal.msg}</p></Modal.Body>
   </Modal >) : null;
 
-  return (
-    <div style={{ display: "flex", flexBasis: "auto"}}>
-    <SideNavBar
-    categoryList={categoryList}
-    setFilters={setFilters}
-    changeSorting={changeSorting}
-    getArrowIndic={getArrowIndic}
-    startDateSortIndic={0}
-    startDateArrowIndic={0}
-    prioritySortIndic={33}
-    prioritySortArrowIndic={1}
-    >
-    </SideNavBar>
-    <div style={{ height: "100vh", width: "100vw",
-                  paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
-                  paddingBottom: padding}}>
-      {ldSc}
-      <div>
-        <div>
-          <Animation.Slide in={true} placement={React.useState('right')}>
-          <button className="btn btn-danger m-2" style={{ position: "absolute",
-          right: padding, backgroundColor: "#cc00cc",
-          border: "none"}} onClick={handleLogout}>Log Out</button>
-          </Animation.Slide>
-        </div>
-        <br></br>
-        <div style={{ textAlign: "center" }}>
-          <Animation.Slide in={true} placement={React.useState('left')}>
-            <h1 
-              className="display-1 text-center"
-              style={{ color: homepageTextColor }}>
-              Just Move
-            </h1>
-          </Animation.Slide>
-          <br></br>
-          <Animation.Slide in={true} placement={React.useState('right')}>
-            <Button
-              onClick={() => setPopupBtn(true)}
-              color="violet"
-              appearance='primary'
-              size='lg'
-              style={{ fontSize: "20px" }}>
-              Add a new goal!
-            </Button>
-          </Animation.Slide>
-        </div>
-        <PopupGoalForm
-          trigger={popupBtn}
-          setPopupBtnTrigger={setPopupBtn}
-          goalRef={goalRef}
-          addGoalData={addGoalData}
-          setGoalData={setGoalData}
-          goals={goals}
-          setGoals={setGoals}
-          GoalList={GoalList}
-          setGoalList={setGoalList}
-          startModal={startModal}
-          sortFunc={getSortFunc(sortFunc)}
-        >
-        </PopupGoalForm>
-        <table id="goals-table" className="table mt-5">
-          <thead>
-              <Animation.Bounce in={true}>
-              <tr style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
-                <th sope="col">Start Date{
-                }</th>
-                <th scope="col">Goal</th>
-                <th scope="col">Intrinsic Motivations</th>
-                <th scope="col">Extrinsic Motivations</th>
-                <th scope="col" className="th-hoverable">Priority{
-                }</th>
-                <th scope="col">Reminder Date</th>
-                <th scope="col">Most Recent Date</th>
-                <th scope="col" className="th-hoverable" onClick={() => changeSorting(2)}>Progress Bar{
-                  getArrowIndic(2)
-                }</th>
-                <th scope="col">Subtasks</th>
-                <th scope="col">
-                  Categories
-                </th>
-              </tr>
-              </Animation.Bounce>
-          </thead>
-          <tbody id="goals-table-body">
-            {filteredGoalList.map((newGoal) => (
-              <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
-            ))}
-          </tbody>
-        </table>
+  const darkMode = true;
+  const textColor = darkMode ? homepageDarkTextColor : homepageTextColor;
 
+  return (
+    <div style={{ display: "flex", flexBasis: "auto", overflowX: "hidden" }} className={darkMode ? "dark-mode" : ""}>
+      <SideNavBar
+        categoryList={categoryList}
+        setFilters={setFilters}
+        changeSorting={changeSorting}
+        getArrowIndic={getArrowIndic}
+        startDateSortIndic={0}
+        startDateArrowIndic={0}
+        prioritySortIndic={33}
+        prioritySortArrowIndic={1}
+        darkMode={darkMode}
+      >
+      </SideNavBar>
+      <div style={{
+        height: "100vh", width: "100vw",
+        paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
+        paddingBottom: padding
+      }}>
+        {ldSc}
+        <div>
+          <div>
+            <Animation.Slide in={true} placement={React.useState('right')}>
+              <button className="btn btn-danger m-2" style={{
+                position: "absolute",
+                right: padding, backgroundColor: "#cc00cc",
+                border: "none"
+              }} onClick={handleLogout}>Log Out</button>
+            </Animation.Slide>
+          </div>
+          <br></br>
+          <div style={{ textAlign: "center" }}>
+            <Animation.Slide in={true} placement={React.useState('left')}>
+              <h1
+                className="display-1 text-center"
+                style={{ color: textColor }}>
+                Just Move
+              </h1>
+            </Animation.Slide>
+            <br></br>
+            <Animation.Slide in={true} placement={React.useState('right')}>
+              <Button
+                onClick={() => setPopupBtn(true)}
+                color="violet"
+                appearance='primary'
+                size='lg'
+                style={{ fontSize: "20px" }}>
+                Add a new goal!
+              </Button>
+            </Animation.Slide>
+          </div>
+          <PopupGoalForm
+            trigger={popupBtn}
+            setPopupBtnTrigger={setPopupBtn}
+            goalRef={goalRef}
+            addGoalData={addGoalData}
+            setGoalData={setGoalData}
+            goals={goals}
+            setGoals={setGoals}
+            GoalList={GoalList}
+            setGoalList={setGoalList}
+            startModal={startModal}
+            sortFunc={getSortFunc(sortFunc)}
+          >
+          </PopupGoalForm>
+          <table id="goals-table" className="table mt-5">
+            <thead>
+              <Animation.Bounce in={true}>
+                <tr style={{ fontSize: tableColumnFontSize, color: textColor }}>
+                  <th sope="col">Start Date{
+                  }</th>
+                  <th scope="col">Goal</th>
+                  <th scope="col">Intrinsic Motivations</th>
+                  <th scope="col">Extrinsic Motivations</th>
+                  <th scope="col">Priority{
+                  }</th>
+                  <th scope="col">Reminder Date</th>
+                  <th scope="col">Most Recent Date</th>
+                  <th scope="col" onClick={() => changeSorting(2)}>Progress Bar{
+                    getArrowIndic(2)
+                  }</th>
+                  <th scope="col">Subtasks</th>
+                  <th scope="col">
+                    Categories
+                  </th>
+                </tr>
+              </Animation.Bounce>
+            </thead>
+            <tbody id="goals-table-body">
+              {filteredGoalList.map((newGoal) => (
+                <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} darkMode={darkMode} />
+              ))}
+            </tbody>
+          </table>
+
+        </div >
+        {modal}
       </div >
-      {modal}
-    </div >
     </div>
   );
 }

@@ -14,7 +14,7 @@ import { TagPicker } from 'rsuite';
 import { useState, useRef, useEffect } from 'react';
 import { priorityRange, PrioritySelect, priorityStrings } from './PrioritySelect';
 
-export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList }) {
+export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList, darkMode }) {
   const [editing, setEditing] = useState(false);
   const [startDate, setStartDate] = useState(props.startDate);
   const [goal, setGoal] = useState(props.goal);
@@ -47,6 +47,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
 
   const goalTextColor = "#6231a3";
+  const goalTextDarkColor = "#c9dbb2";
 
   const completedToggle = (index) => {
     subgoal[index].completed = !subgoal[index].completed;
@@ -66,7 +67,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   const editToggle = (e) => {
     setEditing(!editing);
-    if(editing === true) {
+    if (editing === true) {
       setPriority(parseInt(priority));
       handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed);
     }
@@ -74,7 +75,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   return (
     <Animation.Bounce in={true}>
-      <tr style={{ backgroundColor: 'rgba(204, 0, 204, 0.3)', color: goalTextColor }}>
+      <tr style={{ backgroundColor: 'rgba(204, 0, 204, 0.3)', color: darkMode ? goalTextDarkColor : goalTextColor }}>
         <td>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="text" className="form-control" /> : startDate}</td>
         <td>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} type="text" className="form-control" /> : goal}</td>
         <td>{editing ? <input value={intrinsicMotivation} onChange={(e) => setIntrinsicMotivation(e.target.value)} type="text" className="form-control" /> : intrinsicMotivation}</td>

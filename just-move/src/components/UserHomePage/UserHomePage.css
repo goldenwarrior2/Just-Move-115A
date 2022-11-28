@@ -1,3 +1,11 @@
 th.th-hoverable:hover {
     background: rgb(192, 192, 192);
 }
+
+.dark-mode {
+    background: #202124;
+}
+
+.dark-sidebar {
+    background: #404144;
+}
