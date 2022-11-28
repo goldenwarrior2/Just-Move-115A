@@ -267,6 +267,7 @@ export function UserHomePage() {
             setGoalList={setGoalList}
             startModal={startModal}
             sortFunc={getSortFunc(sortFunc)}
+            darkMode={darkMode}
           >
           </PopupGoalForm>
           <table id="goals-table" className="table mt-5">

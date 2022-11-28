@@ -72,89 +72,89 @@ function PopupGoalForm(props) {
   return (props.trigger) ? (
     <div className="popup">
       <Animation.Bounce in={true}>
-      <div className="popup-inner" style={{color: "#6231a3"}}>
-        <form onSubmit={handleAddNewGoal} id="popup-form">
-          <h2>Let's Create a Goal!</h2>
-          <br></br>
-          <div className="form-group">
-            <h3>
-              Goal:
-            </h3>
-            <input
-              type="input"
-              name="goal"
-              placeholder="Enter a goal..."
-              className="form-control"
-              onChange={handleGoalsChange}
-              ref={goalRef}
-              style={{ visibility: `visible`, animation: `fadeInLeft` }}
-              required={true}
-            />
-          </div>
-          <br></br>
-          <div className="form-group">
-            <h3>
-              Intrinsic Goal:
-            </h3>
-            <input
-              type="input"
-              name="intrinsicMotivation"
-              placeholder="Enter your intrinsic motivation for this goal..."
-              className="form-control"
-              onChange={handleGoalsChange}
-              ref={intrinsicRef}
-            />
-          </div>
-          <br></br>
-          <div className="form-group">
-            <h3>
-              Extrinsic Goal:
-            </h3>
-            <input
-              type="input"
-              name="extrinsicMotivation"
-              placeholder="Enter your extrinsic motivation for this goal..."
-              className="form-control"
-              onChange={handleGoalsChange}
-              ref={extrinsicRef}
-            />
-          </div>
-          <br></br>
-          <div className="form-group">
-            <h3>
-              Reminder Date:
-            </h3>
-            <input
-              type="date"
-              name="reminderDate"
-              placeholder="Enter the date on which you would like to be reminded about this goal..."
-              className="form-control"
-              onChange={handleGoalsChange}
-              ref={reminderDate}
-            />
-          </div>
-          <br></br>
-          <div className="form-group">
-            <h3>Priority: </h3>
-            <PrioritySelect className="form-control" value={priority} onChange={(e) => setPriority(e.target.value)} />
-          </div>
-          <br></br>
-          <br></br>
-          <IconButton type="submit"
-            icon={<PlusIcon />}
+        <div className={props.darkMode ? "popup-inner popup-dark" : "popup-inner"}>
+          <form onSubmit={handleAddNewGoal} id="popup-form">
+            <h2>Let's Create a Goal!</h2>
+            <br></br>
+            <div className="form-group">
+              <h3>
+                Goal:
+              </h3>
+              <input
+                type="input"
+                name="goal"
+                placeholder="Enter a goal..."
+                className={props.darkMode ? "form-control form-dark" : "form-control"}
+                onChange={handleGoalsChange}
+                ref={goalRef}
+                style={{ visibility: `visible`, animation: `fadeInLeft` }}
+                required={true}
+              />
+            </div>
+            <br></br>
+            <div className="form-group">
+              <h3>
+                Intrinsic Goal:
+              </h3>
+              <input
+                type="input"
+                name="intrinsicMotivation"
+                placeholder="Enter your intrinsic motivation for this goal..."
+                className={props.darkMode ? "form-control form-dark" : "form-control"}
+                onChange={handleGoalsChange}
+                ref={intrinsicRef}
+              />
+            </div>
+            <br></br>
+            <div className="form-group">
+              <h3>
+                Extrinsic Goal:
+              </h3>
+              <input
+                type="input"
+                name="extrinsicMotivation"
+                placeholder="Enter your extrinsic motivation for this goal..."
+                className={props.darkMode ? "form-control form-dark" : "form-control"}
+                onChange={handleGoalsChange}
+                ref={extrinsicRef}
+              />
+            </div>
+            <br></br>
+            <div className="form-group">
+              <h3>
+                Reminder Date:
+              </h3>
+              <input
+                type="date"
+                name="reminderDate"
+                placeholder="Enter the date on which you would like to be reminded about this goal..."
+                className={props.darkMode ? "form-control form-dark" : "form-control"}
+                onChange={handleGoalsChange}
+                ref={reminderDate}
+              />
+            </div>
+            <br></br>
+            <div className="form-group">
+              <h3>Priority: </h3>
+              <PrioritySelect className={props.darkMode ? "form-control form-dark" : "form-control"} value={priority} onChange={(e) => setPriority(e.target.value)} />
+            </div>
+            <br></br>
+            <br></br>
+            <IconButton type="submit"
+              icon={<PlusIcon />}
+              appearance="primary"
+              color="violet"
+              id="add-goal-btn">
+            </IconButton>
+          </form>
+          <IconButton
+            icon={<CloseIcon />}
             appearance="primary"
-            color="violet"
-            id="add-goal-btn">
+            color="red"
+            id="close-btn"
+            onClick={handleCloseForm}>
           </IconButton>
-        </form>
-        <IconButton
-          icon={<CloseIcon />}
-          appearance="primary"
-          color="red"
-          id="close-btn"
-          onClick={handleCloseForm}>
-        </IconButton>
-      </div>
+        </div>
       </Animation.Bounce>
     </div>
   ) : "";

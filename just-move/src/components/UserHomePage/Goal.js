@@ -127,7 +127,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
             setSubgoal={setSubgoal}
             startModal={startModal}
             handleEditGoal={handleEditGoal}
-            completed={completed}>
+            completed={completed}
+            darkMode={darkMode}>
           </PopupSubGoalForm>
           <ButtonGroup justified>
             <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={() => setPopupBtn(true)} />
