@@ -1,11 +1,9 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import React from 'react';
 import "./PopupGoalForm.css";
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import CloseIcon from '@rsuite/icons/Close';
-import { nanoid } from 'nanoid';
-import { saveAddGoal } from "./saving";
 
 function PopupSubGoalForm(props) {
 
@@ -22,12 +20,12 @@ function PopupSubGoalForm(props) {
     const newSubgoal = { name: sg, completed: false };
     sgList.push(newSubgoal);
     props.setSubgoal(sgList);
-    props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.priority, props.reminderDate, props.category, props.subgoal, props.completed);
+    props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.priority, props.reminderDate, props.category, props.subgoal, props.completed, props.mostRecentDate);
   }
 
-  return (props.trigger) ? (
-    <div className="popup">
-      <div className={props.darkMode ? "popup-inner popup-dark" : "popup-inner"}>
+  return (
+    <div>
+      <div>
         <form onSubmit={handleAddNewGoal} id="popup-form">
           <h2>Let's Create a Subtask</h2>
           <br></br>
@@ -42,6 +40,7 @@ function PopupSubGoalForm(props) {
               className={props.darkMode ? "form-control form-dark" : "form-control"}
               onChange={handleGoalsChange}
               style={{ visibility: `visible`, animation: `fadeInLeft` }}
+              required={true}
             />
           </div>
           <br></br>
@@ -57,11 +56,11 @@ function PopupSubGoalForm(props) {
           appearance="primary"
           color="red"
           id="close-btn"
-          onClick={() => props.setPopupBtnTrigger(false)}>
+          onClick={props.handleClose}>
         </IconButton>
       </div>
     </div>
-  ) : "";
+  );
 }
 
 export default PopupSubGoalForm;
