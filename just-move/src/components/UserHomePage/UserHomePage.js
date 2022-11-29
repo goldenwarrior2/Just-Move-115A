@@ -7,7 +7,7 @@ import PopupGoalForm from "./PopupGoalForm";
 import SideNavBar from "./SideNavBar";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation';
-import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites, saveSorting } from "./saving";
+import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites, saveSetting } from "./saving";
 import { LoadingScreen } from "../Loading";
 import { useBeforeunload } from 'react-beforeunload';
 import Modal from 'react-bootstrap/Modal';
@@ -148,7 +148,9 @@ export function UserHomePage() {
     if (newSortFunc === sortFunc) {
       newSortFunc ^= 32;
     }
-    saveSorting(newSortFunc);
+    if (hasLoaded) {
+      saveSetting("sorting", newSortFunc);
+    }
     const newGoals = goals;
     newGoals.sort(getSortFunc(newSortFunc));
     setSortFunc(newSortFunc);
@@ -180,6 +182,9 @@ export function UserHomePage() {
       loadData().then(function (data) {
         if (data.sorting !== undefined) {
           changeSorting(data.sorting);
+        }
+        if (data.darkMode !== undefined) {
+          setDarkMode(data.darkMode);
         }
         data.goals.sort(getSortFunc(sortFunc));
         setGoals(data.goals);
@@ -252,7 +257,7 @@ export function UserHomePage() {
                   backgroundColor: "#cc00cc",
                   border: "none",
                   color: "white"
-                }} onClick={() => setDarkMode(!darkMode)}><i className={darkMode ? "icon bi-moon-fill" : "icon bi-brightness-high"}></i>
+                }} onClick={() => { saveSetting("darkMode", !darkMode); setDarkMode(!darkMode) }}><i className={darkMode ? "icon bi-moon-fill" : "icon bi-brightness-high"}></i>
                 </button>
               </div>
             </Animation.Slide>
