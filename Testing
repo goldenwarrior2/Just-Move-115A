@@ -1,1 +1,80 @@
+Unit Tests Report
+Just Move
+11/29/2022
+
+Register Tests
+  Enter email and password
+  See if clicking on Sign Up brings the user to a new home page
+  Checked firebase authentication to see if the email is there
+  Added multiple emails and verified in firebase authentication that new accounts were created
+
+Login Tests
+  Enter register email and password
+  Verified that clicking Log In brings the user to their home page
+
+Adding Goals Test
+  Created new goal in popup form
+  Validated the information of the goal from user input appeared in new table row and continued to appear in table even after refreshing page
+  Confirmed goal information was stored correctly in firebase
+
+Removing Goals Test
+  Clicked on trash icon of the table row with the desired goal to delete
+  Visually confirmed that the goal disappeared from the table immediately and again after refreshing page
+  Confirmed that all details related to the goal were removed from firebase
+
+Editing Goals Test
+  Created a goal with all data filled in
+  Clicked the edit button and checked that editable properties switched to text inputs
+  Edited an input
+  Clicked the edit button to save the changes
+  Confirmed that all goal information (both edited and not edited) was stored correctly in firebase and also updated properly in the goals list
+  Repeated these steps with every editable property
+
+Adding Subgoals Test
+  Added a new subgoal through popup form
+  Made sure the subgoal was listed out into the table for the respective goal
+  Checked that the subgoals stayed after refreshing the page
+  Checked that the checkboxes for each subgoal stayed checked or unchecked on refresh
+
+Progress Bar Test
+  Added a goal
+  Verified that the progress bar shows up and has 0% completion
+  Added 2 subgoals through the popup form
+  Checked the box by the first subgoal that was added
+  Verified that the progress bar displayed 50% completion with a bar half filled
+  Checked the box by the second subgoal
+  Verified that the progress bar displayed a green checkmark with a bar fully filled
+
+Reminder Email Tests
+  Set the reminder date to the current date
+  Console.logged a list of emails that corresponded to users who had goals with a reminder date of the current date 
+  Verified this through the firebase database
+  Checked emails to confirm that they were received
+  Verified through firebase that only emails with tasks that had a reminderdate of the current date were sent an email
+  Changed the reminder date of goals to make sure that the email was not being sent unless the goal had a reminder date equal to the current date
+
+WeeklySummary Email Tests
+  Checked all emails of users with goals with a mostRecentDate within the past week to confirm that emails were sending to the the proper emails
+  Checked the email to confirm that the correct goals and subtasks were mentioned in the email
+  Removed goals with mostRecentDate within the past week from users’ accounts and verifed that those goals and corresponding subtasks were not mentioned in those users’ emails
+
+onSubtaskCompletion Tests
+  Verified that when a subtask was marked as completed that the mostRecentDate would change to the currentDate
+  Verified that when a subtask was marked as completed that the reminderDate would move forward by 7 days
+  Made sure that completing multiple subtasks within a week would not change the reminderDate multiple times
+
+Filtering Goals Tests:
+  Added a few goals and applied different predefined categories to each goal
+  Applied predefined category filters from the side navigation bar
+  Verified that the only goals that appeared in the table had at least one category that was in my list of applied filters
+  Removed a filter and confirmed that the goals I had that did not contain that category reappeared in the table
+
+Sorting Goals Tests:
+  Clicked on the ‘Start Date’ under ‘Filters’ tab in the side navigation bar
+  Confirmed a visual image of an arrow pointing downward next to the filter tab
+  Confirmed that the goals appear in descending order with the least recent date at the top
+  Clicked on the ‘Start Date’ under ‘Filters’ tab in the side navigation bar
+  Confirmed a visual image of an arrow pointing upward next to the filter tab
+  Confirmed that the goals appear in ascending order with the most recent date at the top
+
 
