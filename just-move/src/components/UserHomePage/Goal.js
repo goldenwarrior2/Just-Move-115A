@@ -139,7 +139,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
               handleEditGoal={handleEditGoal}
               handleClose={handleClose}
               completed={completed}
-              mostRecentDate={mostRecentDate}>
+              mostRecentDate={mostRecentDate}
+              darkMode={darkMode}>
             </PopupSubGoalForm>
           </Modal.Body>
         </Modal>

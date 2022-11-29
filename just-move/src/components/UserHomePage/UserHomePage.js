@@ -296,6 +296,7 @@ export function UserHomePage() {
           setGoalList={setGoalList}
           startModal={startModal}
           sortFunc={getSortFunc(sortFunc)}
+          darkMode={darkMode}
         >
         </PopupGoalForm>
         <Animation.Bounce in={true}>
