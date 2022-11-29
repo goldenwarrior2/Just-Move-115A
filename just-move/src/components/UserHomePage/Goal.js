@@ -132,9 +132,10 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
               extrinsicMotivation={extrinsicMotivation}
               subgoal={subgoal}
               category={category}
+              priority={priority}
               startDate={startDate}
               reminderDate={reminderDate}
-              setSubgoal={setSubgoal}
+              setSubgoal={(e) => { setSubgoal(e); handleClose() }}
               startModal={startModal}
               handleEditGoal={handleEditGoal}
               handleClose={handleClose}
