@@ -11,8 +11,8 @@ export async function loadData() {
             if (key.startsWith("goal_")) {
                 const data = localStorage.getItem(key);
                 arr.goals.push(JSON.parse(data));
-            } else if (key === "sorting") {
-                arr.sorting = localStorage.getItem(key);
+            } else if (key.startsWith("setting_")) {
+                arr[key.substring(8)] = localStorage.getItem(key);
             }
         }
     } else {
@@ -48,12 +48,14 @@ export async function saveDelGoal(id) {
     }
 }
 
-export async function saveSorting(i) {
+export async function saveSetting(key, value) {
     if (auth.currentUser == null) {
-        localStorage.setItem("sorting", i);
+        localStorage.setItem("setting_" + key, value);
     } else {
         outstandingWrites++;
-        await updateDoc(doc(firestore, "users", auth.currentUser.uid), { "sorting": i });
+        let data = {};
+        data[key] = value;
+        await updateDoc(doc(firestore, "users", auth.currentUser.uid), data);
         outstandingWrites--;
     }
 }

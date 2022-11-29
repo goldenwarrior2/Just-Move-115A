@@ -1,3 +1,14 @@
 .th-hoverable:hover {
     background: rgb(192, 192, 192);
 }
+
+.dark-mode {
+    background: #202124;
+    --rs-input-bg: #202124;
+    --rs-input-fs: whitesmoke;
+    --rs-bg-overlay: #202124;
+}
+
+.dark-sidebar {
+    background: #404144;
+}

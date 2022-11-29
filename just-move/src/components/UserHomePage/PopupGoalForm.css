@@ -17,8 +17,25 @@
     padding: 32px;
     width: 100%;
     max-width: 640px;
+    color: #6231a3;
     background-color: white;
     box-shadow: 0 6px 10px 0 #303030, 0 10px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.popup-dark {
+    background-color: #202124;
+    --rs-bg-overlay: #202124;
+    color: violet;
+}
+
+.form-dark {
+    background-color: #202124;
+    color: whitesmoke;
+}
+
+.form-dark:focus {
+    background-color: #404144;
+    color: white;
 }
 
 #close-btn {

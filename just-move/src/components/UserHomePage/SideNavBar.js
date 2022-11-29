@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { Sidenav, Nav } from 'rsuite';
 import { TagPicker } from 'rsuite';
 
@@ -6,7 +7,6 @@ import { TagPicker } from 'rsuite';
 function SideNavBar(props) {
 
     const handleClickStartDate = () => {
-        console.log('pressed start date');
         props.changeSorting(props.startDateSortIndic);
     };
 
@@ -15,33 +15,38 @@ function SideNavBar(props) {
 
     };
 
-    return (
-        <div style={{ width: 300}}>
-            <Sidenav appearance="inverse">
-                <Sidenav.Body style={{ width: 300, height: "100vh"}}>
+    return (!props.trigger ? "" :
+        <div style={{ width: 300, position: "absolute" }}>
+            <Sidenav appearance={props.darkMode ? "subtle" : "inverse"} className={props.darkMode ? "dark-sidebar" : ""}>
+                <Sidenav.Header>
+                    <h3 style={props.darkMode ? { textAlign: "center", color: "#9e9ea3" } : { textAlign: "center" }}>Filters</h3>
+                </Sidenav.Header>
+                <Sidenav.Body style={{ width: 300, height: "100vh" }}>
                     <Nav activeKey="1">
-                        <Nav.Menu eventKey="1" title="Filters">
-                            <Nav.Item eventKey="1-1" title="Start Date" onClick={handleClickStartDate}>
-                                Start Date
-                                {props.getArrowIndic(props.startDateArrowIndic)}
-                            </Nav.Item>
-                            <Nav.Item eventKey="1-3" title="Priority" onClick={handleClickPriority}>
-                                Priority
-                                {props.getArrowIndic(props.prioritySortArrowIndic)}
-                            </Nav.Item>
-                            <Nav.Menu eventKey="1-3" title="Categories">
-                                <div style={{paddingLeft: '25px'}}>
+                        <Nav.Item eventKey="1-1" title="Start Date" onClick={handleClickStartDate}>
+                            Start Date
+                            {props.getArrowIndic(props.startDateArrowIndic)}
+                        </Nav.Item>
+                        <Nav.Item eventKey="1-3" title="Priority" onClick={handleClickPriority}>
+                            Priority
+                            {props.getArrowIndic(props.prioritySortArrowIndic)}
+                        </Nav.Item>
+                        <Nav.Menu eventKey="1-4" title="Categories">
+                            <div style={{ paddingLeft: '25px' }}>
                                 <TagPicker
                                     data={props.categoryList}
                                     style={{ width: 250 }}
-                                    menuStyle={{ width: 250 }}
+                                    menuStyle={props.darkMode ? { width: 250, background: "#202124", color: "whitesmoke" } : { width: 250 }}
                                     onChange={(value) => {
-                                    props.setFilters(value);
+                                        props.setFilters(value);
                                     }}
                                 />
-                                </div>
-                            </Nav.Menu>
+                            </div>
                         </Nav.Menu>
+                        <hr />
+                        <Nav.Item eventKey="1-5" title="Close" onClick={props.closeNavBar}>
+                            Close
+                        </Nav.Item>
                     </Nav>
                 </Sidenav.Body>
             </Sidenav>

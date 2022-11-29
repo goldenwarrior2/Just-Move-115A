@@ -18,7 +18,10 @@ import { Modal } from 'rsuite';
 import { useState, useRef, useEffect } from 'react';
 import { priorityRange, PrioritySelect, priorityStrings } from './PrioritySelect';
 
-export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList }) {
+export const goalTextColor = "#6231a3";
+export const goalTextDarkColor = "#c9dbb2";
+
+export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, updateGoalList, darkMode }) {
   const [editing, setEditing] = useState(false);
   const [startDate, setStartDate] = useState(props.startDate);
   const [goal, setGoal] = useState(props.goal);
@@ -34,7 +37,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   const completed = status === null ? false : true;
 
-    const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState(null);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -57,22 +60,22 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
   );
 
   const completedToggle = (index) => {
-    const {Timestamp} = require("firebase/firestore");
+    const { Timestamp } = require("firebase/firestore");
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    let currentDate = `${month}-${day}-${year}`;
+    let currentDate = `${year}-${month}-${day}`;
     const oneWeekMillis = 604800000;
     const currentDateTimestamp = Timestamp.fromDate(new Date(currentDate));
     const currentDateMillis = currentDateTimestamp.toMillis();
     const limit = currentDateMillis + oneWeekMillis;
-    const reminderDateTimestamp = Timestamp.fromDate(new Date(reminderDate));
+    const reminderDateTimestamp = reminderDate.length ? Timestamp.fromDate(new Date(reminderDate)) : Timestamp.fromDate(new Date(currentDate));
     const reminderDateMillis = reminderDateTimestamp.toMillis();
     const newReminderDateMillis = reminderDateMillis + oneWeekMillis;
     const newReminderDateTimestamp = Timestamp.fromMillis(newReminderDateMillis);
     const newReminderDate = newReminderDateTimestamp.toDate();
-    const newReminderDateString = newReminderDate.toISOString().substring(0, 10); 
+    const newReminderDateString = newReminderDate.toISOString().substring(0, 10);
     console.log(currentDateMillis);
     console.log(reminderDateMillis);
     console.log(limit);
@@ -96,10 +99,6 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     };
   };
 
-
-  const goalTextColor = "#6231a3";
-
-
   const cancelChanges = () => {
     setStartDate(props.startDate);
     setGoal(props.goal);
@@ -113,7 +112,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   const editToggle = (e) => {
     setEditing(!editing);
-    if(editing === true) {
+    if (editing === true) {
       setPriority(parseInt(priority));
       handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed, mostRecentDate);
     }
@@ -121,8 +120,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   return (
     <Animation.Bounce in={true}>
-      <div style={{backgroundColor: 'rgba(204, 0, 204, 0.3)', color: goalTextColor}}>
-        <Modal open={open} onClose={handleClose}>
+      <div style={{ backgroundColor: 'rgba(204, 0, 204, 0.3)', color: darkMode ? goalTextDarkColor : goalTextColor }}>
+        <Modal open={open} onClose={handleClose} dialogClassName={darkMode ? "popup-dark" : ""}>
           <Modal.Body>
             <PopupSubGoalForm
               trigger={popupBtn}
@@ -133,45 +132,47 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
               extrinsicMotivation={extrinsicMotivation}
               subgoal={subgoal}
               category={category}
+              priority={priority}
               startDate={startDate}
               reminderDate={reminderDate}
-              setSubgoal={setSubgoal}
+              setSubgoal={(e) => { setSubgoal(e); handleClose() }}
               startModal={startModal}
               handleEditGoal={handleEditGoal}
               handleClose={handleClose}
               completed={completed}
-              mostRecentDate={mostRecentDate}>
+              mostRecentDate={mostRecentDate}
+              darkMode={darkMode}>
             </PopupSubGoalForm>
           </Modal.Body>
         </Modal>
         <FlexboxGrid onClick={() => setExpanded(!expanded)}>
-          <FlexboxGrid.Item colspan={3}>{editing ? <input value={startDate} onChange={(e) => setStartDate(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : startDate}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={4}>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} onClick={handleChildElementClick} type="text" className="form-control"/> : goal}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={3}>{editing ? <PrioritySelect value={priority} onChange={(e) => setPriority(e.target.value)} /> : priorityStrings[priority + priorityRange]}</FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={6}><Progress.Line percent={percentCompletion} status={status}/></FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={3}>{startDate}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={4}>{editing ? <input value={goal} onChange={(e) => setGoal(e.target.value)} onClick={handleChildElementClick} type="text" className={darkMode ? "form-control form-dark" : "form-control"} /> : goal}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={3}>{editing ? <PrioritySelect value={priority} onChange={(e) => setPriority(e.target.value)} className={darkMode ? "form-control form-dark" : "form-control"} /> : priorityStrings[priority + priorityRange]}</FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={6}><Progress.Line percent={percentCompletion} status={status} /></FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={5} onClick={handleChildElementClick}><TagPicker
-                                          creatable={false}
-                                          readOnly={!editing}
-                                          plaintext={!editing}
-                                          data={categoryList}
-                                          defaultValue={category}
-                                          style={{ width: 300 }}
-                                          menuStyle={{ width: 300 }}
-                                          onCreate={(value, item) => {
-                                            updateGoalList(value[0]);
-                                            console.log(value, item);
-                                            console.log(data);
-                                          }}
-                                          onChange={(value) => {
-                                            setCategory(value);
-                                          }}
-                                        />
+            creatable={false}
+            readOnly={!editing}
+            plaintext={!editing}
+            data={categoryList}
+            defaultValue={category}
+            style={{ width: 300 }}
+            menuStyle={darkMode ? { width: 300, background: "#202124", color: "whitesmoke" } : { width: 300 }}
+            onCreate={(value, item) => {
+              updateGoalList(value[0]);
+              console.log(value, item);
+              console.log(data);
+            }}
+            onChange={(value) => {
+              setCategory(value);
+            }}
+          />
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={3}>
             <ButtonGroup justified>
-              <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={(e) => handleChildElementClick(e, handleOpen)}/>
-              <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="violet" onClick={(e)=> handleChildElementClick(e, editToggle)}></IconButton>
-              <IconButton icon={<TrashIcon />} appearance="primary" color="red" onClick={(e)=> handleDeleteGoal(props.id)}></IconButton>
+              <IconButton icon={<PlusIcon />} appearance="primary" color="cyan" onClick={(e) => handleChildElementClick(e, handleOpen)} />
+              <IconButton icon={<EditIcon />} active={editing} appearance="primary" color="violet" onClick={(e) => handleChildElementClick(e, editToggle)}></IconButton>
+              <IconButton icon={<TrashIcon />} appearance="primary" color="red" onClick={(e) => handleDeleteGoal(props.id)}></IconButton>
             </ButtonGroup>
           </FlexboxGrid.Item>
         </FlexboxGrid>
@@ -190,8 +191,9 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
           subgoal={subgoal}
           completedToggle={completedToggle}
           expanded={expanded}
+          darkMode={darkMode}
         />
       </div>
-    </Animation.Bounce>
+    </Animation.Bounce >
   );
 }

@@ -6,7 +6,7 @@ import PopupGoalForm from "./PopupGoalForm";
 import SideNavBar from "./SideNavBar";
 import Button from 'rsuite/Button';
 import Animation from 'rsuite/Animation';
-import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites, saveSorting } from "./saving";
+import { loadData, saveAddGoal, saveDelGoal, hasOutstandingWrites, saveSetting } from "./saving";
 import { LoadingScreen } from "../Loading";
 import { useBeforeunload } from 'react-beforeunload';
 import Modal from 'react-bootstrap/Modal';
@@ -15,6 +15,7 @@ import { nanoid } from 'nanoid';
 import IconButton from 'rsuite/IconButton';
 import PlusIcon from '@rsuite/icons/Plus';
 import "./UserHomePage.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { FlexboxGrid } from 'rsuite';
 
@@ -29,15 +30,26 @@ function sortHelper(property) {
 }
 
 function progressSorter(a, b) {
-  if (a.progress.value === undefined && b.progress.value === undefined) {
+  if (a.subgoal.length === 0 && b.subgoal.length === 0) {
     return 0;
-  } else if (a.progress.value === undefined) {
+  } else if (a.subgoal.length === 0) {
     return -1;
-  } else if (b.progress.value === undefined) {
+  } else if (b.subgoal.length === 0) {
     return 1;
-  } else {
-    return (a.progress.value / a.progress.target) - (b.progress.value / b.progress.target);
   }
+  const completed1 = a.subgoal.reduce((acc, obj) => {
+    if (obj.completed) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+  const completed2 = b.subgoal.reduce((acc, obj) => {
+    if (obj.completed) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+  return (completed1 / a.subgoal.length) - (completed2 / b.subgoal.length);
 }
 
 function sortReverser(f) {
@@ -72,6 +84,7 @@ export function UserHomePage() {
   const padding = "100px";
   const tableColumnFontSize = "20px";
   const homepageTextColor = "#6231a3";
+  const homepageDarkTextColor = "#b12ebf";
 
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
@@ -90,6 +103,10 @@ export function UserHomePage() {
 
   const [popupBtn, setPopupBtn] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
+  const [navBar, setNavBar] = useState(false);
+
+  const closeNavBar = () => { setNavBar(false) };
 
   const handleDeleteGoal = (goalId) => {
     const newGoals = [...goals];
@@ -144,7 +161,9 @@ export function UserHomePage() {
     if (newSortFunc === sortFunc) {
       newSortFunc ^= 32;
     }
-    saveSorting(newSortFunc);
+    if (hasLoaded) {
+      saveSetting("sorting", newSortFunc);
+    }
     const newGoals = goals;
     newGoals.sort(getSortFunc(newSortFunc));
     setSortFunc(newSortFunc);
@@ -177,6 +196,9 @@ export function UserHomePage() {
         if (data.sorting !== undefined) {
           changeSorting(data.sorting);
         }
+        if (data.darkMode !== undefined) {
+          setDarkMode(data.darkMode);
+        }
         data.goals.sort(getSortFunc(sortFunc));
         setGoals(data.goals);
         setHasLoaded(true);
@@ -203,29 +225,54 @@ export function UserHomePage() {
   </Modal >) : null;
 
   return (
-    <div style={{ display: "flex", flexBasis: "auto"}}>
-    <SideNavBar
-    categoryList={categoryList}
-    setFilters={setFilters}
-    changeSorting={changeSorting}
-    getArrowIndic={getArrowIndic}
-    startDateSortIndic={0}
-    startDateArrowIndic={0}
-    prioritySortIndic={33}
-    prioritySortArrowIndic={1}
-    >
-    </SideNavBar>
-    <div style={{ height: "100vh", width: "100vw",
-                  paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
-                  paddingBottom: padding}}>
-      {ldSc}
-      <div>
+    <div style={{ display: "flex", flexBasis: "auto" }} className={darkMode ? "dark-mode" : ""}>
+      <SideNavBar
+        categoryList={categoryList}
+        setFilters={setFilters}
+        changeSorting={changeSorting}
+        getArrowIndic={getArrowIndic}
+        startDateSortIndic={0}
+        startDateArrowIndic={0}
+        prioritySortIndic={33}
+        prioritySortArrowIndic={1}
+        darkMode={darkMode}
+        trigger={navBar}
+        closeNavBar={closeNavBar}
+      >
+      </SideNavBar>
+      <div style={{
+        height: "100vh", width: "100vw",
+        paddingTop: "75px", paddingLeft: padding, paddingRight: padding,
+        paddingBottom: padding
+      }}>
+        {ldSc}
         <div>
-          <Animation.Slide in={true} placement={React.useState('right')}>
-          <button className="btn btn-danger m-2" style={{ position: "absolute",
-          right: padding, backgroundColor: "#cc00cc",
-          border: "none"}} onClick={handleLogout}>Log Out</button>
-          </Animation.Slide>
+          <div style={{ display: navBar ? "none" : "inline" }}>
+            <Animation.Slide in={true} placement={React.useState('left')}>
+              <div style={{ position: "absolute", left: padding, zIndex: 1 }}>
+                <button className="btn btn-danger m-1" style={{
+                  backgroundColor: "#cc00cc",
+                  border: "none"
+                }} onClick={() => setNavBar(true)}><i className="bi bi-filter"></i></button>
+              </div>
+            </Animation.Slide>
+          </div>
+          <div>
+            <Animation.Slide in={true} placement={React.useState('right')}>
+              <div style={{ position: "absolute", right: padding, zIndex: 1 }}>
+                <button className="btn btn-danger m-1" style={{
+                  backgroundColor: "#cc00cc",
+                  border: "none"
+                }} onClick={handleLogout}>Log Out</button>
+                <button className="btn m-1" style={{
+                  backgroundColor: "#cc00cc",
+                  border: "none",
+                  color: "white"
+                }} onClick={() => { saveSetting("darkMode", !darkMode); setDarkMode(!darkMode) }}><i className={darkMode ? "icon bi-moon-fill" : "icon bi-brightness-high"}></i>
+                </button>
+              </div>
+            </Animation.Slide>
+          </div>
         </div>
         <br></br>
         <div style={{ textAlign: "center" }}>
@@ -257,13 +304,14 @@ export function UserHomePage() {
           goals={goals}
           setGoals={setGoals}
           GoalList={GoalList}
-          setGoalList={setGoalList}
+          setGoalList={(e) => { setGoalList(e); setPopupBtn(false) }}
           startModal={startModal}
           sortFunc={getSortFunc(sortFunc)}
+          darkMode={darkMode}
         >
         </PopupGoalForm>
         <Animation.Bounce in={true}>
-          <FlexboxGrid style={{fontSize: tableColumnFontSize, color: homepageTextColor}}>
+          <FlexboxGrid style={{ fontSize: tableColumnFontSize, color: homepageTextColor }}>
             <FlexboxGrid.Item colspan={3} className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
               getArrowIndic(0)
             }</FlexboxGrid.Item>
@@ -281,12 +329,10 @@ export function UserHomePage() {
         </Animation.Bounce>
         <div id="goals-body">
           {filteredGoalList.map((newGoal) => (
-            <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} />
+            <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} darkMode={darkMode} />
           ))}
         </div>
-      </div >
-      {modal}
-    </div >
+      </div>
     </div>
   );
 }

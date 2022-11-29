@@ -17,7 +17,7 @@ function PopupSubGoalForm(props) {
 
   const handleAddNewGoal = (e) => {
     e.preventDefault();
-    const newSubgoal = {name:sg, completed:false};
+    const newSubgoal = { name: sg, completed: false };
     sgList.push(newSubgoal);
     props.setSubgoal(sgList);
     props.handleEditGoal(props.id, props.startDate, props.goal, props.intrinsicMotivation, props.extrinsicMotivation, props.priority, props.reminderDate, props.category, props.subgoal, props.completed, props.mostRecentDate);
@@ -37,7 +37,7 @@ function PopupSubGoalForm(props) {
               type="input"
               name="goal"
               placeholder="Enter a subgoal..."
-              className="form-control"
+              className={props.darkMode ? "form-control form-dark" : "form-control"}
               onChange={handleGoalsChange}
               style={{ visibility: `visible`, animation: `fadeInLeft` }}
               required={true}
