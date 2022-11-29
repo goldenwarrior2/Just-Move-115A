@@ -100,8 +100,10 @@ exports.weeklySummary = functions.pubsub.schedule('every day 14:00').onRun (asyn
         console.log(data);
         goalList.push(data.goal);
         for (const subgoal of data.subgoal) {
-          console.log(subgoal['name']);
-          subgoalList.push(subgoal['name']);
+          if (subgoal['completed'] == true) {
+            console.log(subgoal['name']);
+            subgoalList.push(subgoal['name']);
+          }
         }
       }
     }
