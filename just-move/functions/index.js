@@ -26,8 +26,6 @@ const oneWeekMillis = 604800000;
 const newReminderDateMillis = currDateMillis + oneWeekMillis;
 const sevenDaysAgoMillis = currDateMillis - oneWeekMillis;
 var goal = "";
-var extrinsic = "";
-var intrinsic = "";
 var email = "";
 
 exports.reminderEmail = functions.pubsub.schedule('every day 14:00').onRun (async (context) => {
@@ -59,18 +57,28 @@ exports.reminderEmail = functions.pubsub.schedule('every day 14:00').onRun (asyn
     });
 
     // get the goal data and pass it into the email
-    extrinsic = data.extrinsicMotivation;
-    intrinsic = data.intrinsicMotivation;
+    const extrinsic = data.extrinsicMotivation;
+    const intrinsic = data.intrinsicMotivation;
     
+    const emailText = "Just wanted to remind you why you started working on: " + goal;
+    const extrinsicText = "Extrinsic reason: " + extrinsic;
+    const intrinsicText = "Intrinsic reason: " + intrinsic;
+    const motivationText = `If you find that your goal no longer aligns with who you want to be, don't be afraid to get rid of it. We change our minds all the time and there's nothing wrong with that. Now go conquer the world and Just Move!
+
+Note: If no progress is made for this goal within the next 7 days, another reminder will be sent! 
+
+You got this!`
+
     var msg = {
       to: email,
       from: 'tjchu@ucsc.edu',
       templateId: TEMPLATE_ID,
       dynamic_template_data: {
         'name': email,
-        'goal': goal,
-        'extrinsic': intrinsic,
-        'intrinsic': extrinsic,
+        'text': emailText,
+        'firstInput': extrinsicText,
+        'secondInput': intrinsicText,
+        'motivation': motivationText
       },
     };
     console.log(context);
@@ -109,14 +117,21 @@ exports.weeklySummary = functions.pubsub.schedule('every day 14:00').onRun (asyn
     }
 
     console.log(goalList);
+
+    const emailText = "These are the goals you worked towards this week and the subtasks you completed!";
+    const goalListString = goalList.toString();
+    const subgoalListString = subgoalList.toString();
+    const goalsText = "Goals: " + goalListString;
+    const subgoalsText = "Subtasks: " + subgoalListString;
     var msg = {
       to: email,
       from: 'tjchu@ucsc.edu',
       templateId: TEMPLATE_ID,
       dynamic_template_data: {
         'name': email,
-        'goalSummary': goalList.toString(),
-        'subGoalSummary': subgoalList.toString()
+        'text': emailText,
+        'firstInput': goalsText,
+        'secondInput': subgoalsText 
       },
     };
     sgMail.send(msg);
