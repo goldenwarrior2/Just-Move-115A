@@ -1,6 +1,6 @@
 # Testing
 
-### Stats
+## Stats
 
 Equivalence classes:
 
