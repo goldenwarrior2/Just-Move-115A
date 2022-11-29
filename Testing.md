@@ -1,5 +1,13 @@
 # Testing
 
+## Guest login
+
+Equivalence classes:
+
+- User does not wish to use an account
+
+When the user clicks the "Use as Guest" button, they should be taken to the home page and data should be loaded from LocalStorage. In other parts of this document, this state will be referred to as "not logged in".
+
 ## Goal saving
 
 Equivalence classes:
