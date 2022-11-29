@@ -66,6 +66,9 @@ function getSortFunc(i) {
   return sortFuncs[i];
 }
 
+export const homepageTextColor = "#6231a3";
+export const homepageDarkTextColor = "#b12ebf";
+
 export function UserHomePage() {
   const goalRef = useRef(null);
   const subgoalRef = useRef(null);
@@ -84,8 +87,6 @@ export function UserHomePage() {
 
   const padding = "100px";
   const tableColumnFontSize = "20px";
-  const homepageTextColor = "#6231a3";
-  const homepageDarkTextColor = "#b12ebf";
 
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
@@ -106,6 +107,7 @@ export function UserHomePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [navBar, setNavBar] = useState(false);
+  const [statsBar, setStatsBar] = useState(true);
 
   const closeNavBar = () => { setNavBar(false) };
 
@@ -219,7 +221,7 @@ export function UserHomePage() {
     }
   });
 
-  const ldSc = hasLoaded ? null : <LoadingScreen />;
+  const ldSc = hasLoaded ? (statsBar ? <Stats goals={goals} darkMode={darkMode} /> : "") : <LoadingScreen />;
   const modal = errModal ? (<Modal show={true} onHide={() => setErrModal(null)} centered size="md">
     <Modal.Header closeButton><Modal.Title>{errModal.title}</Modal.Title></Modal.Header>
     <Modal.Body><p>{errModal.msg}</p></Modal.Body>
@@ -227,7 +229,6 @@ export function UserHomePage() {
 
   return (
     <div style={{ display: "flex", flexBasis: "auto" }} className={darkMode ? "dark-mode" : ""}>
-      <Stats goals={goals}/>
       <SideNavBar
         categoryList={categoryList}
         setFilters={setFilters}
@@ -250,14 +251,21 @@ export function UserHomePage() {
         {ldSc}
         <div>
           <div style={{ display: navBar ? "none" : "inline" }}>
-            <Animation.Slide in={true} placement={React.useState('left')}>
-              <div style={{ position: "absolute", left: padding, zIndex: 1 }}>
+            <div style={{ position: "absolute", left: padding, zIndex: 1 }}>
+              <Animation.Slide in={true} placement={React.useState('left')}>
                 <button className="btn btn-danger m-1" style={{
                   backgroundColor: "#cc00cc",
                   border: "none"
                 }} onClick={() => setNavBar(true)}><i className="bi bi-filter"></i></button>
-              </div>
-            </Animation.Slide>
+              </Animation.Slide>
+              <Animation.Slide in={true} placement={React.useState('left')}>
+                <button className="btn btn-danger m-1" style={{
+                  backgroundColor: "#cc00cc",
+                  border: "none",
+                  display: goals.length ? "inline" : "none"
+                }} onClick={() => setStatsBar(!statsBar)}><i className="bi bi-person-lines-fill"></i></button>
+              </Animation.Slide>
+            </div>
           </div>
           <div>
             <Animation.Slide in={true} placement={React.useState('right')}>
@@ -281,7 +289,7 @@ export function UserHomePage() {
           <Animation.Slide in={true} placement={React.useState('left')}>
             <h1
               className="display-1 text-center"
-              style={{ color: homepageTextColor }}>
+              style={{ color: !darkMode ? homepageTextColor : homepageDarkTextColor }}>
               Just Move
             </h1>
           </Animation.Slide>
@@ -313,7 +321,7 @@ export function UserHomePage() {
         >
         </PopupGoalForm>
         <Animation.Bounce in={true}>
-          <FlexboxGrid style={{ fontSize: tableColumnFontSize, color: homepageTextColor }}>
+          <FlexboxGrid style={{ fontSize: tableColumnFontSize, color: !darkMode ? homepageTextColor : homepageDarkTextColor }}>
             <FlexboxGrid.Item colspan={3} className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
               getArrowIndic(0)
             }</FlexboxGrid.Item>
@@ -334,7 +342,7 @@ export function UserHomePage() {
             <Goal props={newGoal} key={newGoal.id} handleDeleteGoal={handleDeleteGoal} handleEditGoal={handleEditGoal} categoryList={categoryList} updateGoalList={updateGoalList} darkMode={darkMode} />
           ))}
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
