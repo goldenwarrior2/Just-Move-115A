@@ -66,6 +66,9 @@ function getSortFunc(i) {
   return sortFuncs[i];
 }
 
+export const homepageTextColor = "#6231a3";
+export const homepageDarkTextColor = "#b12ebf";
+
 export function UserHomePage() {
   const goalRef = useRef(null);
   const subgoalRef = useRef(null);
@@ -84,8 +87,6 @@ export function UserHomePage() {
 
   const padding = "100px";
   const tableColumnFontSize = "20px";
-  const homepageTextColor = "#6231a3";
-  const homepageDarkTextColor = "#b12ebf";
 
   const [addGoalData, setGoalData] = useState({
     startDate: currentDate,
@@ -219,7 +220,7 @@ export function UserHomePage() {
     }
   });
 
-  const ldSc = hasLoaded ? null : <LoadingScreen />;
+  const ldSc = hasLoaded ? <Stats goals={goals} darkMode={darkMode} /> : <LoadingScreen />;
   const modal = errModal ? (<Modal show={true} onHide={() => setErrModal(null)} centered size="md">
     <Modal.Header closeButton><Modal.Title>{errModal.title}</Modal.Title></Modal.Header>
     <Modal.Body><p>{errModal.msg}</p></Modal.Body>
@@ -227,7 +228,6 @@ export function UserHomePage() {
 
   return (
     <div style={{ display: "flex", flexBasis: "auto" }} className={darkMode ? "dark-mode" : ""}>
-      <Stats goals={goals}/>
       <SideNavBar
         categoryList={categoryList}
         setFilters={setFilters}
@@ -281,7 +281,7 @@ export function UserHomePage() {
           <Animation.Slide in={true} placement={React.useState('left')}>
             <h1
               className="display-1 text-center"
-              style={{ color: homepageTextColor }}>
+              style={{ color: !darkMode ? homepageTextColor : homepageDarkTextColor }}>
               Just Move
             </h1>
           </Animation.Slide>
@@ -313,7 +313,7 @@ export function UserHomePage() {
         >
         </PopupGoalForm>
         <Animation.Bounce in={true}>
-          <FlexboxGrid style={{ fontSize: tableColumnFontSize, color: homepageTextColor }}>
+          <FlexboxGrid style={{ fontSize: tableColumnFontSize, color: !darkMode ? homepageTextColor : homepageDarkTextColor }}>
             <FlexboxGrid.Item colspan={3} className="th-hoverable" onClick={() => changeSorting(0)}>Start Date{
               getArrowIndic(0)
             }</FlexboxGrid.Item>

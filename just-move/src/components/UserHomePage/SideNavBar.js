@@ -18,10 +18,8 @@ function SideNavBar(props) {
     return (!props.trigger ? "" :
         <div style={{ width: 300, position: "absolute" }}>
             <Sidenav appearance={props.darkMode ? "subtle" : "inverse"} className={props.darkMode ? "dark-sidebar" : ""}>
-                <Sidenav.Header>
-                    <h3 style={props.darkMode ? { textAlign: "center", color: "#9e9ea3" } : { textAlign: "center" }}>Filters</h3>
-                </Sidenav.Header>
                 <Sidenav.Body style={{ width: 300, height: "100vh" }}>
+                    <h3 style={props.darkMode ? { textAlign: "center", color: "#9e9ea3" } : { textAlign: "center" }}>Filters</h3>
                     <Nav activeKey="1">
                         <Nav.Item eventKey="1-1" title="Start Date" onClick={handleClickStartDate}>
                             Start Date
