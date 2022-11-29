@@ -34,7 +34,7 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
 
   const completed = status === null ? false : true;
 
-    const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState(null);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

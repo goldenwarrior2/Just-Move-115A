@@ -29,15 +29,13 @@ function sortHelper(property) {
 }
 
 function progressSorter(a, b) {
-  if (a.progress.value === undefined && b.progress.value === undefined) {
-    return 0;
-  } else if (a.progress.value === undefined) {
-    return -1;
-  } else if (b.progress.value === undefined) {
-    return 1;
-  } else {
-    return (a.progress.value / a.progress.target) - (b.progress.value / b.progress.target);
-  }
+  let numCompleteA = 0;
+  let numCompleteB = 0;
+  let totalA = a.subgoal.length === 0 ? 1 : a.subgoal.length;
+  let totalB = b.subgoal.length === 0 ? 1 : b.subgoal.length;
+  a.subgoal.forEach(item => numCompleteA += (item.completed ? 1 : 0));
+  b.subgoal.forEach(item => numCompleteB += (item.completed ? 1 : 0));
+  return (numCompleteA / totalA) - (numCompleteB / totalB);
 }
 
 function sortReverser(f) {
