@@ -2,6 +2,7 @@ import { auth } from '../firebase/firebase';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import { Goal } from "./Goal";
+import { Stats } from './Stats';
 import PopupGoalForm from "./PopupGoalForm";
 import SideNavBar from "./SideNavBar";
 import Button from 'rsuite/Button';
@@ -23,7 +24,7 @@ const date = new Date();
 let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
-let currentDate = `${month}-${day}-${year}`;
+let currentDate = `${year}-${month}-${day}`;
 
 function sortHelper(property) {
   return (a, b) => a[property] - b[property];
@@ -226,6 +227,7 @@ export function UserHomePage() {
 
   return (
     <div style={{ display: "flex", flexBasis: "auto" }} className={darkMode ? "dark-mode" : ""}>
+      <Stats goals={goals}/>
       <SideNavBar
         categoryList={categoryList}
         setFilters={setFilters}

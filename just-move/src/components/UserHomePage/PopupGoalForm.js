@@ -9,6 +9,12 @@ import { saveAddGoal } from "./saving";
 import Animation from 'rsuite/Animation';
 import { PrioritySelect } from "./PrioritySelect";
 
+    const date = new Date();
+    let day = date.getDate() + 1;
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let tommorowDate = `${year}-${month}-${day}`;
+
 function PopupGoalForm(props) {
 
   const startDate = useRef(null);
@@ -103,6 +109,7 @@ function PopupGoalForm(props) {
                 className={props.darkMode ? "form-control form-dark" : "form-control"}
                 onChange={handleGoalsChange}
                 ref={intrinsicRef}
+                required={true}
               />
             </div>
             <br></br>
@@ -117,6 +124,7 @@ function PopupGoalForm(props) {
                 className={props.darkMode ? "form-control form-dark" : "form-control"}
                 onChange={handleGoalsChange}
                 ref={extrinsicRef}
+                required={true}
               />
             </div>
             <br></br>
@@ -131,6 +139,8 @@ function PopupGoalForm(props) {
                 className={props.darkMode ? "form-control form-dark" : "form-control"}
                 onChange={handleGoalsChange}
                 ref={reminderDate}
+                required={true}
+                min = {tommorowDate}
               />
             </div>
             <br></br>
