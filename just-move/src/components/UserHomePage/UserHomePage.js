@@ -30,15 +30,26 @@ function sortHelper(property) {
 }
 
 function progressSorter(a, b) {
-  if (a.progress.value === undefined && b.progress.value === undefined) {
+  if (a.subgoal.length === 0 && b.subgoal.length === 0) {
     return 0;
-  } else if (a.progress.value === undefined) {
+  } else if (a.subgoal.length === 0) {
     return -1;
-  } else if (b.progress.value === undefined) {
+  } else if (b.subgoal.length === 0) {
     return 1;
-  } else {
-    return (a.progress.value / a.progress.target) - (b.progress.value / b.progress.target);
   }
+  const completed1 = a.subgoal.reduce((acc, obj) => {
+    if (obj.completed) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+  const completed2 = b.subgoal.reduce((acc, obj) => {
+    if (obj.completed) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+  return (completed1 / a.subgoal.length) - (completed2 / b.subgoal.length);
 }
 
 function sortReverser(f) {
@@ -242,7 +253,7 @@ export function UserHomePage() {
                 <button className="btn btn-danger m-1" style={{
                   backgroundColor: "#cc00cc",
                   border: "none"
-                }} onClick={() => setNavBar(true)}><i class="bi bi-filter"></i></button>
+                }} onClick={() => setNavBar(true)}><i className="bi bi-filter"></i></button>
               </div>
             </Animation.Slide>
           </div>
@@ -293,7 +304,7 @@ export function UserHomePage() {
           goals={goals}
           setGoals={setGoals}
           GoalList={GoalList}
-          setGoalList={setGoalList}
+          setGoalList={(e) => { setGoalList(e); setPopupBtn(false) }}
           startModal={startModal}
           sortFunc={getSortFunc(sortFunc)}
           darkMode={darkMode}

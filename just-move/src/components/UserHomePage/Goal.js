@@ -65,12 +65,12 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    let currentDate = `${month}-${day}-${year}`;
+    let currentDate = `${year}-${month}-${day}`;
     const oneWeekMillis = 604800000;
     const currentDateTimestamp = Timestamp.fromDate(new Date(currentDate));
     const currentDateMillis = currentDateTimestamp.toMillis();
     const limit = currentDateMillis + oneWeekMillis;
-    const reminderDateTimestamp = Timestamp.fromDate(new Date(reminderDate));
+    const reminderDateTimestamp = reminderDate.length ? Timestamp.fromDate(new Date(reminderDate)) : Timestamp.fromDate(new Date(currentDate));
     const reminderDateMillis = reminderDateTimestamp.toMillis();
     const newReminderDateMillis = reminderDateMillis + oneWeekMillis;
     const newReminderDateTimestamp = Timestamp.fromMillis(newReminderDateMillis);
