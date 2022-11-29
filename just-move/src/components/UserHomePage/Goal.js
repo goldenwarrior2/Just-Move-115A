@@ -56,24 +56,32 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     })
   );
 
-
   const completedToggle = (index) => {
+    const {Timestamp} = require("firebase/firestore");
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
     let currentDate = `${month}-${day}-${year}`;
-    const {Timestamp} = require("firebase/firestore");
+    const oneWeekMillis = 604800000;
+    const currentDateTimestamp = Timestamp.fromDate(new Date(currentDate));
+    const currentDateMillis = currentDateTimestamp.toMillis();
+    const limit = currentDateMillis + oneWeekMillis;
     const reminderDateTimestamp = Timestamp.fromDate(new Date(reminderDate));
     const reminderDateMillis = reminderDateTimestamp.toMillis();
-    const oneWeekMillis = 604800000;
     const newReminderDateMillis = reminderDateMillis + oneWeekMillis;
     const newReminderDateTimestamp = Timestamp.fromMillis(newReminderDateMillis);
     const newReminderDate = newReminderDateTimestamp.toDate();
     const newReminderDateString = newReminderDate.toISOString().substring(0, 10); 
-    console.log(newReminderDateString);
-    console.log(currentDate);
-    setReminderDate(newReminderDateString);
+    console.log(currentDateMillis);
+    console.log(reminderDateMillis);
+    console.log(limit);
+    if (reminderDateMillis >= currentDateMillis && reminderDateMillis < limit) {
+      console.log(currentDateMillis);
+      console.log(reminderDateMillis);
+      console.log(limit);
+      setReminderDate(newReminderDateString);
+    }
     setMostRecentDate(currentDate);
     subgoal[index].completed = !subgoal[index].completed;
     handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed, currentDate);
