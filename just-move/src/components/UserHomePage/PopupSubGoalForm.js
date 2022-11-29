@@ -40,6 +40,7 @@ function PopupSubGoalForm(props) {
               className="form-control"
               onChange={handleGoalsChange}
               style={{ visibility: `visible`, animation: `fadeInLeft` }}
+              required={true}
             />
           </div>
           <br></br>
