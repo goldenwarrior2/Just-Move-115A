@@ -1,0 +1,46 @@
+Installation guide/User manual
+
+How to create goal:
+  Click the ‘Add a Goal’ button at the top of the page
+  A popup form should appear with input field for the new goal
+  Fill out the following fields: goal name, intrinsic motivation, extrinsic motivation, reminder date, and goal priority
+  The reminder date will be used to send an email to the user if no activity has been made toward a goal since the goal was created
+  Click the ‘+’ button at the bottom of the form
+  The goal should now appear in the home page table with the options to remove or edit the goal or add a subtask for that goal
+
+How to create subtasks:
+  Click the '+' button on the right side of the goal that you want to create the subtask for
+  A popup form should appear with an input field for the subtask name
+  Enter a name for the subtask
+  Click the '+' button at the bottom of the popup form or press enter
+  The subtask will appear in the expanded view of the goal which you can access by clicking on the goal
+
+How to edit a goal:
+  Click on the pencil icon on the right side of the goal you want to edit
+  All editable attributes will become inputs that you can change
+  Make the desired changes
+  Click the pencil icon again to save your changes
+
+How to add a category to a goal:
+  Click on the pencil icon on the right side of the goal to edit the goal
+  Under the categories click on the dropdown menu and select as many categories you want to affiliate with the goal
+  Click on the pencil icon again to save changes
+
+How to access the side navbar
+  Click on the pink icon at the top left of the screen
+
+How to sort goals
+  Using either the side navbar or the table headers, click on the attribute that you want to sort by
+  The arrow pointing downwards means that the goals will be sorted in descending order by that specific attribute
+  The arrow pointing upwards means that the goals will be sorted in ascending order by that specific attribute
+
+How to filter goals by category
+  Open the side navbar using the pink icon at the top left of the screen
+  Click on categories
+  Select from the dropdown the categories of the goals that you wish to see
+
+How to toggle between dark mode and light mode
+  Click on the lightbulb icon on the top right of the screen
+  
+How to toggle seeing user stats
+  Click on the person with lines icon at the top left of the screen next to the navbar toggle button
