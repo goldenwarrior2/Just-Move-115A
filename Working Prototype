@@ -1,0 +1,20 @@
+Working Prototype - CMPS 115 – Software  Methodology 
+"Working Prototype Known Problems Report", Just Move, Just Move Team, 11/28/22 
+
+If the user tries to login with an email that is not registered, they will not be able to login, however, they also 
+will not be notified that their email has not been registered.
+If the user tries to sign up with an email that is already registered, they will not be able to sign up, however they 
+also will not be notified that their email has already been registered.
+  -Both of the above are in Register.js, and would require proper error handling to be added as well as some mechanism for visual feedback.
+
+When the side navbar is open, the table is able to be clicked through the navbar 
+  -A quick fix would be to make the navbar opaque rather than transparent, but this would make it so that part of the table is unable to be seen while
+  the navbar is toggled on. 
+  When we tried to move the table over to the right, we were having problems with whitespace appearing on the right.
+  
+When trying to click on a goal for more information about the goal, only the bottom half of the category section of the goal can be clicked on
+  -This is because we're using a tagpicker component from an external library and the component doesn't have the same onClick function. Looking 
+  more closely at how the tagpicker component works might help create a solution.
+  
+When trying to click on the Priority or Category items in the navbar, only the text can be clicked as opposed to the entire row.
+  -This is in the SideBarNav.js file and trying to change the div styling might help make them clickable everywhere.
