@@ -1,0 +1,138 @@
+System Test Report
+Just Move
+11/28/2022
+
+
+Sprint 1
+
+Task: Register
+Scenario:
+User types in a name (optional) into the sign up form
+User types in an email into the sign up form
+User types in a password into the sign up form
+User verifies the password in the sign up form
+User clicks the sign up button
+User is now authenticated and has an account that they can use to log in
+
+Task: Login as guest
+Scenario:
+User clicks “Use as Guest” button.
+User is taken to the home page in offline mode. (see Sprint 2 tests for differences)
+
+Task: Login
+Scenario:
+User types in an email of a registered account
+User types in the corresponding password to the email
+User clicks login and will be sent to their user home page if the email and password are correct
+
+Task: Add new goal
+Scenario:
+User is at the home page
+User clicks add new goal
+A popup appears in the center of the screen with a form for the user to fill out
+User fills in information into respective text fields for goal, intrinsic motivations, extrinsic motivations, priority, and reminder date
+User clicks the ‘+’ button and the bottom of the popup form
+New row appears in the table of the home page with the new goal information the user provided
+
+Task: Remove goal
+User has at least one goal in the goals table displayed on the home page
+User clicks on the trash can icon on the right-hand side of the table row with the goal they want to delete
+The goal disappears from the goals table
+
+Task: Edit goal
+User has at least one goal in the goals table displayed on the home page
+User clicks the edit button on the right-hand side of the table row with the goal they want to edit
+The attributes that are editable for that goal will become text inputs with the current values shown and the edit button will become slightly darker to show that editing mode is enabled.
+User edits any of the text inputs to the new values they want.
+User clicks the edit button to save their changes and the text inputs should change back to their original non input attributes. The edit button goes back to the original color as well.
+
+Sprint 2
+
+Task: Local Storage
+Scenario:
+User logs in as guest.
+User adds multiple goals.
+User closes and reopens application.
+All of the goals that the user added should still be present and all data should be correct.
+User deletes a goal.
+User closes and reopens app.
+Deleted goal should no longer be present.
+
+Task: Firebase storage
+Scenario 1: Same as Local Storage, except user logs in with an account in step 1.
+Scenario 2:
+User logs in with an account.
+User disconnects from the internet.
+User adds a goal.
+User attempts to close application.
+Application should warn user that their changes are not saved.
+
+Task: Add subgoals
+Scenario:
+User clicks on the add subtasks button
+A popup form appears for the user to add an input
+User adds an input for the subgoal they want
+User clicks enter or '+' button and 
+Entered subgoal should appear under the subtasks column
+Checkboxes are placed next to the input to signify completion
+
+Task: Progress bar
+Scenario:
+User has a list of subgoals with checkboxes next to them
+User clicks on each checkbox
+Progress bar increments based on completed tasks and shows percent completion
+At 100% completion the progress bar will turn green and show a checkmark instead of the percentage.
+
+Sprint 3
+
+Task: Reminder Email
+Scenario:
+If a user has not completed a subtask for a goal and the current date is the reminder date that they sent, they will receive an email that reminds them of their goal and allows them to reconsider it.
+
+Task: Priority values
+Scenario:
+User adds a new goal and selects a priority value.
+Priority should display exactly as it displayed in the Add Goal modal.
+User edits the priority of the task and saves changes.
+Priority should be modified to the priority the user chose.
+User closes and reopens app.
+Priority should be saved and loaded, displaying exactly as it did previously.
+At no point should priority display as a number, always as a symbol.
+
+Task: Sorting
+Scenario:
+User has more than one goal and has at least two goals with different priorities.
+User clicks on “Start Time” option in filtering menu or from side navigation bar
+Goals should be organized by start time ascending. “Start Time” option should show an up arrow.
+User clicks on “Start Time” option again.
+Goals should be organized by start time descending. “Start Time” option should show a down arrow.
+User clicks on “Priority” option in filtering menu.
+Goals should be organized by priority ascending (from ++++ to = to —-). “Priority” option should show an up arrow. “Start Time” option should no longer show an arrow.
+User clicks on “Priority” option again.
+Goals should be organized by priority descending (from —- to = to ++++). “Priority” option should show a down arrow.
+Users closes and reopens app.
+App should remember sorting mode. Goals should be sorted the same way they were when the app was closed. The arrow should show on the same option and in the same direction as before.
+
+Sprint 4
+
+Task: Weekly Summary
+Scenario:
+Users will be sent an email at the end of each week with a summary of all the goals they have worked towards or added in the past week as well as all the subtasks that they have completed in the past week
+Task: Dark Mode
+Scenario:
+User clicks dark/light mode toggle
+If the app was in dark mode, it should fully and immediately change to light mode (all colors should switch) and vice versa.
+User closes and reopens app.
+App should remember setting.
+
+
+Task: Filter Goals by Category
+Scenario:
+User is in home page
+User sees navigation side bar on the left of the page
+User clicks on the ‘Filters’ tab in the side bar
+User clicks on on ‘Categories’ tab and adds/removes pre-defined category filters
+Goals disappear/reappear in the goals table based on applied categories selected by the user
+
+
+
