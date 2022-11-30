@@ -115,6 +115,8 @@ export function Goal({ props, handleDeleteGoal, handleEditGoal, categoryList, up
     if (editing === true) {
       setPriority(parseInt(priority));
       handleEditGoal(props.id, startDate, goal, intrinsicMotivation, extrinsicMotivation, priority, reminderDate, category, subgoal, completed, mostRecentDate);
+    } else {
+      setExpanded(true);
     }
   };
 
