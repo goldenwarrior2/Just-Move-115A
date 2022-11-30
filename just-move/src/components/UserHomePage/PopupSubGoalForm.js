@@ -48,7 +48,7 @@ function PopupSubGoalForm(props) {
             icon={<PlusIcon />}
             appearance="primary"
             color="violet"
-            id="add-goal-btn">
+            id="add-subgoal-btn">
           </IconButton>
         </form>
         <IconButton
