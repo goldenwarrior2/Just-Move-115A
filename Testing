@@ -121,9 +121,9 @@ For each test, we assume that we have multiple goals, some of which differ and s
 
 To test the first two classes, click on the "Start Date" button. It should change to show a down arrow, and the goal list should be sorted by start date descending. If goals were created on the same date, they will go by order created. Click on "Start Date" again and it will change to an up arrow, and goals will be sorted by start date ascending.
 
-The second two classses are tested similarly. When descending, priority should go from ---- to = to ++++. Ascending is this reversed.
+The second two classses are tested similarly, except that on first click the goals should be sorted ascending, and then descending on the second click. When descending, priority should go from ---- to = to ++++. Ascending is this reversed.
 
-The third two are also tested similarly, except that on first click the goals should be sorted ascending, and then descending on the second click. Goals will be sorted by the percentage shown in the progress bar.
+The third two are also tested similarly to the first two. Goals will be sorted by the percentage shown in the progress bar.
 
 The last two tests are done by setting a sort method to something other than start date ascending (the default) and then refreshing the page. The last used sort should be remembered and used.
 
